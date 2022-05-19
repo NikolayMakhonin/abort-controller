@@ -1,6 +1,6 @@
 import { AbortSignalImpl } from './AbortSignal'
 
-export class AbortControllerImpl implements AbortController {
+class AbortController implements AbortController {
   readonly signal: AbortSignalImpl
 
   constructor() {
@@ -15,3 +15,5 @@ export class AbortControllerImpl implements AbortController {
     this.signal._abort(reason)
   }
 }
+
+export { AbortController as AbortControllerImpl }

@@ -1,7 +1,23 @@
 import {AbortError} from './AbortError'
 
-export class AbortSignalImpl extends EventTarget implements AbortSignal {
-  private constructor() {
+const kAborted = Symbol('kAborted')
+const kReason = Symbol('kReason')
+
+export function createAbortSignal(aborted = false, reason = void 0) {
+  const signal = new EventTarget()
+  // eslint-disable-next-line new-cap
+  Object.setPrototypeOf(signal, AbortSignal.prototype)
+  signal[kAborted] = aborted
+  signal[kReason] = reason
+  return signal
+}
+
+class AbortSignal extends EventTarget implements AbortSignal {
+  // @ts-ignore
+  constructor() {
+    const error = new TypeError('Illegal constructor')
+    ;(error as any).code = 'ERR_ILLEGAL_CONSTRUCTOR'
+    throw error
     super()
   }
 
@@ -57,3 +73,5 @@ export class AbortSignalImpl extends EventTarget implements AbortSignal {
     }
   }
 }
+
+export { AbortSignal as AbortSignalImpl }
