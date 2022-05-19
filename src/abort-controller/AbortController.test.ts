@@ -31,6 +31,7 @@ describe('abort-controller > AbortController', function () {
   function assertProperty(obj1, obj2, key: string, message: string) {
     message = concatMessages(message, 'key=' + key)
     assert.strictEqual(obj1[key], obj2[key], concatMessages(message, 'get'))
+    assert.strictEqual(key in obj1, key in obj2, message)
     const error1 = getError(() => {
       obj1[key] = obj1[key]
     })
