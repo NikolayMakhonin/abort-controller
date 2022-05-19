@@ -1,0 +1,23 @@
+{
+  "name": "abort-controller",
+  "version": "0.0.0",
+  "description": "Implementation of AbortController interface",
+  "main": "dist/index.cjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NikolayMakhonin/abort-controller.git"
+  },
+  "keywords": [
+    "AbortController",
+    "AbortSignal"
+  ],
+  "author": "NikolayMakhonin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NikolayMakhonin/abort-controller/issues"
+  },
+  "homepage": "https://github.com/NikolayMakhonin/abort-controller#readme"
+}
