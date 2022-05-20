@@ -1,5 +1,5 @@
-import {AbortError} from './AbortError'
 import {assertThis} from './helpers'
+import {DOMException} from './DOMException'
 
 const kAborted = Symbol('kAborted')
 const kReason = Symbol('kReason')
@@ -61,7 +61,7 @@ class AbortSignal extends EventTarget implements AbortSignal {
       const reason = this.reason
       throw reason instanceof Error
         ? reason
-        : new AbortError('This operation was aborted', reason)
+        : new DOMException('This operation was aborted', 'AbortError')
     }
   }
 
