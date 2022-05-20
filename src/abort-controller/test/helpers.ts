@@ -274,7 +274,7 @@ function assertEqualsProperty(values: AssertValues, key, message: string) {
 function filterKey(key: string) {
   return key !== 'isTrusted'
     && key !== 'timeStamp'
-    && /_ERR$/.test(key)
+    && !/_ERR$/.test(key)
 }
 
 function getAdditionalKeys(value): string[] {
