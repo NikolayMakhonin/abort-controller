@@ -1,4 +1,4 @@
-import {assertThis} from './helpers'
+import {assertThis, setLastPrototypeOf} from './helpers'
 import {DOMException} from './DOMException'
 import {IAbortSignal} from './contracts'
 import {EventTarget} from './EventTarget'
@@ -10,7 +10,7 @@ const kOnAbort = Symbol('kOnAbort')
 export function createAbortSignal() {
   const signal = new EventTarget()
   // eslint-disable-next-line new-cap
-  Object.setPrototypeOf(signal, AbortSignal.prototype)
+  setLastPrototypeOf(signal, AbortSignal.prototype)
   signal[kAborted] = false
   signal[kReason] = void 0
   signal[kOnAbort] = null
