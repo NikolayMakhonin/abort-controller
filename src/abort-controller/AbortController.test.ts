@@ -6,10 +6,14 @@ import {getError, test} from './test/helpers'
 describe('abort-controller > AbortController', function () {
   this.timeout(60000)
 
+  const isLatestNodeVersion = /v?18\./.test(process.version)
+  console.log('process.version = ' + process.version)
+  console.log('isLatestNodeVersion = ' + isLatestNodeVersion)
+
   const AbortSignal1 = AbortSignalImpl
-  const AbortSignal2 = AbortSignal
   const AbortController1 = AbortControllerImpl
-  const AbortController2 = AbortController
+  const AbortSignal2 = isLatestNodeVersion ? AbortSignal : AbortSignalImpl
+  const AbortController2 = isLatestNodeVersion ? AbortController : AbortControllerImpl
 
   before(() => {
     test({
