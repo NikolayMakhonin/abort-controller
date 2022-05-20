@@ -96,16 +96,16 @@ function isPrimitive(value) {
 function normalizeValue(value) {
   if (typeof value === 'string') {
     if (value.startsWith('Cannot assign to read only property')) {
-      return value.match(/Cannot assign to read only property '.*' of function/)[0]
+      return value.match(/Cannot assign to read only property '.*' of function/)?.[0] || value
     }
-  } else if (value instanceof Error) {
-    // if (
-    //   value.message.startsWith('Value of "this" must be of type')
-    //   || value.message.startsWith('Cannot read properties of undefined')
-    // ) {
-    //   return '__ERR_INVALID_THIS__'
-    // }
   }
+  // else if (value instanceof Error) {
+  //   if (
+  //     value.message.startsWith('TypeError: Value of "this" must be of DOMException')
+  //   ) {
+  //     return void 0
+  //   }
+  // }
   return value
 }
 
@@ -267,6 +267,10 @@ function assertEqualsProperty(values: AssertValues, key, message: string) {
   assertEqualsValues(clone, messageSet)
 }
 
+function filterKey(key: string) {
+  return key !== 'isTrusted' && key !== 'timeStamp'
+}
+
 function getAdditionalKeys(value): string[] {
   const keys: string[] = ['constructor', 'prototype']
   if (typeof value === 'function') {
@@ -307,7 +311,7 @@ function assertEqualsProperties(values: AssertValues, message: string) {
   for (const key in values.actual.current.value) {
     keys.add(key)
   }
-  keys.forEach(key => {
+  Array.from(keys).filter(filterKey).forEach(key => {
     assertEqualsProperty(values, key, message)
   })
 
@@ -330,21 +334,23 @@ function createAssertEquals() {
   }
 }
 
-export function test({
+export function test<TState>({
   repeat,
+  message,
   actual,
   expected,
-  message,
+  func,
 }: {
   repeat: number,
-  actual: () => any,
-  expected: () => any,
   message,
+  actual: TState,
+  expected: TState,
+  func: (state: TState) => any
 }) {
   const assertEquals = createAssertEquals()
   for (let i = 0; i < repeat; i++) {
-    const actualValue = actual()
-    const expectedValue = expected()
+    const actualValue = func(actual)
+    const expectedValue = func(expected)
     assertEquals(actualValue, expectedValue, concatMessages(message, i + ''))
   }
 }

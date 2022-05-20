@@ -16,6 +16,9 @@ export function createAbortSignal() {
 }
 
 export function abortSignalAbort(signal: AbortSignal, reason: any) {
+  if (typeof reason === 'undefined') {
+    reason = new DOMException('This operation was aborted', 'AbortError')
+  }
   if (signal[kAborted]) {
     return
   }

@@ -1,4 +1,4 @@
-/* eslint-disable no-self-assign,no-new */
+/* eslint-disable no-self-assign,no-new,new-cap */
 import {AbortControllerImpl} from './AbortController'
 import {AbortSignalImpl} from './AbortSignal'
 import {getError, test} from './test/helpers'
@@ -15,14 +15,16 @@ describe('abort-controller > AbortController', function () {
     test({
       repeat  : 2,
       message : 'AbortController',
-      actual  : () => new AbortController1(),
-      expected: () => new AbortController1(),
+      actual  : AbortController1,
+      expected: AbortController1,
+      func    : (o) => new o(),
     })
     test({
       repeat  : 2,
       message : 'AbortController',
-      actual  : () => new AbortController2(),
-      expected: () => new AbortController2(),
+      actual  : AbortController2,
+      expected: AbortController2,
+      func    : (o) => new o(),
     })
   })
 
@@ -31,14 +33,16 @@ describe('abort-controller > AbortController', function () {
       test({
         repeat  : 2,
         message : 'AbortSignal',
-        actual  : () => AbortSignal1,
-        expected: () => AbortSignal2,
+        actual  : AbortSignal1,
+        expected: AbortSignal2,
+        func    : o => o,
       })
       test({
         repeat  : 2,
         message : 'new AbortSignal',
-        actual  : () => getError(() => { new AbortSignal1() }),
-        expected: () => getError(() => { new AbortSignal2() }),
+        actual  : AbortSignal1,
+        expected: AbortSignal2,
+        func    : (o) => getError(() => { new o() }),
       })
     })
 
@@ -46,14 +50,16 @@ describe('abort-controller > AbortController', function () {
       test({
         repeat  : 2,
         message : 'AbortController',
-        actual  : () => AbortController1,
-        expected: () => AbortController2,
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => o,
       })
       test({
         repeat  : 2,
         message : 'AbortController',
-        actual  : () => getError(() => { new AbortController1() }),
-        expected: () => getError(() => { new AbortController2() }),
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => getError(() => { new o() }),
       })
     })
   })
@@ -63,8 +69,166 @@ describe('abort-controller > AbortController', function () {
       test({
         repeat  : 2,
         message : 'AbortController',
-        actual  : () => new AbortController1(),
-        expected: () => new AbortController2(),
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => new o(),
+      })
+    })
+
+    it('AbortSignal subscribe', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => {
+          const abortController = new o()
+          const onAbortArgs = []
+          function onAbort(...args) {
+            onAbortArgs.push(args)
+          }
+          abortController.signal.addEventListener('abort', onAbort)
+          return {
+            abortController,
+            onAbortArgs,
+          }
+        },
+      })
+    })
+
+    it('AbortSignal subscribe abort undefined', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => {
+          const abortController = new o()
+          const onAbortArgs = []
+          function onAbort(...args) {
+            onAbortArgs.push(args)
+          }
+          abortController.signal.addEventListener('abort', onAbort)
+          abortController.abort()
+          return {
+            abortController,
+            onAbortArgs,
+          }
+        },
+      })
+    })
+
+    it('AbortSignal subscribe abort reason', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => {
+          const abortController = new o()
+          const onAbortArgs = []
+          function onAbort(...args) {
+            onAbortArgs.push(args)
+          }
+          abortController.signal.addEventListener('abort', onAbort)
+          abortController.abort('abort')
+          return {
+            abortController,
+            onAbortArgs,
+          }
+        },
+      })
+    })
+
+    it('AbortSignal subscribe abort multiple', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => {
+          const abortController = new o()
+          const onAbortArgs = []
+          function onAbort(...args) {
+            onAbortArgs.push(args)
+          }
+          abortController.signal.addEventListener('abort', onAbort)
+          abortController.abort()
+          abortController.abort('abort')
+          return {
+            abortController,
+            onAbortArgs,
+          }
+        },
+      })
+    })
+
+    it('AbortSignal unsubscribe', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => {
+          const abortController = new o()
+          const onAbortArgs = []
+          function onAbort(...args) {
+            onAbortArgs.push(args)
+          }
+          abortController.signal.addEventListener('abort', onAbort)
+          abortController.signal.removeEventListener('abort', onAbort)
+          return {
+            abortController,
+            onAbortArgs,
+          }
+        },
+      })
+    })
+
+    it('AbortSignal unsubscribe abort', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => {
+          const abortController = new o()
+          const onAbortArgs = []
+          function onAbort(...args) {
+            onAbortArgs.push(args)
+          }
+          abortController.signal.addEventListener('abort', onAbort)
+          abortController.signal.removeEventListener('abort', onAbort)
+          abortController.abort()
+          return {
+            abortController,
+            onAbortArgs,
+          }
+        },
+      })
+    })
+
+    it('AbortSignal unsubscribe abort multiple', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => {
+          const abortController = new o()
+          const onAbortArgs = []
+          function onAbort(...args) {
+            onAbortArgs.push(args)
+          }
+          abortController.signal.addEventListener('abort', onAbort)
+          abortController.signal.removeEventListener('abort', onAbort)
+          abortController.abort()
+          abortController.abort('abort')
+          return {
+            abortController,
+            onAbortArgs,
+          }
+        },
       })
     })
   })
