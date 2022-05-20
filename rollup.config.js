@@ -52,7 +52,7 @@ const aliasOptions = {
   ],
 }
 
-const serverConfig = {
+const nodeConfig = {
   cache: true,
   input: [
     'src/**/*.ts'
@@ -86,4 +86,40 @@ const serverConfig = {
     .concat(require('module').builtinModules || Object.keys(process.binding('natives'))),
 }
 
-export default [serverConfig]
+const browserConfig = {
+  cache: true,
+  input: [
+    'src/index.ts'
+  ],
+  output: {
+    dir: 'dist',
+    format: 'iife',
+    exports: 'named',
+    entryFileNames: 'browser.js',
+    chunkFileNames: 'browser.js',
+  },
+  plugins: [
+    del({ targets: 'dist/browser.js' }),
+    alias(aliasOptions),
+    json(),
+    replace({
+      preventAssignment: true,
+    }),
+    resolve(),
+    commonjs({
+      transformMixedEsModules: true,
+    }),
+    typescript({
+      sourceMap: dev,
+      compilerOptions: {
+        target: 'es5',
+      },
+    }),
+  ],
+  onwarn: onwarnRollup,
+  // external: Object.keys(pkg.dependencies)
+  //   .concat(Object.keys(pkg.devDependencies))
+  //   .concat(require('module').builtinModules || Object.keys(process.binding('natives'))),
+}
+
+export default [nodeConfig, browserConfig]
