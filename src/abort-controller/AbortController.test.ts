@@ -10,72 +10,380 @@ describe('abort-controller > AbortController', function () {
   const AbortController1 = AbortControllerImpl
   const AbortController2 = AbortController
 
-  beforeEach(() => {
-
-  })
-
+  const symbolUndefined = Symbol('undefined')
   function getError(func: () => void) {
     let error
     try {
       func()
     } catch (err) {
       error = err
+      if (typeof error === 'undefined') {
+        error = symbolUndefined
+      }
     }
     return error
   }
 
-  function concatMessages(message1: string, message2: string) {
-    return [message1, message2].filter(o => o).join('; ')
+  function concatMessages(...messages: string[]) {
+    return messages.filter(o => o).join('; ')
   }
 
-  function assertProperty(obj1, obj2, key: string, message: string) {
-    message = concatMessages(message, 'key=' + key)
-    assert.strictEqual(obj1[key], obj2[key], concatMessages(message, 'get'))
-    assert.strictEqual(key in obj1, key in obj2, message)
-    const error1 = getError(() => {
-      obj1[key] = obj1[key]
-    })
-    const error2 = getError(() => {
-      obj2[key] = obj2[key]
-    })
-    // assertError(error1, error2, concatMessages(message, 'set')) // TODO
+  const prevObjectsGlobalActual = new WeakSet()
+  const prevObjectsGlobalExpected = new WeakSet()
+  
+  type AssertValue = {
+    value: any
+    prevObjects: WeakSet<any>
   }
 
-  function assertProperties(obj1, obj2, additionalKeys: string[], message: string) {
-    message = concatMessages(message, 'props')
-    for (const key in obj1) {
-      assertProperty(obj1, obj2, key, message)
+  type AssertValuePrevCurrent = {
+    prev: AssertValue
+    current: AssertValue
+  }
+
+  type AssertValues = {
+    actual: AssertValuePrevCurrent,
+    expected: AssertValuePrevCurrent,
+  }
+  
+  function assertValuesClone(values: AssertValues): AssertValues {
+    return {
+      actual: {
+        prev: {
+          value      : values.actual.prev.value,
+          prevObjects: values.actual.prev.prevObjects,
+        },
+        current: {
+          value      : values.actual.current.value,
+          prevObjects: values.actual.current.prevObjects,
+        },
+      },
+      expected: {
+        prev: {
+          value      : values.expected.prev.value,
+          prevObjects: values.expected.prev.prevObjects,
+        },
+        current: {
+          value      : values.expected.current.value,
+          prevObjects: values.expected.current.prevObjects,
+        },
+      },
     }
-    for (const key in obj2) {
-      assertProperty(obj1, obj2, key, message)
+  }
+
+  function createAssertValues(actualPrev, actualCurrent, expectedPrev, expectedCurrent) {
+    return {
+      actual: {
+        prev: {
+          value      : actualPrev,
+          prevObjects: new WeakSet(),
+        },
+        current: {
+          value      : actualCurrent,
+          prevObjects: new WeakSet(),
+        },
+      },
+      expected: {
+        prev: {
+          value      : expectedPrev,
+          prevObjects: new WeakSet(),
+        },
+        current: {
+          value      : expectedCurrent,
+          prevObjects: new WeakSet(),
+        },
+      },
     }
-    if (additionalKeys) {
-      for (const key in additionalKeys) {
-        assertProperty(obj1, obj2, key, message)
+  }
+
+  function isPrimitive(value) {
+    return value == null
+      || typeof value === 'string'
+      || typeof value === 'number'
+      || typeof value === 'boolean'
+      || typeof value === 'bigint'
+  }
+
+  function normalizePrimitive(value) {
+    if (typeof value === 'string') {
+      if (value.startsWith('Cannot assign to read only property')) {
+        return value.match(/Cannot assign to read only property '.*' of function/)[0]
       }
     }
-    assert.deepStrictEqual(Object.keys(obj1), Object.keys(obj2), message)
+    return value
   }
 
-  function assertClass(class1, class2, message: string) {
-    message = concatMessages(message, 'class')
-    assert.ok(typeof class1 === 'function', message)
-    assert.ok(typeof class2 === 'function', message)
-    assertProperties(class1, class2, ['name'], message)
+  function assertEqualsPrimitives(actual: AssertValue, expected: AssertValue, message: string) {
+    if (isPrimitive(actual.value) || isPrimitive(expected.value)) {
+      assert.strictEqual(normalizePrimitive(actual.value), normalizePrimitive(expected.value), message)
+      assert.strictEqual(actual.prevObjects.has(actual.value), false, message)
+      assert.strictEqual(expected.prevObjects.has(expected.value), false, message)
+      assert.strictEqual(prevObjectsGlobalActual.has(actual.value), false, message)
+      assert.strictEqual(prevObjectsGlobalExpected.has(expected.value), false, message)
+      return true
+    }
+    return false
+  }
+  
+  function assertEqualsValues(values: AssertValues, message: string) {
+    if (
+      assertEqualsPrimitives(values.actual.prev, values.expected.prev, message)
+      && assertEqualsPrimitives(values.actual.current, values.expected.current, message)
+    ) {
+      return
+    }
+
+    assertEqualsTypeOf(values, message)
+
+    assert.strictEqual(
+      values.actual.prev.value === values.actual.current.value,
+      values.expected.prev.value === values.expected.current.value,
+      message,
+    )
+
+    assert.strictEqual(
+      values.actual.prev.prevObjects.has(values.actual.prev.value),
+      values.expected.prev.prevObjects.has(values.expected.prev.value),
+      message,
+    )
+
+    assert.strictEqual(
+      values.actual.current.prevObjects.has(values.actual.current.value),
+      values.expected.current.prevObjects.has(values.expected.current.value),
+      message,
+    )
+
+    assert.strictEqual(
+      values.actual.prev.prevObjects.has(values.actual.prev.value)
+      === values.actual.current.prevObjects.has(values.actual.current.value),
+      values.expected.prev.prevObjects.has(values.expected.prev.value)
+      === values.expected.current.prevObjects.has(values.expected.current.value),
+      message,
+    )
+
+    if (values.expected.current.prevObjects.has(values.expected.current.value)) {
+      return
+    }
+    if (!isPrimitive(values.actual.prev.value)) {
+      values.actual.prev.prevObjects.add(values.actual.prev.value)
+    }
+    if (!isPrimitive(values.actual.current.value)) {
+      values.actual.current.prevObjects.add(values.actual.current.value)
+    }
+    if (!isPrimitive(values.expected.prev.value)) {
+      values.expected.prev.prevObjects.add(values.expected.prev.value)
+    }
+    if (!isPrimitive(values.expected.current.value)) {
+      values.expected.current.prevObjects.add(values.expected.current.value)
+    }
+
+    assertEqualsProperties(values, message)
   }
 
-  function assertError(error1, error2, message: string) {
-    message = concatMessages(message, 'error')
-    assert.ok(error1 instanceof Error, message)
-    assert.ok(error2 instanceof Error, message)
-    assertClass(error1.constructor, error2.constructor, message)
-    assertProperties(error1, error2, ['message'], message)
+  function assertEqualsTypeOf(values: AssertValues, message: string) {
+    message = concatMessages(message, 'typeof')
+    const clone = assertValuesClone(values)
+    clone.actual.prev.value = typeof clone.actual.prev.value
+    clone.actual.current.value = typeof clone.actual.current.value
+    clone.expected.prev.value = typeof clone.expected.prev.value
+    clone.expected.current.value = typeof clone.expected.current.value
+    assertEqualsValues(clone, message)
+  }
+  
+  function assertEqualsProperty(values: AssertValues, key, message: string) {
+    message = concatMessages(message, 'key=' + key)
+
+    const messageIn = concatMessages(message, 'in')
+    let clone = assertValuesClone(values)
+    clone.actual.prev.value = clone.actual.prev.value && key in clone.actual.prev.value
+    clone.actual.current.value = clone.actual.current.value && key in clone.actual.current.value
+    clone.expected.prev.value = clone.expected.prev.value && key in clone.expected.prev.value
+    clone.expected.current.value = clone.expected.current.value && key in clone.expected.current.value
+    assertEqualsValues(clone, messageIn)
+
+    const messageGetError = concatMessages(message, 'get error')
+    clone = assertValuesClone(values)
+    clone.actual.prev.value = clone.actual.prev.value && key in clone.actual.prev.value
+      ? getError(() => {
+        return clone.actual.prev.value[key]
+      })
+      : void 0
+    clone.actual.current.value = clone.actual.current.value && key in clone.actual.current.value
+      ? getError(() => {
+        return clone.actual.current.value[key]
+      })
+      : void 0
+    clone.expected.prev.value = clone.expected.prev.value && key in clone.expected.prev.value
+      ? getError(() => {
+        return clone.expected.prev.value[key]
+      })
+      : void 0
+    clone.expected.current.value = clone.expected.current.value && key in clone.expected.current.value
+      ? getError(() => {
+        return clone.expected.current.value[key]
+      })
+      : void 0
+    assertEqualsValues(clone, messageGetError)
+
+    if (typeof clone.expected.current.value !== 'undefined') {
+      return
+    }
+
+    const messageGet = concatMessages(message, 'get')
+    clone = assertValuesClone(values)
+    clone.actual.prev.value = clone.actual.prev.value?.[key]
+    clone.actual.current.value = clone.actual.current.value?.[key]
+    clone.expected.prev.value = clone.expected.prev.value?.[key]
+    clone.expected.current.value = clone.expected.current.value?.[key]
+    assertEqualsValues(clone, messageGet)
+
+    const messageSet = concatMessages(message, 'set error')
+    clone = assertValuesClone(values)
+    clone.actual.prev.value = clone.actual.prev.value && key in clone.actual.prev.value
+      ? getError(() => {
+        clone.actual.prev.value[key] = clone.actual.prev.value[key]
+      })
+      : void 0
+    clone.actual.current.value = clone.actual.current.value && key in clone.actual.current.value
+      ? getError(() => {
+        clone.actual.current.value[key] = clone.actual.current.value[key]
+      })
+      : void 0
+    clone.expected.prev.value = clone.expected.prev.value && key in clone.expected.prev.value
+      ? getError(() => {
+        clone.expected.prev.value[key] = clone.expected.prev.value[key]
+      })
+      : void 0
+    clone.expected.current.value = clone.expected.current.value && key in clone.expected.current.value
+      ? getError(() => {
+        clone.expected.current.value[key] = clone.expected.current.value[key]
+      })
+      : void 0
+    assertEqualsValues(clone, messageSet)
   }
 
-  it('AbortSignal', function () {
-    assertClass(AbortSignal1, AbortSignal2, 'AbortSignal')
-    const error1 = getError(() => { new AbortSignal1() })
-    const error2 = getError(() => { new AbortSignal2() })
-    assertError(error1, error2, 'new AbortSignal')
+  function getAdditionalKeys(value): string[] {
+    const keys: string[] = ['constructor'] // , 'prototype']
+    if (typeof value === 'function') {
+      keys.push('name')
+    }
+    const className = value?.constructor?.name
+    if (value instanceof Error || /Error/.test(className)) {
+      keys.push('message')
+      keys.push('code')
+    }
+    if (className === 'AbortController') {
+      keys.push('signal')
+      keys.push('abort')
+    } else if (className === 'AbortSignal') {
+      keys.push('aborted')
+      keys.push('reason')
+      keys.push('throwIfAborted')
+      keys.push('onabort')
+      keys.push('addEventListener')
+      keys.push('removeEventListener')
+      keys.push('dispatchEvent')
+    }
+
+    return keys
+  }
+  
+  function assertEqualsProperties(values: AssertValues, message: string) {
+    const keys = new Set<string>()
+    for (const key in values.actual.current.value) {
+      keys.add(key)
+    }
+    for (const key in values.expected.current.value) {
+      keys.add(key)
+    }
+    getAdditionalKeys(values.actual.current.value).forEach(key => {
+      keys.add(key)
+    })
+    getAdditionalKeys(values.expected.current.value).forEach(key => {
+      keys.add(key)
+    })
+    keys.forEach(key => {
+      assertEqualsProperty(values, key, message)
+    })
+
+    const clone = assertValuesClone(values)
+    clone.actual.prev.value = clone.actual.prev.value && Object.keys(clone.actual.prev.value)
+    clone.actual.current.value = clone.actual.current.value && Object.keys(clone.actual.current.value)
+    clone.expected.prev.value = clone.expected.prev.value && Object.keys(clone.expected.prev.value)
+    clone.expected.current.value = clone.expected.current.value && Object.keys(clone.expected.current.value)
+    assertEqualsValues(values, concatMessages(message, 'keys'))
+  }
+  
+  function createAssertEquals() {
+    let actualPrev
+    let expectedPrev
+    return function assertEquals(actual, expected, message: string) {
+      const values = createAssertValues(actualPrev, actual, expectedPrev, expected)
+      assertEqualsValues(values, message)
+      actualPrev = actual
+      expectedPrev = expected
+    }
+  }
+  
+  function test({
+    repeat,
+    actual,
+    expected,
+    message,
+  }: {
+    repeat: number,
+    actual: () => any,
+    expected: () => any,
+    message,
+  }) {
+    const assertEquals = createAssertEquals()
+    for (let i = 0; i < repeat; i++) {
+      const actualValue = actual()
+      const expectedValue = expected()
+      assertEquals(actualValue, expectedValue, concatMessages(message, i + ''))
+    }
+  }
+  
+  describe('constructors', function () {
+    it('AbortSignal', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortSignal',
+        actual  : () => AbortSignal1,
+        expected: () => AbortSignal2,
+      })
+      test({
+        repeat  : 2,
+        message : 'new AbortSignal',
+        actual  : () => getError(() => { new AbortSignal1() }),
+        expected: () => getError(() => { new AbortSignal2() }),
+      })
+    })
+
+    it('AbortController', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : () => AbortController1,
+        expected: () => AbortController2,
+      })
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : () => getError(() => { new AbortController1() }),
+        expected: () => getError(() => { new AbortController2() }),
+      })
+    })
+  })
+
+  describe('instances', function () {
+    it('AbortController', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : () => new AbortController1(),
+        expected: () => new AbortController2(),
+      })
+    })
   })
 })

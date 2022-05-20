@@ -2,13 +2,15 @@ import {AbortError} from './AbortError'
 
 const kAborted = Symbol('kAborted')
 const kReason = Symbol('kReason')
+const kOnAbort = Symbol('kOnAbort')
 
-export function createAbortSignal(aborted = false, reason = void 0) {
+export function createAbortSignal() {
   const signal = new EventTarget()
   // eslint-disable-next-line new-cap
   Object.setPrototypeOf(signal, AbortSignal.prototype)
-  signal[kAborted] = aborted
-  signal[kReason] = reason
+  signal[kAborted] = false
+  signal[kReason] = void 0
+  signal[kOnAbort] = null
   return signal
 }
 
@@ -21,23 +23,23 @@ class AbortSignal extends EventTarget implements AbortSignal {
     super()
   }
 
-  private _aborted: boolean = false
+  private [kAborted]: boolean = false
   get aborted(): boolean {
-    return this._aborted
+    return this[kAborted]
   }
 
-  private _reason: any = void 0
+  private [kReason]: any = void 0
   get reason(): any {
-    return this._reason
+    return this[kReason]
   }
 
   private _abort(reason: any) {
-    if (this._aborted) {
+    if (this[kAborted]) {
       return
     }
 
-    this._reason = reason
-    this._aborted = true
+    this[kReason] = reason
+    this[kAborted] = true
     this.dispatchEvent(new Event('abort'))
     // typeof Event !== 'undefined'
     //   ? new Event('abort')
@@ -53,23 +55,23 @@ class AbortSignal extends EventTarget implements AbortSignal {
     }
   }
 
-  private _onabort: ((this: AbortSignal, ev: Event) => any) | null
+  private [kOnAbort]: ((this: AbortSignal, ev: Event) => any) | null
   get onabort() {
-    return this._onabort
+    return this[kOnAbort]
   }
   set onabort(onabort: ((this: AbortSignal, ev: Event) => any) | null) {
-    if (this._onabort === onabort) {
+    if (this[kOnAbort] === onabort) {
       return
     }
 
-    if (this._onabort) {
-      this.removeEventListener('abort', this._onabort)
+    if (this[kOnAbort]) {
+      this.removeEventListener('abort', this[kOnAbort])
     }
 
-    this._onabort = onabort
+    this[kOnAbort] = onabort
 
-    if (this._onabort) {
-      this.addEventListener('abort', this._onabort)
+    if (this[kOnAbort]) {
+      this.addEventListener('abort', this[kOnAbort])
     }
   }
 }

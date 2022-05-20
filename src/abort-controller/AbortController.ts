@@ -1,11 +1,16 @@
-import { AbortSignalImpl } from './AbortSignal'
+import {AbortSignalImpl, createAbortSignal} from './AbortSignal'
+
+const kSignal = Symbol('kSignal')
 
 class AbortController implements AbortController {
-  readonly signal: AbortSignalImpl
-
   constructor() {
     // @ts-ignore
-    this.signal = new AbortSignalImpl()
+    this[kSignal] = createAbortSignal()
+  }
+
+  private readonly [kSignal]: AbortSignalImpl
+  get signal() {
+    return this[kSignal]
   }
 
   abort(): void
