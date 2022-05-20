@@ -6,7 +6,8 @@ import {getError, test} from './test/helpers'
 describe('abort-controller > AbortController', function () {
   this.timeout(60000)
 
-  let isLatestNodeVersion: boolean
+  const processVersion = typeof process !== 'undefined' ? process.version : void 0
+  const isLatestNodeVersion = /v?18\./.test(process.version)
 
   const AbortSignal1 = AbortSignalImpl
   const AbortController1 = AbortControllerImpl
@@ -14,12 +15,7 @@ describe('abort-controller > AbortController', function () {
   const AbortController2 = isLatestNodeVersion ? AbortController : AbortControllerImpl
 
   before(() => {
-    if (typeof process !== 'undefined') {
-      console.log('process.version = ' + process.version)
-      if (/v?18\./.test(process.version)) {
-        isLatestNodeVersion = true
-      }
-    }
+    console.log('process.version = ' + processVersion)
     console.log('isLatestNodeVersion = ' + isLatestNodeVersion)
 
     test({
@@ -41,7 +37,6 @@ describe('abort-controller > AbortController', function () {
   describe('base', function () {
     it('base', function () {
       const abortController = new AbortController()
-
     })
   })
 

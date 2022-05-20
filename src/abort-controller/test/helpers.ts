@@ -98,14 +98,14 @@ function normalizeValue(value) {
     if (value.startsWith('Cannot assign to read only property')) {
       return value.match(/Cannot assign to read only property '.*' of function/)?.[0] || value
     }
+  } else if (value instanceof Error) {
+    if (
+      value.constructor.prototype === value
+      || value.message.startsWith('TypeError: Value of "this" must be of DOMException')
+    ) {
+      return void 0
+    }
   }
-  // else if (value instanceof Error) {
-  //   if (
-  //     value.message.startsWith('TypeError: Value of "this" must be of DOMException')
-  //   ) {
-  //     return void 0
-  //   }
-  // }
   return value
 }
 
@@ -268,7 +268,9 @@ function assertEqualsProperty(values: AssertValues, key, message: string) {
 }
 
 function filterKey(key: string) {
-  return key !== 'isTrusted' && key !== 'timeStamp'
+  return key !== 'isTrusted'
+    && key !== 'timeStamp'
+    && /_ERR$/.test(key)
 }
 
 function getAdditionalKeys(value): string[] {

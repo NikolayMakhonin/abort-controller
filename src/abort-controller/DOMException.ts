@@ -1,10 +1,11 @@
-const _DOMException = typeof DOMException !== 'undefined'
-  ? DOMException
-  : class DOMException {
-    readonly message: string
+const _DOMException =
+  // typeof DOMException !== 'undefined'
+  // ? DOMException
+  // :
+  class DOMException extends Error {
     readonly name: string
     constructor(message?: string, name?: string) {
-      this.message = message
+      super(message)
       this.name = name
     }
   }
