@@ -235,5 +235,57 @@ describe('abort-controller > AbortController', function () {
         },
       })
     })
+
+    it('AbortSignal throwIfAborted undefined', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => {
+          const abortController = new o()
+          const onAbortArgs = []
+          function onAbort(...args) {
+            onAbortArgs.push(args)
+          }
+          abortController.signal.addEventListener('abort', onAbort)
+          const error1 = getError(() => (abortController.signal as any).throwIfAborted())
+          abortController.abort()
+          const error2 = getError(() => (abortController.signal as any).throwIfAborted())
+          return {
+            abortController,
+            onAbortArgs,
+            error1,
+            error2,
+          }
+        },
+      })
+    })
+
+    it('AbortSignal throwIfAborted reason', function () {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController2,
+        func    : (o) => {
+          const abortController = new o()
+          const onAbortArgs = []
+          function onAbort(...args) {
+            onAbortArgs.push(args)
+          }
+          abortController.signal.addEventListener('abort', onAbort)
+          const error1 = getError(() => (abortController.signal as any).throwIfAborted())
+          abortController.abort('abort')
+          const error2 = getError(() => (abortController.signal as any).throwIfAborted())
+          return {
+            abortController,
+            onAbortArgs,
+            error1,
+            error2,
+          }
+        },
+      })
+    })
   })
 })

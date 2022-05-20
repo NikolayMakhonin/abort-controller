@@ -59,9 +59,7 @@ class AbortSignal extends EventTarget implements AbortSignal {
     assertThis(this, AbortSignal)
     if (this.aborted) {
       const reason = this.reason
-      throw reason instanceof Error
-        ? reason
-        : new DOMException('This operation was aborted', 'AbortError')
+      throw reason
     }
   }
 
