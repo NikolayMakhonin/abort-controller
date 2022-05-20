@@ -95,7 +95,7 @@ describe('abort-controller > AbortController', function () {
           const abortController = new o()
           const onAbortArgs = []
           function onAbort(...args) {
-            onAbortArgs.push(args)
+            onAbortArgs.push([this, ...args])
           }
           abortController.signal.addEventListener('abort', onAbort)
           return {
@@ -116,7 +116,7 @@ describe('abort-controller > AbortController', function () {
           const abortController = new o()
           const onAbortArgs = []
           function onAbort(...args) {
-            onAbortArgs.push(args)
+            onAbortArgs.push([this, ...args])
           }
           abortController.signal.addEventListener('abort', onAbort)
           abortController.abort()
@@ -138,7 +138,7 @@ describe('abort-controller > AbortController', function () {
           const abortController = new o()
           const onAbortArgs = []
           function onAbort(...args) {
-            onAbortArgs.push(args)
+            onAbortArgs.push([this, ...args])
           }
           abortController.signal.addEventListener('abort', onAbort)
           abortController.abort('abort')
@@ -160,7 +160,7 @@ describe('abort-controller > AbortController', function () {
           const abortController = new o()
           const onAbortArgs = []
           function onAbort(...args) {
-            onAbortArgs.push(args)
+            onAbortArgs.push([this, ...args])
           }
           abortController.signal.addEventListener('abort', onAbort)
           abortController.abort()
@@ -183,7 +183,7 @@ describe('abort-controller > AbortController', function () {
           const abortController = new o()
           const onAbortArgs = []
           function onAbort(...args) {
-            onAbortArgs.push(args)
+            onAbortArgs.push([this, ...args])
           }
           abortController.signal.addEventListener('abort', onAbort)
           abortController.signal.removeEventListener('abort', onAbort)
@@ -205,7 +205,7 @@ describe('abort-controller > AbortController', function () {
           const abortController = new o()
           const onAbortArgs = []
           function onAbort(...args) {
-            onAbortArgs.push(args)
+            onAbortArgs.push([this, ...args])
           }
           abortController.signal.addEventListener('abort', onAbort)
           abortController.signal.removeEventListener('abort', onAbort)
@@ -228,7 +228,7 @@ describe('abort-controller > AbortController', function () {
           const abortController = new o()
           const onAbortArgs = []
           function onAbort(...args) {
-            onAbortArgs.push(args)
+            onAbortArgs.push([this, ...args])
           }
           abortController.signal.addEventListener('abort', onAbort)
           abortController.signal.removeEventListener('abort', onAbort)
@@ -252,7 +252,7 @@ describe('abort-controller > AbortController', function () {
           const abortController = new o()
           const onAbortArgs = []
           function onAbort(...args) {
-            onAbortArgs.push(args)
+            onAbortArgs.push([this, ...args])
           }
           abortController.signal.addEventListener('abort', onAbort)
           const error1 = getError(() => (abortController.signal as any).throwIfAborted())
@@ -278,7 +278,7 @@ describe('abort-controller > AbortController', function () {
           const abortController = new o()
           const onAbortArgs = []
           function onAbort(...args) {
-            onAbortArgs.push(args)
+            onAbortArgs.push([this, ...args])
           }
           abortController.signal.addEventListener('abort', onAbort)
           const error1 = getError(() => (abortController.signal as any).throwIfAborted())

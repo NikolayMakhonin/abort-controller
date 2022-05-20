@@ -6,16 +6,3 @@ export function assertThis(_this: object, _class: any) {
   }
 }
 
-export function getLastPrototype(obj) {
-  let prev = obj
-  while (obj.constructor !== Object) {
-    prev = obj
-    obj = Object.getPrototypeOf(obj)
-  }
-  return prev
-}
-
-export function setLastPrototypeOf(obj, prototype) {
-  const _obj = getLastPrototype(obj)
-  Object.setPrototypeOf(_obj, prototype)
-}

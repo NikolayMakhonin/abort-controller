@@ -1,9 +1,12 @@
 import {IEventTarget} from './contracts'
 
-const kDelegate = Symbol('kDelegate')
-const EventTarget: { new(): IEventTarget; prototype: IEventTarget } = function EventTarget() {
-  const delegate = document.createDocumentFragment()
-  return delegate
-} as any
+let _EventTarget: { new(): IEventTarget; prototype: IEventTarget }
 
-export { EventTarget as EventTargetImpl}
+if (typeof window !== 'undefined') {
+  _EventTarget = function EventTarget() {
+    return document.createDocumentFragment()
+  } as any
+  Object.setPrototypeOf(_EventTarget, DocumentFragment.prototype)
+}
+
+export { _EventTarget as EventTargetImpl}

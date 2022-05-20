@@ -75,11 +75,11 @@ describe('abort-controller > EventTarget', function () {
           const eventTarget = new o()
           const onEvent1Args = []
           function onEvent1(...args) {
-            onEvent1Args.push(args)
+            onEvent1Args.push([this, ...args])
           }
           const onEvent2Args = []
           function onEvent2(...args) {
-            onEvent2Args.push(args)
+            onEvent2Args.push([this, ...args])
           }
           eventTarget.addEventListener('event1', onEvent1)
           eventTarget.addEventListener('event2', onEvent2)
