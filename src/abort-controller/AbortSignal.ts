@@ -1,4 +1,5 @@
 import {AbortError} from './AbortError'
+import {assertThis} from './helpers'
 
 const kAborted = Symbol('kAborted')
 const kReason = Symbol('kReason')
@@ -14,6 +15,19 @@ export function createAbortSignal() {
   return signal
 }
 
+export function abortSignalAbort(signal: AbortSignal, reason: any) {
+  if (signal[kAborted]) {
+    return
+  }
+
+  signal[kReason] = reason
+  signal[kAborted] = true
+  signal.dispatchEvent(new Event('abort'))
+  // typeof Event !== 'undefined'
+  //   ? new Event('abort')
+  //   : { type: 'abort' } as any)
+}
+
 class AbortSignal extends EventTarget implements AbortSignal {
   // @ts-ignore
   constructor() {
@@ -25,28 +39,21 @@ class AbortSignal extends EventTarget implements AbortSignal {
 
   private [kAborted]: boolean = false
   get aborted(): boolean {
+    assertThis(this, AbortSignal)
     return this[kAborted]
   }
 
   private [kReason]: any = void 0
   get reason(): any {
+    assertThis(this, AbortSignal)
     return this[kReason]
   }
 
   private _abort(reason: any) {
-    if (this[kAborted]) {
-      return
-    }
-
-    this[kReason] = reason
-    this[kAborted] = true
-    this.dispatchEvent(new Event('abort'))
-    // typeof Event !== 'undefined'
-    //   ? new Event('abort')
-    //   : { type: 'abort' } as any)
   }
 
   public throwIfAborted() {
+    assertThis(this, AbortSignal)
     if (this.aborted) {
       const reason = this.reason
       throw reason instanceof Error
@@ -57,9 +64,10 @@ class AbortSignal extends EventTarget implements AbortSignal {
 
   private [kOnAbort]: ((this: AbortSignal, ev: Event) => any) | null
   get onabort() {
-    return this[kOnAbort]
+    return this[kOnAbort] || null
   }
   set onabort(onabort: ((this: AbortSignal, ev: Event) => any) | null) {
+    // assertThis(this, AbortSignal)
     if (this[kOnAbort] === onabort) {
       return
     }

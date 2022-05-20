@@ -1,4 +1,5 @@
-import {AbortSignalImpl, createAbortSignal} from './AbortSignal'
+import {abortSignalAbort, AbortSignalImpl, createAbortSignal} from './AbortSignal'
+import {assertThis} from './helpers'
 
 const kSignal = Symbol('kSignal')
 
@@ -10,14 +11,16 @@ class AbortController implements AbortController {
 
   private readonly [kSignal]: AbortSignalImpl
   get signal() {
+    assertThis(this, AbortController)
     return this[kSignal]
   }
 
   abort(): void
   abort(reason?: any): void
   abort(reason?: any): void {
+    assertThis(this, AbortController)
     // @ts-ignore
-    this.signal._abort(reason)
+    abortSignalAbort(this.signal, reason)
   }
 }
 

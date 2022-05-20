@@ -104,18 +104,28 @@ describe('abort-controller > AbortController', function () {
       || typeof value === 'bigint'
   }
 
-  function normalizePrimitive(value) {
+  function normalizeValue(value) {
     if (typeof value === 'string') {
       if (value.startsWith('Cannot assign to read only property')) {
         return value.match(/Cannot assign to read only property '.*' of function/)[0]
       }
+    } else if (value instanceof Error) {
+      // if (
+      //   value.message.startsWith('Value of "this" must be of type')
+      //   || value.message.startsWith('Cannot read properties of undefined')
+      // ) {
+      //   return '__ERR_INVALID_THIS__'
+      // }
     }
     return value
   }
 
   function assertEqualsPrimitives(actual: AssertValue, expected: AssertValue, message: string) {
     if (isPrimitive(actual.value) || isPrimitive(expected.value)) {
-      assert.strictEqual(normalizePrimitive(actual.value), normalizePrimitive(expected.value), message)
+      if (actual.value !== expected.value) {
+        console.error(message)
+        assert.strictEqual(actual.value, expected.value)
+      }
       assert.strictEqual(actual.prevObjects.has(actual.value), false, message)
       assert.strictEqual(expected.prevObjects.has(expected.value), false, message)
       assert.strictEqual(prevObjectsGlobalActual.has(actual.value), false, message)
@@ -126,6 +136,12 @@ describe('abort-controller > AbortController', function () {
   }
   
   function assertEqualsValues(values: AssertValues, message: string) {
+    values = assertValuesClone(values)
+    values.actual.prev.value = normalizeValue(values.actual.prev.value)
+    values.actual.current.value = normalizeValue(values.actual.current.value)
+    values.expected.prev.value = normalizeValue(values.expected.prev.value)
+    values.expected.current.value = normalizeValue(values.expected.current.value)
+
     if (
       assertEqualsPrimitives(values.actual.prev, values.expected.prev, message)
       && assertEqualsPrimitives(values.actual.current, values.expected.current, message)
@@ -263,7 +279,7 @@ describe('abort-controller > AbortController', function () {
   }
 
   function getAdditionalKeys(value): string[] {
-    const keys: string[] = ['constructor'] // , 'prototype']
+    const keys: string[] = ['constructor', 'prototype']
     if (typeof value === 'function') {
       keys.push('name')
     }
@@ -290,18 +306,18 @@ describe('abort-controller > AbortController', function () {
   
   function assertEqualsProperties(values: AssertValues, message: string) {
     const keys = new Set<string>()
-    for (const key in values.actual.current.value) {
-      keys.add(key)
-    }
-    for (const key in values.expected.current.value) {
-      keys.add(key)
-    }
-    getAdditionalKeys(values.actual.current.value).forEach(key => {
-      keys.add(key)
-    })
     getAdditionalKeys(values.expected.current.value).forEach(key => {
       keys.add(key)
     })
+    getAdditionalKeys(values.actual.current.value).forEach(key => {
+      keys.add(key)
+    })
+    for (const key in values.expected.current.value) {
+      keys.add(key)
+    }
+    for (const key in values.actual.current.value) {
+      keys.add(key)
+    }
     keys.forEach(key => {
       assertEqualsProperty(values, key, message)
     })
@@ -343,7 +359,22 @@ describe('abort-controller > AbortController', function () {
       assertEquals(actualValue, expectedValue, concatMessages(message, i + ''))
     }
   }
-  
+
+  before(() => {
+    test({
+      repeat  : 2,
+      message : 'AbortController',
+      actual  : () => new AbortController1(),
+      expected: () => new AbortController1(),
+    })
+    test({
+      repeat  : 2,
+      message : 'AbortController',
+      actual  : () => new AbortController2(),
+      expected: () => new AbortController2(),
+    })
+  })
+
   describe('constructors', function () {
     it('AbortSignal', function () {
       test({
