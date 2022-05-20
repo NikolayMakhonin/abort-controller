@@ -95,13 +95,18 @@ Object.defineProperty(_AbortSignal.prototype, 'reason', {
   configurable: true,
 })
 
-;(_AbortSignal.prototype as any).throwIfAborted = function throwIfAborted() {
-  assertThis(this, _AbortSignal)
-  if (this.aborted) {
-    const reason = this.reason
-    throw reason
-  }
-}
+Object.defineProperty(_AbortSignal.prototype, 'throwIfAborted', {
+  value: function throwIfAborted() {
+    assertThis(this, _AbortSignal)
+    if (this.aborted) {
+      const reason = this.reason
+      throw reason
+    }
+  },
+  writable    : true,
+  enumerable  : false,
+  configurable: true,
+})
 
 Object.defineProperty(_AbortSignal.prototype, 'onabort', {
   get: function () {
