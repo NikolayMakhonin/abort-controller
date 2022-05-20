@@ -1,5 +1,7 @@
 import {assertThis} from './helpers'
 import {DOMException} from './DOMException'
+import {IAbortSignal} from './contracts'
+import {EventTarget} from './EventTarget'
 
 const kAborted = Symbol('kAborted')
 const kReason = Symbol('kReason')
@@ -31,7 +33,7 @@ export function abortSignalAbort(signal: AbortSignal, reason: any) {
   //   : { type: 'abort' } as any)
 }
 
-class AbortSignal extends EventTarget implements AbortSignal {
+class AbortSignal extends EventTarget implements IAbortSignal {
   // @ts-ignore
   constructor() {
     const error = new TypeError('Illegal constructor')

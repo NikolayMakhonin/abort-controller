@@ -1,9 +1,10 @@
-import {abortSignalAbort, AbortSignalImpl, createAbortSignal} from './AbortSignal'
+import {abortSignalAbort, AbortSignalImpl, createAbortSignal} from './AbortSignalImpl'
 import {assertThis} from './helpers'
+import {IAbortController} from './contracts'
 
 const kSignal = Symbol('kSignal')
 
-class AbortController implements AbortController {
+class AbortController implements IAbortController {
   constructor() {
     // @ts-ignore
     this[kSignal] = createAbortSignal()

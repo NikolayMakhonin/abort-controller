@@ -1,13 +1,9 @@
-const _DOMException =
+import {DOMExceptionImpl} from './DOMExceptionImpl'
+
+const _DOMException: typeof DOMException =
   // typeof DOMException !== 'undefined'
   // ? DOMException
   // :
-  class DOMException extends Error {
-    readonly name: string
-    constructor(message?: string, name?: string) {
-      super(message)
-      this.name = name
-    }
-  }
+  DOMExceptionImpl as any
 
 export { _DOMException as DOMException }

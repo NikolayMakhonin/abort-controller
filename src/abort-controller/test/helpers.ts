@@ -1,4 +1,8 @@
 /* eslint-disable no-self-assign,guard-for-in */
+
+export const processVersion = typeof process !== 'undefined' ? process.version : void 0
+export const isLatestNodeVersion = /v?18\./.test(process.version)
+
 const symbolUndefined = Symbol('undefined')
 export function getError(func: () => void) {
   let error

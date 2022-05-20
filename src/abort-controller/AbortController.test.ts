@@ -1,13 +1,10 @@
 /* eslint-disable no-self-assign,no-new,new-cap */
-import {AbortControllerImpl} from './AbortController'
-import {AbortSignalImpl} from './AbortSignal'
-import {getError, test} from './test/helpers'
+import {AbortControllerImpl} from './AbortControllerImpl'
+import {AbortSignalImpl} from './AbortSignalImpl'
+import {getError, isLatestNodeVersion, processVersion, test} from './test/helpers'
 
 describe('abort-controller > AbortController', function () {
   this.timeout(60000)
-
-  const processVersion = typeof process !== 'undefined' ? process.version : void 0
-  const isLatestNodeVersion = /v?18\./.test(process.version)
 
   const AbortSignal1 = AbortSignalImpl
   const AbortController1 = AbortControllerImpl
@@ -36,7 +33,8 @@ describe('abort-controller > AbortController', function () {
 
   describe('base', function () {
     it('base', function () {
-      const abortController = new AbortController()
+      const abortController = new AbortController1()
+      // TODO
     })
   })
 
