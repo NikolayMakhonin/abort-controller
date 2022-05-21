@@ -33,12 +33,13 @@
     "build:types": "tsc --outDir dist/node --declaration",
     "build": "rimraf dist && yarn run build:js && yarn run build:types",
     "coverage-check": "nyc check-coverage --report-dir tmp/coverage/lcov --lines 50 --functions 50 --branches 50 --statements 50",
-    "test": "mocha ./src/**/*.test.ts",
-    "test:coverage": "rimraf tmp/coverage && nyc --all mocha ./src/**/*.test.ts && yarn run coverage-check",
-    "test:watch": "mocha --watch ./src/**/*.test.ts",
-    "test:ci": "rimraf tmp/coverage && nyc --all mocha ./src/**/*.test.ts ./dist/**/*.test.cjs && yarn run coverage-check",
+    "test:mocha": "mocha ./src/**/*.test.ts",
+    "test:mocha:coverage": "rimraf tmp/coverage && nyc --all mocha ./src/**/*.test.ts && yarn run coverage-check",
+    "test:mocha:watch": "mocha --watch ./src/**/*.test.ts",
+    "test:karma": "karma start --single-run",
+    "test:mocha:ci": "rimraf tmp/coverage && nyc --all mocha ./src/**/*.test.ts ./dist/**/*.test.cjs && yarn run coverage-check",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "ci:test": "yarn build && yarn run test:ci"
+    "ci:test": "yarn build && yarn run test:mocha:ci"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
