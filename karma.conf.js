@@ -15,7 +15,7 @@ module.exports = function(config) {
   config.set({
     browsers: [
       "ChromeLatest",
-      process.env.GITHUB_WORKFLOW ? "Chromium" : "Chromium39",
+      "Chromium39",
     ],//, "Firefox", "Edge"],
     files: ["dist/browser/browser.test.js"],
     frameworks: ["mocha"],
@@ -38,22 +38,6 @@ module.exports = function(config) {
       dir : `tmp/coverage/karma/json`,
     },
     customLaunchers: {
-      Chromium: {
-        base       : 'Custom',
-        parent     : 'ChromiumHeadless',
-        displayName: 'Chromium',
-        flags      : [
-          '--incognito',
-          '--no-sandbox',
-          '--disable-web-security',
-          '--allow-cross-origin-auth-prompt',
-          '--disable-site-isolation-trials',
-        ],
-        DEFAULT_CMD: {
-          linux: process.env.CHROMIUM_BIN,
-        },
-        ENV_CMD: null,
-      },
       Chromium33: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
@@ -82,6 +66,7 @@ module.exports = function(config) {
           '--disable-site-isolation-trials',
         ],
         DEFAULT_CMD: {
+          linux: process.env.CHROMIUM_BIN,
           win32: 'E:/Program Files (x86)/Chromium/39.0.2171.99/chrome.exe',
         },
         ENV_CMD: null,
