@@ -23,16 +23,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
-      - name: Run tests
-        shell: bash
-        run: |
-          yarn install --frozen-lockfile
-          yarn run ci:test
-
-      - name: Fix missing libudev.so.0 on Linux (this is not the recommended way)
+      - name: Install chromium dependencies
         if: ${{ matrix.node-version == '18.x' }}
         run: |
           sudo apt install libudev-dev libgtk2.0-0
+          sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0
 
       - name: Install chromium
         if: ${{ matrix.node-version == '18.x' }}
@@ -45,9 +40,13 @@ jobs:
         env:
           CHROMIUM_BIN: chrome
         run: |
-          sudo apt install libudev-dev
-          sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0
           yarn run test:karma
+
+      - name: Run tests
+        shell: bash
+        run: |
+          yarn install --frozen-lockfile
+          yarn run ci:test
 
       - name: Coveralls
         if: ${{ matrix.node-version == '18.x' }}
