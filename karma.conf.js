@@ -16,7 +16,7 @@ module.exports = function(config) {
     browsers: ["ChromeLatest", "Chromium39"],//, "Firefox", "Edge"],
     files: ["dist/browser/browser.test.js"],
     frameworks: ["mocha"],
-    reporters: ["progress"],
+    reporters: ["progress", 'coverage'],
     plugins: [
       'karma-chrome-launcher',
       'karma-firefox-launcher',
@@ -26,6 +26,14 @@ module.exports = function(config) {
       'karma-coverage',
       require('./modules/karma-custom-launcher'),
     ],
+    coverageReporter: {
+      // Prevent to disable coverage by IntelliJ
+      // see: https://github.com/karma-runner/karma-coverage/issues/183#issuecomment-167880660
+      instrumenter: null,
+
+      type: 'json',
+      dir : `tmp/coverage/karma/json`,
+    },
     customLaunchers: {
       Chromium: {
         base       : 'Custom',

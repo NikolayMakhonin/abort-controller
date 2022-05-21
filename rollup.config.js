@@ -10,6 +10,8 @@ import json from '@rollup/plugin-json'
 import polyfills from 'rollup-plugin-node-polyfills'
 import inject from '@rollup/plugin-inject'
 import babel from '@rollup/plugin-babel'
+import istanbul from 'rollup-plugin-istanbul'
+import nycrc from './nyc.config'
 import { terser } from 'rollup-plugin-terser'
 import path from "path"
 import pkg from './package.json'
@@ -184,6 +186,9 @@ const browserTestsConfig = {
       compilerOptions: {
         target: 'es5',
       },
+    }),
+    istanbul({
+      ...nycrc,
     }),
     babel({
       extensions  : ['.ts', '.js', '.cjs', '.mjs'],
