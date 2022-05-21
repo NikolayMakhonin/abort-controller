@@ -12,7 +12,7 @@
 module.exports = function(config) {
   config.set({
     browsers: ["ChromeLatest", "Chromium39"],//, "Firefox", "Edge"],
-    files: ["dist/browser/tests.js"],
+    files: ["dist/browser/browser.test.js"],
     frameworks: ["mocha"],
     reporters: ["progress"],
     plugins: [

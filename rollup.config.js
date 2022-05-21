@@ -10,6 +10,7 @@ import json from '@rollup/plugin-json'
 import polyfills from 'rollup-plugin-node-polyfills'
 import inject from '@rollup/plugin-inject'
 import babel from '@rollup/plugin-babel'
+import { terser } from 'rollup-plugin-terser'
 import path from "path"
 import pkg from './package.json'
 
@@ -123,15 +124,23 @@ const browserConfig = {
         target: 'es5',
       },
     }),
-    babel({
-      extensions  : ['.ts', '.js', '.cjs', '.mjs'],
-      babelHelpers: 'runtime',
-      exclude     : [
-        'node_modules/rollup*/**',
-        'node_modules/tslib/**',
-        'node_modules/@babel/**',
-        'node_modules/core-js*/**',
-      ],
+    // babel({
+    //   extensions  : ['.ts', '.js', '.cjs', '.mjs'],
+    //   babelHelpers: 'runtime',
+    //   exclude     : [
+    //     'node_modules/rollup*/**',
+    //     'node_modules/tslib/**',
+    //     'node_modules/@babel/**',
+    //     'node_modules/core-js*/**',
+    //   ],
+    // }),
+    terser({
+      mangle: true,
+      module: false,
+      ecma  : 5,
+      output: {
+        max_line_len: 50,
+      },
     }),
   ],
   onwarn: onwarnRollup,
@@ -150,9 +159,9 @@ const browserTestsConfig = {
     sourcemap: 'inline',
   },
   plugins: [
-    del({ targets: 'dist/browser/tests.js' }),
+    del({ targets: 'dist/browser/browser.test.js' }),
     multiEntry({
-      entryFileName: 'tests.js',
+      entryFileName: 'browser.test.js',
     }),
     alias(aliasOptions),
     json(),
