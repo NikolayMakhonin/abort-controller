@@ -61,11 +61,12 @@ module.exports = function(config) {
         flags      : [
           '--headless',
           '--incognito',
-          // '--no-sandbox',
-          // '--disable-setuid-sandbox',
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-gpu',
           '--disable-web-security',
-          // '--allow-cross-origin-auth-prompt',
-          // '--disable-site-isolation-trials',
+          '--allow-cross-origin-auth-prompt',
+          '--disable-site-isolation-trials',
         ],
         DEFAULT_CMD: {
           linux: process.env.CHROMIUM_BIN,
