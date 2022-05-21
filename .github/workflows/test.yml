@@ -16,22 +16,26 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+
       - name: Install chromium
         uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
+
       - name: Run tests
         shell: bash
         env:
-          CHROMIUM_BIN: ${{which chrome}}
+          CHROMIUM_BIN: ${{chrome}}
         run: |
           yarn install --frozen-lockfile
           yarn run ci:test
+
       - name: Coveralls
         if: ${{ matrix.node-version == '18.x' }}
         env:
