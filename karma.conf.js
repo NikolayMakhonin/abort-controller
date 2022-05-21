@@ -9,11 +9,14 @@
 // const builtins = require("rollup-plugin-node-builtins")
 // const globals = require("rollup-plugin-node-globals")
 
-console.log('ENV_VARS', process.env)
+// console.log('ENV_VARS', process.env)
 
 module.exports = function(config) {
   config.set({
-    browsers: ["ChromeLatest", "Chromium39"],//, "Firefox", "Edge"],
+    browsers: [
+      "ChromeLatest",
+      process.env.GITHUB_WORKFLOW ? "Chromium" : "Chromium39",
+    ],//, "Firefox", "Edge"],
     files: ["dist/browser/browser.test.js"],
     frameworks: ["mocha"],
     reporters: ["progress", 'coverage'],
