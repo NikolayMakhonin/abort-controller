@@ -1,22 +1,20 @@
 "use strict"
 
-// const babel = require("rollup-plugin-babel")
-// const commonjs = require("rollup-plugin-commonjs")
-// // const json = require("rollup-plugin-json")
-// const resolve = require("rollup-plugin-node-resolve")
-// const sourcemaps = require("rollup-plugin-sourcemaps")
-// const typescript = require("rollup-plugin-typescript")
-// const builtins = require("rollup-plugin-node-builtins")
-// const globals = require("rollup-plugin-node-globals")
-
 console.log('ENV_VARS', process.env)
 
 module.exports = function(config) {
   config.set({
-    browsers: [
-      "ChromeLatest",
-      "Chromium39",
-    ],//, "Firefox", "Edge"],
+    browsers: process.env.GITHUB_WORKFLOW
+      ? [
+        "ChromeLatest",
+        "ChromiumCI",
+      ]
+      : [
+        "ChromeLatest",
+        "Chromium39",
+        "Firefox",
+        "Edge",
+      ],
     files: ["dist/browser/browser.test.js"],
     frameworks: ["mocha"],
     reporters: ["progress", 'coverage'],
@@ -38,6 +36,26 @@ module.exports = function(config) {
       dir : `tmp/coverage/karma/json`,
     },
     customLaunchers: {
+      ChromiumCI: {
+        base       : 'Custom',
+        parent     : 'ChromiumHeadless',
+        displayName: 'Chromium CI',
+        flags      : [
+          '--headless',
+          '--incognito',
+          '--no-sandbox',
+          // '--disable-setuid-sandbox',
+          '--disable-gpu',
+          '--disable-web-security',
+          '--allow-cross-origin-auth-prompt',
+          '--disable-site-isolation-trials',
+          '--enable-precise-memory-info',
+        ],
+        DEFAULT_CMD: {
+          linux: process.env.CHROMIUM_BIN,
+        },
+        ENV_CMD: null,
+      },
       Chromium33: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
@@ -59,18 +77,13 @@ module.exports = function(config) {
         parent     : 'ChromiumHeadless',
         displayName: 'Chromium 39.0.2171.99',
         flags      : [
-          '--headless',
           '--incognito',
           '--no-sandbox',
-          // '--disable-setuid-sandbox',
-          '--disable-gpu',
           '--disable-web-security',
           '--allow-cross-origin-auth-prompt',
           '--disable-site-isolation-trials',
-          '--enable-precise-memory-info',
         ],
         DEFAULT_CMD: {
-          linux: process.env.CHROMIUM_BIN,
           win32: 'E:/Program Files (x86)/Chromium/39.0.2171.99/chrome.exe',
         },
         ENV_CMD: null,
