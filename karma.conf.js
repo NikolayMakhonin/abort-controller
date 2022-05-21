@@ -59,6 +59,7 @@ module.exports = function(config) {
         parent     : 'ChromiumHeadless',
         displayName: 'Chromium 39.0.2171.99',
         flags      : [
+          '--headless',
           '--incognito',
           '--no-sandbox',
           '--disable-setuid-sandbox',
