@@ -43,7 +43,7 @@ jobs:
       - name: Karma tests
         if: ${{ matrix.node-version == '18.x' }}
         env:
-          CHROMIUM_BIN: /opt/hostedtoolcache/chromium/297097/x64/chrome
+          CHROMIUM_BIN: ${{ env.PWD }}/chrome
         run: |
           yarn run test:karma
 
