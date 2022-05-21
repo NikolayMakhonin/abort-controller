@@ -64,8 +64,8 @@ module.exports = function(config) {
           // '--no-sandbox',
           // '--disable-setuid-sandbox',
           '--disable-web-security',
-          '--allow-cross-origin-auth-prompt',
-          '--disable-site-isolation-trials',
+          // '--allow-cross-origin-auth-prompt',
+          // '--disable-site-isolation-trials',
         ],
         DEFAULT_CMD: {
           linux: process.env.CHROMIUM_BIN,
