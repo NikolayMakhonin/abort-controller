@@ -9,7 +9,7 @@
 // const builtins = require("rollup-plugin-node-builtins")
 // const globals = require("rollup-plugin-node-globals")
 
-// console.log('ENV_VARS', process.env)
+console.log('ENV_VARS', process.env)
 
 module.exports = function(config) {
   config.set({
