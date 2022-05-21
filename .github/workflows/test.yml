@@ -31,7 +31,7 @@ jobs:
       - name: Run tests
         shell: bash
         env:
-          CHROMIUM_BIN: ${{chrome}}
+          CHROMIUM_BIN: chrome
         run: |
           yarn install --frozen-lockfile
           yarn run ci:test
