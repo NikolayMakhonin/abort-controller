@@ -48,7 +48,6 @@ jobs:
           CHROME_DEVEL_SANDBOX: /usr/local/sbin/chrome-devel-sandbox
         with:
           run: |
-            export DISPLAY=:99.0
             yarn run test:karma
 
       - name: Mocha tests
