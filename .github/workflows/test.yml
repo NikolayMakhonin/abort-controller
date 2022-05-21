@@ -21,8 +21,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+      - uses: browser-actions/setup-chrome@latest
+      - run: chrome --version
+        with:
+          chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
       - name: Run tests
         shell: bash
+        env:
+          CHROMIUM_BIN: ${{which chrome}}
         run: |
           yarn install --frozen-lockfile
           yarn run ci:test

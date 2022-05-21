@@ -9,6 +9,8 @@
 // const builtins = require("rollup-plugin-node-builtins")
 // const globals = require("rollup-plugin-node-globals")
 
+console.log('ENV_VARS', process.env)
+
 module.exports = function(config) {
   config.set({
     browsers: ["ChromeLatest", "Chromium39"],//, "Firefox", "Edge"],
@@ -25,6 +27,22 @@ module.exports = function(config) {
       require('./modules/karma-custom-launcher'),
     ],
     customLaunchers: {
+      Chromium: {
+        base       : 'Custom',
+        parent     : 'ChromiumHeadless',
+        displayName: 'Chromium',
+        flags      : [
+          '--incognito',
+          '--no-sandbox',
+          '--disable-web-security',
+          '--allow-cross-origin-auth-prompt',
+          '--disable-site-isolation-trials',
+        ],
+        DEFAULT_CMD: {
+          win32: process.env.CHROMIUM_BIN,
+        },
+        ENV_CMD: null,
+      },
       Chromium33: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
