@@ -51,6 +51,7 @@ jobs:
         if: ${{ matrix.node-version == '18.x' }}
         env:
           CHROMIUM_BIN: /opt/hostedtoolcache/chromium/297097/x64/chrome
+          CHROME_DEVEL_SANDBOX: /usr/local/sbin/chrome-devel-sandbox
         run: |
           yarn run test:karma
 
