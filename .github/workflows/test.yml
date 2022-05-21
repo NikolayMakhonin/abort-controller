@@ -33,7 +33,7 @@ jobs:
         if: ${{ matrix.node-version == '18.x' }}
         run: |
           sudo apt install libudev-dev
-          sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0
+          sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0 /lib/$(arch)-linux-gnu/libgtk-x11-2.0.so.0
 
       - name: Install chromium
         if: ${{ matrix.node-version == '18.x' }}
