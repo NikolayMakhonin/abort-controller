@@ -41,7 +41,10 @@ jobs:
           sudo cp /opt/hostedtoolcache/chromium/297097/x64/chrome_sandbox /usr/local/sbin/chrome-devel-sandbox
           sudo chown root:root /usr/local/sbin/chrome-devel-sandbox
           sudo chmod 4755 /usr/local/sbin/chrome-devel-sandbox
+          sudo Xvfb :99 -ac -screen 0 "800x600x24" -nolisten tcp
+          sudo export DISPLAY=:99
           sudo xhost +
+
 
       - name: Install node modules and build
         run: |
