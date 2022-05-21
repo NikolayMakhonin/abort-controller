@@ -38,9 +38,9 @@ jobs:
       - name: Install chromium sandbox
         if: ${{ matrix.node-version == '18.x' }}
         run: |
-          cp /opt/hostedtoolcache/chromium/297097/x64/chrome_sandbox /usr/local/sbin/chrome-devel-sandbox
-          chown root:root /usr/local/sbin/chrome-devel-sandbox
-          chmod 4755 /usr/local/sbin/chrome-devel-sandbox
+          sudo cp /opt/hostedtoolcache/chromium/297097/x64/chrome_sandbox /usr/local/sbin/chrome-devel-sandbox
+          sudo chown root:root /usr/local/sbin/chrome-devel-sandbox
+          sudo chmod 4755 /usr/local/sbin/chrome-devel-sandbox
 
       - name: Install node modules and build
         run: |
