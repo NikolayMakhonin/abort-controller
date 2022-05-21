@@ -62,7 +62,7 @@ module.exports = function(config) {
           '--headless',
           '--incognito',
           '--no-sandbox',
-          '--disable-setuid-sandbox',
+          // '--disable-setuid-sandbox',
           // '--disable-gpu',
           // '--disable-web-security',
           // '--allow-cross-origin-auth-prompt',
