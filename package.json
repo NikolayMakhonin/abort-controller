@@ -39,7 +39,7 @@
     "test:mocha:watch": "mocha --watch ./src/**/*.test.ts",
     "test:karma": "rimraf tmp/coverage/karma && karma start --single-run",
     "test:mocha:ci": "rimraf tmp/coverage/mocha && nyc --all mocha ./src/**/*.test.ts ./dist/**/*.test.cjs",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "yarn run coverage:check && nyc report --reporter=text-lcov --temp-dir \"tmp/coverage/merge/\" | coveralls"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
