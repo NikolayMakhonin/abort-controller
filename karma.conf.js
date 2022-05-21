@@ -60,7 +60,8 @@ module.exports = function(config) {
         displayName: 'Chromium 39.0.2171.99',
         flags      : [
           '--incognito',
-          // '--no-sandbox',
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
           '--disable-web-security',
           '--allow-cross-origin-auth-prompt',
           '--disable-site-isolation-trials',
