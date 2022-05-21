@@ -35,10 +35,10 @@ jobs:
         with:
           chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
 
-      - name: Install chromium 2
+      - name: Install chromium sandbox
         if: ${{ matrix.node-version == '18.x' }}
         run: |
-          cp ./chrome_sandbox /usr/local/sbin/chrome-devel-sandbox
+          cp /opt/hostedtoolcache/chromium/297097/x64/chrome_sandbox /usr/local/sbin/chrome-devel-sandbox
           chown root:root /usr/local/sbin/chrome-devel-sandbox
           chmod 4755 /usr/local/sbin/chrome-devel-sandbox
 
