@@ -1,5 +1,5 @@
 module.exports = {
-	include     : ['{src,dist/node}/**/*.{js,cjs,ts}'],
+	include     : ['src/**/*.ts'],
 	exclude     : ['**/test/**', '**/*.test.*', 'dist/browser.js'],
 	reporter    : ['json'],
 	'temp-dir'  : `./tmp/coverage/tmp`,

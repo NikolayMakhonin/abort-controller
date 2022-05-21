@@ -11,7 +11,7 @@ import polyfills from 'rollup-plugin-node-polyfills'
 import inject from '@rollup/plugin-inject'
 import babel from '@rollup/plugin-babel'
 import istanbul from 'rollup-plugin-istanbul'
-import nycrc from './nyc.config'
+import nycrc from './nyc.config.cjs'
 import { terser } from 'rollup-plugin-terser'
 import path from "path"
 import pkg from './package.json'
