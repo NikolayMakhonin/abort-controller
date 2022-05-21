@@ -15,7 +15,7 @@ module.exports = function(config) {
   config.set({
     browsers: [
       "ChromeLatest",
-      "Chromium39",
+      "ChromiumHeadless",
     ],//, "Firefox", "Edge"],
     files: ["dist/browser/browser.test.js"],
     frameworks: ["mocha"],
@@ -56,7 +56,7 @@ module.exports = function(config) {
       },
       Chromium39: {
         base       : 'Custom',
-        parent     : 'ChromeHeadless',
+        parent     : 'ChromiumHeadless',
         displayName: 'Chromium 39.0.2171.99',
         flags      : [
           '--headless',
