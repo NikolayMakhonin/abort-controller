@@ -29,17 +29,17 @@ jobs:
           yarn install --frozen-lockfile
           yarn run ci:test
 
-      - name: Install chromium
-        if: ${{ matrix.node-version == '18.x' }}
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
-
       - name: Fix missing libudev.so.0 on Linux (this is not the recommended way)
         if: ${{ matrix.node-version == '18.x' }}
         run: |
           sudo apt install libudev-dev
           sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0
+
+      - name: Install chromium
+        if: ${{ matrix.node-version == '18.x' }}
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
 
       - name: Karma tests
         if: ${{ matrix.node-version == '18.x' }}
