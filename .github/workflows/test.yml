@@ -26,6 +26,8 @@ jobs:
       - name: Install chromium dependencies
         if: ${{ matrix.node-version == '18.x' }}
         uses: GabrielBB/xvfb-action@v1
+        with:
+          run: echo ok
 
       - name: Install chromium
         if: ${{ matrix.node-version == '18.x' }}
