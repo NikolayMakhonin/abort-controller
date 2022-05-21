@@ -271,11 +271,23 @@ function assertEqualsProperty(values: AssertValues, key, message: string) {
   assertEqualsValues(clone, messageSet)
 }
 
-function filterKey(key: string) {
-  return key !== 'isTrusted'
-    && key !== 'timeStamp'
-    && key !== 'stack'
-    && !/_ERR$/.test(key)
+function filterKey(object, key: string) {
+  if (object instanceof Event) {
+    return key !== 'isTrusted'
+      && key !== 'timeStamp'
+  }
+  if (object instanceof Error) {
+    return key !== 'stack'
+      && !/_ERR$/.test(key)
+  }
+
+  if (typeof Node !== 'undefined' && object instanceof Node) {
+    return key === 'aborted'
+      || key === 'reason'
+      || key === 'onabort'
+  }
+
+  return true
 }
 
 function getAdditionalKeys(value): string[] {
@@ -318,9 +330,10 @@ function assertEqualsProperties(values: AssertValues, message: string) {
   for (const key in values.actual.current.value) {
     keys.add(key)
   }
-  Array.from(keys).filter(filterKey).forEach(key => {
-    assertEqualsProperty(values, key, message)
-  })
+  Array.from(keys).filter(key => filterKey(values.expected.current.value, key))
+    .forEach(key => {
+      assertEqualsProperty(values, key, message)
+    })
 
   const clone = assertValuesClone(values)
   clone.actual.prev.value = clone.actual.prev.value && Object.keys(clone.actual.prev.value)
