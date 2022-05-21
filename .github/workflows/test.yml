@@ -35,7 +35,7 @@ jobs:
         with:
           chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
         env:
-          CHROMIUM_BIN: ${{ env.PWD }}/chrome
+          CHROMIUM_BIN: /opt/hostedtoolcache/chromium/297097/x64/chrome
 
       - name: Install node modules and build
         run: |
