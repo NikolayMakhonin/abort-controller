@@ -61,8 +61,8 @@ module.exports = function(config) {
         flags      : [
           '--headless',
           '--incognito',
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
+          // '--no-sandbox',
+          // '--disable-setuid-sandbox',
           '--disable-web-security',
           '--allow-cross-origin-auth-prompt',
           '--disable-site-isolation-trials',
