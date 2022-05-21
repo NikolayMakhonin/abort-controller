@@ -56,7 +56,7 @@ module.exports = function(config) {
       },
       Chromium39: {
         base       : 'Custom',
-        parent     : 'ChromiumHeadless',
+        parent     : 'ChromeHeadless',
         displayName: 'Chromium 39.0.2171.99',
         flags      : [
           '--headless',
