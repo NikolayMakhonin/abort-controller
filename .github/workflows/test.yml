@@ -38,6 +38,8 @@ jobs:
           CHROMIUM_BIN: chrome
         shell: bash
         run: |
+          sudo apt install libudev-dev
+          sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0
           yarn run test:karma
 
       - name: Coveralls
