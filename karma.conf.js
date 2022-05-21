@@ -61,7 +61,7 @@ module.exports = function(config) {
         flags      : [
           '--headless',
           '--incognito',
-          // '--no-sandbox',
+          '--no-sandbox',
           // '--disable-setuid-sandbox',
           '--disable-gpu',
           '--disable-web-security',
