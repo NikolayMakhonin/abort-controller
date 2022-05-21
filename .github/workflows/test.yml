@@ -34,6 +34,8 @@ jobs:
         uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
+        env:
+          CHROMIUM_BIN: ${{ env.PWD }}/chrome
 
       - name: Install node modules and build
         run: |
@@ -42,8 +44,6 @@ jobs:
 
       - name: Karma tests
         if: ${{ matrix.node-version == '18.x' }}
-        env:
-          CHROMIUM_BIN: ${{ env.PWD }}/chrome
         run: |
           yarn run test:karma
 
