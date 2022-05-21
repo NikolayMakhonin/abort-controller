@@ -25,9 +25,9 @@ jobs:
 
       - name: Install chromium dependencies
         if: ${{ matrix.node-version == '18.x' }}
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: echo ok
+        run: |
+          sudo apt install libudev-dev libgtk2.0-0
+          sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0
 
       - name: Install chromium
         if: ${{ matrix.node-version == '18.x' }}
@@ -44,8 +44,9 @@ jobs:
         if: ${{ matrix.node-version == '18.x' }}
         env:
           CHROMIUM_BIN: /opt/hostedtoolcache/chromium/297097/x64/chrome
-        run: |
-          yarn run test:karma
+        with:
+          run: |
+            yarn run test:karma
 
       - name: Mocha tests
         shell: bash
