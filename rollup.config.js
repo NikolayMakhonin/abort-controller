@@ -1,11 +1,14 @@
 import resolve from '@rollup/plugin-node-resolve'
 import multiInput from 'rollup-plugin-multi-input'
+import multiEntry from '@rollup/plugin-multi-entry'
 import del from 'rollup-plugin-delete'
 import typescript from '@rollup/plugin-typescript'
 import alias from '@rollup/plugin-alias'
 import replace from '@rollup/plugin-replace'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
+import polyfills from 'rollup-plugin-node-polyfills'
+import inject from '@rollup/plugin-inject'
 import path from "path"
 import pkg from './package.json'
 
@@ -58,14 +61,15 @@ const nodeConfig = {
     'src/**/*.ts'
   ],
   output: {
-    dir: 'dist',
+    dir: 'dist/node',
     format: 'cjs',
     exports: 'named',
     entryFileNames: `[name].cjs`,
     chunkFileNames: '[name].cjs',
+    sourcemap: dev,
   },
   plugins: [
-    del({ targets: 'dist/*' }),
+    del({ targets: 'dist/node/*' }),
     multiInput(),
     alias(aliasOptions),
     json(),
@@ -92,20 +96,21 @@ const browserConfig = {
     'src/index.ts'
   ],
   output: {
-    dir: 'dist',
+    dir: 'dist/browser',
     format: 'iife',
     exports: 'named',
     entryFileNames: 'browser.js',
     chunkFileNames: 'browser.js',
+    sourcemap: dev && 'inline',
   },
   plugins: [
-    del({ targets: 'dist/browser.js' }),
+    del({ targets: 'dist/browser/browser.js' }),
     alias(aliasOptions),
     json(),
     replace({
       preventAssignment: true,
     }),
-    resolve(),
+    resolve({ browser: true }),
     commonjs({
       transformMixedEsModules: true,
     }),
@@ -122,4 +127,51 @@ const browserConfig = {
   //   .concat(require('module').builtinModules || Object.keys(process.binding('natives'))),
 }
 
-export default [nodeConfig, browserConfig]
+const browserTestsConfig = {
+  cache: true,
+  input: [
+    'src/helpers/test/register.ts',
+    'src/**/*.test.ts'
+  ],
+  output: {
+    dir: 'dist/browser',
+    format: 'iife',
+    exports: 'named',
+    sourcemap: 'inline',
+  },
+  plugins: [
+    del({ targets: 'dist/browser/tests.js' }),
+    multiEntry({
+      entryFileName: 'tests.js',
+    }),
+    alias(aliasOptions),
+    json(),
+    replace({
+      preventAssignment: true,
+    }),
+    resolve({ browser: true, preferBuiltins: false }),
+    commonjs({
+      transformMixedEsModules: true,
+    }),
+    inject({
+      global: require.resolve('rollup-plugin-node-polyfills/polyfills/global.js')
+    }),
+    polyfills(),
+    typescript({
+      sourceMap: true,
+      compilerOptions: {
+        target: 'es5',
+      },
+    }),
+  ],
+  onwarn: onwarnRollup,
+  // external: Object.keys(pkg.dependencies)
+  //   .concat(Object.keys(pkg.devDependencies))
+  //   .concat(require('module').builtinModules || Object.keys(process.binding('natives'))),
+}
+
+export default [
+  nodeConfig,
+  browserConfig,
+  browserTestsConfig,
+]
