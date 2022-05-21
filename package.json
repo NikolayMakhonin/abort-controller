@@ -37,7 +37,7 @@
     "test:mocha:coverage": "rimraf tmp/coverage && nyc --all mocha ./src/**/*.test.ts && yarn run coverage-check",
     "test:mocha:watch": "mocha --watch ./src/**/*.test.ts",
     "test:karma": "karma start --single-run",
-    "test:mocha:ci": "rimraf tmp/coverage && nyc --all mocha ./src/**/*.test.ts ./dist/**/*.test.cjs && yarn run coverage-check",
+    "test:mocha:ci": "rimraf tmp/coverage && nyc --all mocha ./src/**/*.test.ts ./dist/**/*.test.cjs",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "ci:test": "yarn build && yarn run test:mocha:ci"
   },
