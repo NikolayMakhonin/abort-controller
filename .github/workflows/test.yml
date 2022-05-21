@@ -53,7 +53,7 @@ jobs:
           CHROMIUM_BIN: /opt/hostedtoolcache/chromium/297097/x64/chrome
           CHROME_DEVEL_SANDBOX: /usr/local/sbin/chrome-devel-sandbox
         run: |
-          yarn run test:karma
+          DISPLAY=:0 yarn run test:karma
 
       - name: Mocha tests
         shell: bash

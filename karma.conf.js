@@ -15,7 +15,7 @@ module.exports = function(config) {
   config.set({
     browsers: [
       "ChromeLatest",
-      "ChromiumHeadless",
+      "Chromium39",
     ],//, "Firefox", "Edge"],
     files: ["dist/browser/browser.test.js"],
     frameworks: ["mocha"],
