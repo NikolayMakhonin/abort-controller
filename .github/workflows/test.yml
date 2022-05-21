@@ -42,6 +42,7 @@ jobs:
 
       - name: Karma tests
         if: ${{ matrix.node-version == '18.x' }}
+        uses: GabrielBB/xvfb-action@v1
         env:
           CHROMIUM_BIN: /opt/hostedtoolcache/chromium/297097/x64/chrome
         with:
