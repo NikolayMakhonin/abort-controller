@@ -56,17 +56,17 @@ module.exports = function(config) {
       },
       Chromium39: {
         base       : 'Custom',
-        parent     : 'ChromeHeadless',
+        parent     : 'ChromiumHeadless',
         displayName: 'Chromium 39.0.2171.99',
         flags      : [
           '--headless',
           '--incognito',
           // '--no-sandbox',
           // '--disable-setuid-sandbox',
-          // '--disable-gpu',
-          // '--disable-web-security',
-          // '--allow-cross-origin-auth-prompt',
-          // '--disable-site-isolation-trials',
+          '--disable-gpu',
+          '--disable-web-security',
+          '--allow-cross-origin-auth-prompt',
+          '--disable-site-isolation-trials',
           '--enable-precise-memory-info',
         ],
         DEFAULT_CMD: {
