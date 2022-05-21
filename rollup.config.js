@@ -9,6 +9,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import polyfills from 'rollup-plugin-node-polyfills'
 import inject from '@rollup/plugin-inject'
+import babel from '@rollup/plugin-babel'
 import path from "path"
 import pkg from './package.json'
 
@@ -110,7 +111,9 @@ const browserConfig = {
     replace({
       preventAssignment: true,
     }),
-    resolve({ browser: true }),
+    resolve({
+      browser: true,
+    }),
     commonjs({
       transformMixedEsModules: true,
     }),
@@ -120,11 +123,18 @@ const browserConfig = {
         target: 'es5',
       },
     }),
+    babel({
+      extensions  : ['.ts', '.js', '.cjs', '.mjs'],
+      babelHelpers: 'runtime',
+      exclude     : [
+        'node_modules/rollup*/**',
+        'node_modules/tslib/**',
+        'node_modules/@babel/**',
+        'node_modules/core-js*/**',
+      ],
+    }),
   ],
   onwarn: onwarnRollup,
-  // external: Object.keys(pkg.dependencies)
-  //   .concat(Object.keys(pkg.devDependencies))
-  //   .concat(require('module').builtinModules || Object.keys(process.binding('natives'))),
 }
 
 const browserTestsConfig = {
@@ -149,7 +159,10 @@ const browserTestsConfig = {
     replace({
       preventAssignment: true,
     }),
-    resolve({ browser: true, preferBuiltins: false }),
+    resolve({
+      browser: true,
+      preferBuiltins: false,
+    }),
     commonjs({
       transformMixedEsModules: true,
     }),
@@ -163,11 +176,18 @@ const browserTestsConfig = {
         target: 'es5',
       },
     }),
+    babel({
+      extensions  : ['.ts', '.js', '.cjs', '.mjs'],
+      babelHelpers: 'runtime',
+      exclude     : [
+        'node_modules/rollup*/**',
+        'node_modules/tslib/**',
+        'node_modules/@babel/**',
+        'node_modules/core-js*/**',
+      ],
+    }),
   ],
   onwarn: onwarnRollup,
-  // external: Object.keys(pkg.dependencies)
-  //   .concat(Object.keys(pkg.devDependencies))
-  //   .concat(require('module').builtinModules || Object.keys(process.binding('natives'))),
 }
 
 export default [

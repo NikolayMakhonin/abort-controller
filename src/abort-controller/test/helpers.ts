@@ -21,12 +21,12 @@ function concatMessages(...messages: string[]) {
   return messages.filter(o => o).join('; ')
 }
 
-const prevObjectsGlobalActual = new WeakSet()
-const prevObjectsGlobalExpected = new WeakSet()
+const prevObjectsGlobalActual = new Set()
+const prevObjectsGlobalExpected = new Set()
 
 type AssertValue = {
   value: any
-  prevObjects: WeakSet<any>
+  prevObjects: Set<any>
 }
 
 type AssertValuePrevCurrent = {
@@ -69,21 +69,21 @@ function createAssertValues(actualPrev, actualCurrent, expectedPrev, expectedCur
     actual: {
       prev: {
         value      : actualPrev,
-        prevObjects: new WeakSet(),
+        prevObjects: new Set(),
       },
       current: {
         value      : actualCurrent,
-        prevObjects: new WeakSet(),
+        prevObjects: new Set(),
       },
     },
     expected: {
       prev: {
         value      : expectedPrev,
-        prevObjects: new WeakSet(),
+        prevObjects: new Set(),
       },
       current: {
         value      : expectedCurrent,
-        prevObjects: new WeakSet(),
+        prevObjects: new Set(),
       },
     },
   }
@@ -274,6 +274,7 @@ function assertEqualsProperty(values: AssertValues, key, message: string) {
 function filterKey(key: string) {
   return key !== 'isTrusted'
     && key !== 'timeStamp'
+    && key !== 'stack'
     && !/_ERR$/.test(key)
 }
 
