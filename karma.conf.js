@@ -50,7 +50,7 @@ module.exports = function(config) {
           '--disable-site-isolation-trials',
         ],
         DEFAULT_CMD: {
-          win32: process.env.CHROMIUM_BIN,
+          linux: process.env.CHROMIUM_BIN,
         },
         ENV_CMD: null,
       },
