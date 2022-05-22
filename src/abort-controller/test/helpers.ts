@@ -278,6 +278,7 @@ function filterKey(object, key: string) {
   }
   if (object instanceof Error) {
     return key !== 'stack'
+      && key !== 'lineNumber'
       && !/_ERR$/.test(key)
   }
 

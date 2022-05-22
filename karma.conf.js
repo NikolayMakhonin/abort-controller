@@ -17,8 +17,8 @@ module.exports = function(config) {
       ]
       : [
         "ChromeLatest",
-        // "Chromium39",
-        // "FirefoxHeadless",
+        "Chromium39",
+        "FirefoxHeadless",
         // "Edge",
       ],
     files: ["dist/browser/browser.test.js"],

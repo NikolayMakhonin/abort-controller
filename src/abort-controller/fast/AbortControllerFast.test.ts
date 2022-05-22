@@ -20,7 +20,7 @@ Object.defineProperty(AbortControllerClass.prototype, 'abort', {
   writable: true,
 })
 
-xdescribe('abort-controller > AbortControllerFast > toAbortController', function () {
+describe('abort-controller > AbortControllerFast > toAbortController', function () {
   createAbortControllerEqualsTest({
     _this             : this,
     behavior          : true,
@@ -38,7 +38,7 @@ xdescribe('abort-controller > AbortControllerFast > toAbortController', function
   })
 })
 
-xdescribe('abort-controller > AbortControllerFast > toAbortControllerFast', function () {
+describe('abort-controller > AbortControllerFast > toAbortControllerFast', function () {
   createAbortControllerEqualsTest({
     _this             : this,
     behavior          : true,
@@ -46,6 +46,7 @@ xdescribe('abort-controller > AbortControllerFast > toAbortControllerFast', func
     equalsInstances   : true,
     AbortSignal1      : null,
     AbortController1  : (function AbortController() {
+      return new AbortControllerClass()
       const abortControllerSource = new AbortControllerClass()
       const abortControllerFast = toAbortControllerFast(abortControllerSource)
       const abortController: any = toAbortController(abortControllerFast)
@@ -57,7 +58,7 @@ xdescribe('abort-controller > AbortControllerFast > toAbortControllerFast', func
   })
 })
 
-xdescribe('behavior', function () {
+describe('behavior', function () {
   const onAbortArgs = []
   function onAbort(...args) {
     onAbortArgs.push([this, ...args])
