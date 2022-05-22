@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var abortController_EventTargetImpl = require('./EventTargetImpl.cjs');
+var abortController_original_EventTargetImpl = require('./EventTargetImpl.cjs');
 require('./helpers.cjs');
 
 const _EventTarget = (() => {
@@ -13,7 +13,7 @@ const _EventTarget = (() => {
         }
     }
     catch (_a) { }
-    return abortController_EventTargetImpl.EventTargetImpl;
+    return abortController_original_EventTargetImpl.EventTargetImpl;
 })();
 
 exports.EventTarget = _EventTarget;

@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="install:yarn" type="js.build_tools.npm" nameIsGenerated="true">
+    <package-json value="$PROJECT_DIR$/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="install:yarn" />
+    </scripts>
+    <node-interpreter value="E:/Program Files/nodejs/18.2.0/node" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

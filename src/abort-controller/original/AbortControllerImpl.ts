@@ -1,6 +1,6 @@
 import {abortSignalAbort, AbortSignalImpl, createAbortSignal} from './AbortSignalImpl'
 import {assertThis} from './helpers'
-import {IAbortController} from './contracts'
+import {IAbortController} from '../contracts'
 
 const kSignal = Symbol('kSignal')
 

@@ -2,9 +2,9 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var abortController_helpers = require('./helpers.cjs');
-var abortController_DOMException = require('./DOMException.cjs');
-var abortController_EventTarget = require('./EventTarget.cjs');
+var abortController_original_helpers = require('./helpers.cjs');
+var abortController_original_DOMException = require('./DOMException.cjs');
+var abortController_original_EventTarget = require('./EventTarget.cjs');
 require('./DOMExceptionImpl.cjs');
 require('./EventTargetImpl.cjs');
 
@@ -17,10 +17,10 @@ const _AbortSignal = function AbortSignal() {
     error.code = 'ERR_ILLEGAL_CONSTRUCTOR';
     throw error;
 };
-abortController_helpers.initClass(_AbortSignal, abortController_EventTarget.EventTarget);
+abortController_original_helpers.initClass(_AbortSignal, abortController_original_EventTarget.EventTarget);
 Object.defineProperty(_AbortSignal.prototype, 'aborted', {
     get: function () {
-        abortController_helpers.assertThis(this, _AbortSignal);
+        abortController_original_helpers.assertThis(this, _AbortSignal);
         return this[kAborted];
     },
     enumerable: false,
@@ -28,7 +28,7 @@ Object.defineProperty(_AbortSignal.prototype, 'aborted', {
 });
 Object.defineProperty(_AbortSignal.prototype, 'reason', {
     get: function () {
-        abortController_helpers.assertThis(this, _AbortSignal);
+        abortController_original_helpers.assertThis(this, _AbortSignal);
         return this[kReason];
     },
     enumerable: false,
@@ -36,7 +36,7 @@ Object.defineProperty(_AbortSignal.prototype, 'reason', {
 });
 Object.defineProperty(_AbortSignal.prototype, 'throwIfAborted', {
     value: function throwIfAborted() {
-        abortController_helpers.assertThis(this, _AbortSignal);
+        abortController_original_helpers.assertThis(this, _AbortSignal);
         if (this.aborted) {
             const reason = this.reason;
             throw reason;
@@ -67,7 +67,7 @@ Object.defineProperty(_AbortSignal.prototype, 'onabort', {
     configurable: true,
 });
 function createAbortSignal() {
-    const signal = new abortController_EventTarget.EventTarget();
+    const signal = new abortController_original_EventTarget.EventTarget();
     // eslint-disable-next-line new-cap
     Object.setPrototypeOf(signal, _AbortSignal.prototype);
     // ;(signal as any).constructor = EventTarget
@@ -79,7 +79,7 @@ function createAbortSignal() {
 }
 function abortSignalAbort(signal, reason) {
     if (typeof reason === 'undefined') {
-        reason = new abortController_DOMException.DOMException('This operation was aborted', 'AbortError');
+        reason = new abortController_original_DOMException.DOMException('This operation was aborted', 'AbortError');
     }
     if (signal[kAborted]) {
         return;

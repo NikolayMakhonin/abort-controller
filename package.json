@@ -26,6 +26,7 @@
     "access": "public"
   },
   "scripts": {
+    "install:yarn": "yarn install",
     "prepublishOnly": "yarn build && yarn run test:ci",
     "lint": "eslint \"./src/**/*.{ts,js,cjs,mjs}\"",
     "lint:fix": "eslint --fix \"./src/**/*.{ts,js,cjs,mjs}\"",

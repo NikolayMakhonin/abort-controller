@@ -1,59 +1,99 @@
-!function(t){"use strict";function e(t,e){
+!function(t){"use strict"
+;var o="undefined"!=typeof AbortSignal?AbortSignal:void 0,r="undefined"!=typeof AbortController?AbortController:void 0
+;function n(t,o){
 if(!t||t.constructor.prototype===t){
-var o=new TypeError('Value of "this" must be of type '.concat(e.name))
-;throw o.code="ERR_INVALID_THIS",o}}
-function o(t,e){function o(){this.constructor=t}
-Object.setPrototypeOf(t,e),null==e?t.prototype=Object.create(e):(o.prototype=e.prototype,
-t.prototype=new o)}var r=function(t,e){
-return r=Object.setPrototypeOf||{__proto__:[]
-}instanceof Array&&function(t,e){t.__proto__=e
-}||function(t,e){
-for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])
-},r(t,e)};var n,i=function(t){function e(e,o){
-var r=t.call(this,e)||this;return r.name=o,r}
-return function(t,e){
-if("function"!=typeof e&&null!==e)throw new TypeError("Class extends value "+String(e)+" is not a constructor or null")
-;function o(){this.constructor=t}
-r(t,e),t.prototype=null===e?Object.create(e):(o.prototype=e.prototype,
-new o)}(e,t),e}(Error),c=function(){try{
+var r=new TypeError('Value of "this" must be of type '.concat(o.name))
+;throw r.code="ERR_INVALID_THIS",r}}
+function e(t,o){function r(){this.constructor=t}
+Object.setPrototypeOf(t,o),null==o?t.prototype=Object.create(o):(r.prototype=o.prototype,
+t.prototype=new r)}var i=function(t,o){
+return i=Object.setPrototypeOf||{__proto__:[]
+}instanceof Array&&function(t,o){t.__proto__=o
+}||function(t,o){
+for(var r in o)Object.prototype.hasOwnProperty.call(o,r)&&(t[r]=o[r])
+},i(t,o)};function a(t,o){
+if("function"!=typeof o&&null!==o)throw new TypeError("Class extends value "+String(o)+" is not a constructor or null")
+;function r(){this.constructor=t}
+i(t,o),t.prototype=null===o?Object.create(o):(r.prototype=o.prototype,
+new r)}var s,c=function(t){function o(o,r){
+var n=t.call(this,o)||this;return n.name=r,n}
+return a(o,t),o}(Error),u=function(){try{
 if("undefined"!=typeof DOMException)return new DOMException,
-DOMException}catch(t){}return i}()
-;"undefined"!=typeof window&&o(n=function(){
+DOMException}catch(t){}return c}()
+;"undefined"!=typeof window&&e(s=function(){
 return document.createDocumentFragment()
-},DocumentFragment);var u=function(){try{
+},DocumentFragment);var l=function(){try{
 if("undefined"!=typeof EventTarget)return new EventTarget,
-EventTarget}catch(t){}return n
-}(),a=Symbol("kAborted"),p=Symbol("kReason"),f=Symbol("kOnAbort"),s=function(){
+EventTarget}catch(t){}return s
+}(),f=Symbol("kAborted"),b=Symbol("kReason"),p=Symbol("kOnAbort"),h=function(){
 var t=new TypeError("Illegal constructor")
 ;throw t.code="ERR_ILLEGAL_CONSTRUCTOR",t}
-;o(s,u),Object.defineProperty(s.prototype,"aborted",{
-get:function(){return e(this,s),this[a]},
+;e(h,l),Object.defineProperty(h.prototype,"aborted",{
+get:function(){return n(this,h),this[f]},
 enumerable:!1,configurable:!0
-}),Object.defineProperty(s.prototype,"reason",{
-get:function(){return e(this,s),this[p]},
+}),Object.defineProperty(h.prototype,"reason",{
+get:function(){return n(this,h),this[b]},
 enumerable:!1,configurable:!0
-}),Object.defineProperty(s.prototype,"throwIfAborted",{
+}),Object.defineProperty(h.prototype,"throwIfAborted",{
 value:function(){
-if(e(this,s),this.aborted)throw this.reason},
+if(n(this,h),this.aborted)throw this.reason},
 writable:!0,enumerable:!1,configurable:!0
-}),Object.defineProperty(s.prototype,"onabort",{
-get:function(){return this[f]||null},
+}),Object.defineProperty(h.prototype,"onabort",{
+get:function(){return this[p]||null},
 set:function(t){
-this[f]!==t&&(this[f]&&this.removeEventListener("abort",this[f]),
-this[f]=t,this[f]&&this.addEventListener("abort",this[f]))
+this[p]!==t&&(this[p]&&this.removeEventListener("abort",this[p]),
+this[p]=t,this[p]&&this.addEventListener("abort",this[p]))
 },enumerable:!1,configurable:!0})
-;var l=Symbol("kSignal"),b=function(){
+;var d=Symbol("kSignal"),y=function(){
 function t(){var t
-;this[l]=(t=new u,Object.setPrototypeOf(t,s.prototype),t[a]=!1,
-t[p]=void 0,t[f]=null,t)}
+;this[d]=(t=new l,Object.setPrototypeOf(t,h.prototype),t[f]=!1,
+t[b]=void 0,t[p]=null,t)}
 return Object.defineProperty(t.prototype,"signal",{
-get:function(){return e(this,t),this[l]},
+get:function(){return n(this,t),this[d]},
 enumerable:!1,configurable:!0
 }),t.prototype.abort=function(o){
-e(this,t),function(t,e){
-void 0===e&&(e=new c("This operation was aborted","AbortError")),
-t[a]||(t[p]=e,t[a]=!0,
+n(this,t),function(t,o){
+void 0===o&&(o=new u("This operation was aborted","AbortError")),
+t[f]||(t[b]=o,t[f]=!0,
 t.dispatchEvent(new Event("abort")))
-}(this.signal,o)},t}()
-;t.AbortControllerImpl=b,Object.defineProperty(t,"__esModule",{
-value:!0})}({});
+}(this.signal,o)},t
+}(),v=function(){},g=function(){function t(){
+this.aborted=!1,this.reason=void 0,
+this._callbacks=void 0}
+return t.prototype.subscribe=function(t){
+var o,r=this
+;if(null===(o=this._callbacks)||void 0===o?void 0:o.has(t))throw new Error("Already subscribed: "+t)
+;return this.aborted?(t.call(this,this.reason),
+v):(this._callbacks||(this._callbacks=new Set),
+this._callbacks.add(t),function(){var o
+;null===(o=r._callbacks)||void 0===o||o.delete(t)
+})},t.prototype.abort=function(t){var o,r=this
+;this.aborted=!0,this.reason=t,null===(o=this._callbacks)||void 0===o||o.forEach((function(t){
+t.call(r,r.reason)})),this._callbacks=void 0
+},t.prototype.throwIfAborted=function(){
+if(this.aborted)throw this.reason},t
+}(),w=function(t){function o(r,n){
+var e=t.call(this,r)||this
+;return Object.setPrototypeOf(e,o.prototype),e.reason=n,
+e.name="AbortError",e}return a(o,t),o
+}(Error),E=function(){function t(){
+this.signal=new g}
+return t.prototype.abort=function(t){
+this.signal.aborted||(t instanceof Error||(t=new w("Aborted"+(void 0===t?"":" with reason: "+(null==t?void 0:t.toString())),t)),
+this.signal.abort(t))},t}()
+;t.AbortControllerClass=r,t.AbortControllerFast=E,t.AbortControllerImpl=y,
+t.AbortSignalClass=o,
+t.toAbortController=function(t){var o=new y
+;return t.signal.subscribe((function(t){
+t instanceof w&&(t=t.reason),o.abort(t)})),o
+},t.toAbortControllerFast=function(t){var o=new E
+;return t.signal.addEventListener("abort",(function(t){
+o.abort(this.reason)})),o
+},t.toAbortSignal=function(t){var o=new y
+;return t.subscribe((function(t){o.abort(t)
+})),o.signal},t.toAbortSignalFast=function(t){
+var o=new E
+;return t.addEventListener("abort",(function(t){
+o.abort(t)})),o.signal
+},Object.defineProperty(t,"__esModule",{value:!0})
+}({});

@@ -1,6 +1,6 @@
 /* eslint-disable no-self-assign,no-new,new-cap */
 import {EventTarget as EventTargetImpl} from './EventTarget'
-import {getError, isLatestNodeVersion, processVersion, test} from './test/helpers'
+import {getError, isLatestNodeVersion, processVersion, test} from '../test/helpers'
 
 describe('abort-controller > EventTarget', function () {
   this.timeout(60000)
