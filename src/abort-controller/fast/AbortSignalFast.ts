@@ -13,6 +13,10 @@ export class AbortSignalFast implements IAbortSignalFastImpl {
   }
 
   subscribe(callback: Callback<this>): IUnsubscribe {
+    if (this._callbacks?.has(callback)) {
+      throw new Error('Already subscribed: ' + callback)
+    }
+
     if (this.aborted) {
       callback.call(this, this.reason)
       return emptyFunc
@@ -24,7 +28,7 @@ export class AbortSignalFast implements IAbortSignalFastImpl {
     this._callbacks.add(callback)
 
     return () => {
-      this._callbacks.delete(callback)
+      this._callbacks?.delete(callback)
     }
   }
 

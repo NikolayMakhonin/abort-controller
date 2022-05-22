@@ -9,12 +9,15 @@ export class AbortControllerFast implements IAbortControllerFast {
     this.signal = new AbortSignalFast()
   }
 
-  abort(reason: any): void {
+  abort(reason?: any): void {
     if (this.signal.aborted) {
       return
     }
     if (!(reason instanceof Error)) {
-      reason = new AbortError('Aborted with reason: ' + reason?.toString(), reason)
+      reason = new AbortError(
+        'Aborted' + (typeof reason === 'undefined' ? '' : ' with reason: ' + reason?.toString()),
+        reason,
+      )
     }
     (this.signal as IAbortSignalFastImpl).abort(reason)
   }

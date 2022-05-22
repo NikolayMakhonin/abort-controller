@@ -1,7 +1,8 @@
 import { calcPerformance } from 'rdtsc'
 import {AbortControllerImpl} from './AbortControllerImpl'
 import {isLatestNodeVersion} from '../test/helpers'
-import {AbortControllerClass, IAbortController} from '../contracts'
+import {IAbortController} from '../contracts'
+import {AbortControllerClass} from '../test/contracts'
 
 describe('abort-controller > AbortController', function () {
   this.timeout(600000)

@@ -2,7 +2,8 @@
 import {createAbortControllerEqualsTest} from '../test/createAbortControllerEqualsTest'
 import {AbortControllerFast} from './AbortControllerFast'
 import {toAbortController, toAbortControllerFast} from './wrappers'
-import {AbortControllerClass} from '../contracts'
+import {AbortControllerClass} from '../test/contracts'
+import {getError} from '../test/helpers'
 
 const kSource = Symbol('kFast')
 const kAborting = Symbol('kAborting')
@@ -19,7 +20,7 @@ Object.defineProperty(AbortControllerClass.prototype, 'abort', {
   writable: true,
 })
 
-describe('abort-controller > AbortControllerFast > toAbortController', function () {
+xdescribe('abort-controller > AbortControllerFast > toAbortController', function () {
   createAbortControllerEqualsTest({
     _this             : this,
     behavior          : true,
@@ -37,7 +38,7 @@ describe('abort-controller > AbortControllerFast > toAbortController', function 
   })
 })
 
-describe('abort-controller > AbortControllerFast > toAbortControllerFast', function () {
+xdescribe('abort-controller > AbortControllerFast > toAbortControllerFast', function () {
   createAbortControllerEqualsTest({
     _this             : this,
     behavior          : true,
@@ -56,17 +57,112 @@ describe('abort-controller > AbortControllerFast > toAbortControllerFast', funct
   })
 })
 
-describe('abort-controller > AbortControllerFast > behavior', function () {
-  createAbortControllerEqualsTest({
-    _this             : this,
-    behavior          : true,
-    equalsConstructors: false,
-    equalsInstances   : false,
-    AbortSignal1      : null,
-    AbortController1  : (function AbortController() {
-      return new AbortControllerFast()
-    }) as any,
-    AbortSignal2    : null,
-    AbortController2: null,
+xdescribe('behavior', function () {
+  const onAbortArgs = []
+  function onAbort(...args) {
+    onAbortArgs.push([this, ...args])
+  }
+
+  it('abort undefined', function () {
+    onAbortArgs.length = 0
+    const abortController = new AbortControllerFast()
+    assert.ok(abortController.signal)
+    assert.strictEqual(abortController.signal.aborted, false)
+    assert.strictEqual(abortController.signal.reason, void 0)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), void 0)
+    abortController.abort()
+    assert.strictEqual(abortController.signal.aborted, true)
+    assert.ok(abortController.signal.reason instanceof Error)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
+    abortController.signal.subscribe(onAbort)
+    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, abortController.signal.reason]])
+    onAbortArgs.length = 0
+    abortController.abort()
+    assert.deepStrictEqual(onAbortArgs, [])
+    abortController.abort('abort')
+    assert.deepStrictEqual(onAbortArgs, [])
+    assert.strictEqual(abortController.signal.aborted, true)
+    assert.ok(abortController.signal.reason instanceof Error)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
+  })
+
+  it('abort reason', function () {
+    const reason = Math.random()
+    onAbortArgs.length = 0
+    const abortController = new AbortControllerFast()
+    assert.ok(abortController.signal)
+    assert.strictEqual(abortController.signal.aborted, false)
+    assert.strictEqual(abortController.signal.reason, void 0)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), void 0)
+    abortController.abort(reason)
+    assert.strictEqual(abortController.signal.aborted, true)
+    assert.ok(abortController.signal.reason instanceof Error)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
+    abortController.signal.subscribe(onAbort)
+    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, abortController.signal.reason]])
+    onAbortArgs.length = 0
+    abortController.abort()
+    assert.deepStrictEqual(onAbortArgs, [])
+    abortController.abort('abort')
+    assert.deepStrictEqual(onAbortArgs, [])
+    assert.strictEqual(abortController.signal.aborted, true)
+    assert.ok(abortController.signal.reason instanceof Error)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
+  })
+
+  it('abort unsubscribe', function () {
+    const reason = new Error(Math.random() + '')
+    onAbortArgs.length = 0
+    const abortController = new AbortControllerFast()
+    assert.ok(abortController.signal)
+    assert.strictEqual(abortController.signal.aborted, false)
+    assert.strictEqual(abortController.signal.reason, void 0)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), void 0)
+    abortController.signal.subscribe(onAbort)()
+    abortController.abort(reason)
+    assert.strictEqual(abortController.signal.aborted, true)
+    assert.strictEqual(abortController.signal.reason, reason)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), reason)
+    abortController.signal.subscribe(onAbort)
+    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, reason]])
+    onAbortArgs.length = 0
+    abortController.abort()
+    assert.deepStrictEqual(onAbortArgs, [])
+    abortController.abort('abort')
+    assert.deepStrictEqual(onAbortArgs, [])
+    assert.strictEqual(abortController.signal.aborted, true)
+    assert.strictEqual(abortController.signal.reason, reason)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), reason)
+  })
+
+  it('abort subscribe', function () {
+    const reason = new Error(Math.random() + '')
+    onAbortArgs.length = 0
+    const abortController = new AbortControllerFast()
+    assert.ok(abortController.signal)
+    assert.strictEqual(abortController.signal.aborted, false)
+    assert.strictEqual(abortController.signal.reason, void 0)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), void 0)
+    abortController.signal.subscribe(onAbort)
+    assert.ok(getError(() => abortController.signal.subscribe(onAbort)) instanceof Error)
+    abortController.abort(reason)
+    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, reason]])
+    onAbortArgs.length = 0
+    assert.strictEqual(abortController.signal.aborted, true)
+    assert.strictEqual(abortController.signal.reason, reason)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), reason)
+    abortController.signal.subscribe(function() { onAbort.apply(this, arguments) })
+    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, reason]])
+    onAbortArgs.length = 0
+    abortController.signal.subscribe(onAbort)
+    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, reason]])
+    onAbortArgs.length = 0
+    abortController.abort()
+    assert.deepStrictEqual(onAbortArgs, [])
+    abortController.abort('abort')
+    assert.deepStrictEqual(onAbortArgs, [])
+    assert.strictEqual(abortController.signal.aborted, true)
+    assert.strictEqual(abortController.signal.reason, reason)
+    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), reason)
   })
 })

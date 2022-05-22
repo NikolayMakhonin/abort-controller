@@ -4,6 +4,12 @@ console.log('ENV_VARS', process.env)
 
 module.exports = function(config) {
   config.set({
+    browserNoActivityTimeout: 300000,
+    browserDisconnectTimeout: 300000,
+    browserSocketTimeout    : 300000,
+    // captureTimeout: 900000,
+    // processKillTimeout: 2000,
+
     browsers: process.env.GITHUB_WORKFLOW
       ? [
         "ChromeLatest",
@@ -11,9 +17,9 @@ module.exports = function(config) {
       ]
       : [
         "ChromeLatest",
-        "Chromium39",
-        "Firefox",
-        "Edge",
+        // "Chromium39",
+        // "FirefoxHeadless",
+        // "Edge",
       ],
     files: ["dist/browser/browser.test.js"],
     frameworks: ["mocha"],

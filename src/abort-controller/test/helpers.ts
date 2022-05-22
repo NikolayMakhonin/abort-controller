@@ -3,7 +3,7 @@
 export const processVersion = typeof process !== 'undefined' ? process.version : void 0
 export const isLatestNodeVersion = /v?18\./.test(processVersion)
 
-const symbolUndefined = Symbol('undefined')
+export const ERROR_UNDEFINED = Symbol('undefined')
 export function getError(func: () => void) {
   let error
   try {
@@ -11,7 +11,7 @@ export function getError(func: () => void) {
   } catch (err) {
     error = err
     if (typeof error === 'undefined') {
-      error = symbolUndefined
+      error = ERROR_UNDEFINED
     }
   }
   return error

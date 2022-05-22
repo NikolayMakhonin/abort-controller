@@ -3,7 +3,7 @@ import {AbortControllerImpl} from './AbortControllerImpl'
 import {AbortSignalImpl} from './AbortSignalImpl'
 import {isLatestNodeVersion} from '../test/helpers'
 import {createAbortControllerEqualsTest} from '../test/createAbortControllerEqualsTest'
-import {AbortControllerClass, AbortSignalClass} from '../contracts'
+import {AbortControllerClass, AbortSignalClass} from '../test/contracts'
 
 describe('abort-controller > AbortController', function () {
   createAbortControllerEqualsTest({

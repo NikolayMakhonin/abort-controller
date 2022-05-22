@@ -36,5 +36,5 @@ declare const AbortSignal: {
 
 export type IAbortSignal = AbortSignal
 export type IAbortController = AbortController
-export const AbortSignalClass = AbortSignal
-export const AbortControllerClass = AbortController
+export const AbortSignalClass = typeof AbortSignal !== 'undefined' ? AbortSignal : void 0
+export const AbortControllerClass = typeof AbortController !== 'undefined' ? AbortController : void 0
