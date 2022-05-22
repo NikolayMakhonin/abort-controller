@@ -27,18 +27,18 @@ export function createAbortControllerEqualsTest({
     console.log('isLatestNodeVersion = ' + isLatestNodeVersion)
 
     test({
-      repeat: 2,
-      message: 'AbortController',
-      actual: AbortController1,
+      repeat  : 2,
+      message : 'AbortController',
+      actual  : AbortController1,
       expected: AbortController1,
-      func: (o) => new o(),
+      func    : (o) => new o(),
     })
     test({
-      repeat: 2,
-      message: 'AbortController',
-      actual: AbortController2,
+      repeat  : 2,
+      message : 'AbortController',
+      actual  : AbortController2,
       expected: AbortController2,
-      func: (o) => new o(),
+      func    : (o) => new o(),
     })
   })
 
@@ -55,18 +55,18 @@ export function createAbortControllerEqualsTest({
     describe('equalsConstructors', function () {
       it('AbortSignal', function () {
         test({
-          repeat: 2,
-          message: 'AbortSignal',
-          actual: AbortSignal1,
+          repeat  : 2,
+          message : 'AbortSignal',
+          actual  : AbortSignal1,
           expected: AbortSignal2,
-          func: o => o,
+          func    : o => o,
         })
         test({
-          repeat: 2,
-          message: 'new AbortSignal',
-          actual: AbortSignal1,
+          repeat  : 2,
+          message : 'new AbortSignal',
+          actual  : AbortSignal1,
           expected: AbortSignal2,
-          func: (o) => getError(() => {
+          func    : (o) => getError(() => {
             new o()
           }),
         })
@@ -74,18 +74,18 @@ export function createAbortControllerEqualsTest({
 
       it('AbortController', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => o,
+          func    : (o) => o,
         })
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => getError(() => {
+          func    : (o) => getError(() => {
             new o()
           }),
         })
@@ -97,21 +97,21 @@ export function createAbortControllerEqualsTest({
     describe('equalsInstances', function () {
       it('AbortController', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => new o(),
+          func    : (o) => new o(),
         })
       })
 
       it('AbortSignal subscribe', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => {
+          func    : (o) => {
             const abortController = new o()
             const onAbortArgs = []
 
@@ -130,11 +130,11 @@ export function createAbortControllerEqualsTest({
 
       it('AbortSignal subscribe abort undefined', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => {
+          func    : (o) => {
             const abortController = new o()
             const onAbortArgs = []
 
@@ -143,6 +143,7 @@ export function createAbortControllerEqualsTest({
             }
 
             abortController.signal.addEventListener('abort', onAbort)
+            abortController.abort()
             abortController.abort()
             return {
               abortController,
@@ -154,11 +155,11 @@ export function createAbortControllerEqualsTest({
 
       it('AbortSignal subscribe abort reason', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => {
+          func    : (o) => {
             const abortController = new o()
             const onAbortArgs = []
 
@@ -178,11 +179,11 @@ export function createAbortControllerEqualsTest({
 
       it('AbortSignal subscribe abort multiple', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => {
+          func    : (o) => {
             const abortController = new o()
             const onAbortArgs = []
 
@@ -203,11 +204,11 @@ export function createAbortControllerEqualsTest({
 
       it('AbortSignal unsubscribe', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => {
+          func    : (o) => {
             const abortController = new o()
             const onAbortArgs = []
 
@@ -227,11 +228,11 @@ export function createAbortControllerEqualsTest({
 
       it('AbortSignal unsubscribe abort', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => {
+          func    : (o) => {
             const abortController = new o()
             const onAbortArgs = []
 
@@ -252,11 +253,11 @@ export function createAbortControllerEqualsTest({
 
       it('AbortSignal unsubscribe abort multiple', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => {
+          func    : (o) => {
             const abortController = new o()
             const onAbortArgs = []
 
@@ -278,11 +279,11 @@ export function createAbortControllerEqualsTest({
 
       it('AbortSignal throwIfAborted undefined', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => {
+          func    : (o) => {
             const abortController = new o()
             const onAbortArgs = []
 
@@ -306,11 +307,11 @@ export function createAbortControllerEqualsTest({
 
       it('AbortSignal throwIfAborted reason', function () {
         test({
-          repeat: 2,
-          message: 'AbortController',
-          actual: AbortController1,
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
           expected: AbortController2,
-          func: (o) => {
+          func    : (o) => {
             const abortController = new o()
             const onAbortArgs = []
 

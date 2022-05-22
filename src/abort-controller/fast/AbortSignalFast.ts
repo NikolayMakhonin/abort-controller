@@ -29,10 +29,6 @@ export class AbortSignalFast implements IAbortSignalFastImpl {
   }
 
   abort(reason: TAbortReason): void {
-    if (this.aborted) {
-      return
-    }
-
     this.aborted = true
     this.reason = reason
 

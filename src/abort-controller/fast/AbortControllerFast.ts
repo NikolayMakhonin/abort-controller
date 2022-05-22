@@ -10,6 +10,9 @@ export class AbortControllerFast implements IAbortControllerFast {
   }
 
   abort(reason: any): void {
+    if (this.signal.aborted) {
+      return
+    }
     if (!(reason instanceof Error)) {
       reason = new AbortError('Aborted with reason: ' + reason?.toString(), reason)
     }
