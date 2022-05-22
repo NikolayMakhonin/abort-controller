@@ -1,8 +1,8 @@
 /* eslint-disable func-name-matching */
 import {assertThis, initClass} from './helpers'
 import {DOMException} from './DOMException'
-import {IAbortSignal} from './contracts'
 import {EventTarget} from './EventTarget'
+import {IAbortSignal} from '../contracts'
 
 const kAborted = Symbol('kAborted')
 const kReason = Symbol('kReason')

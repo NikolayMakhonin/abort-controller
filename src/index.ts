@@ -1,7 +1,7 @@
 // import {AbortControllerImpl} from './abort-controller/AbortControllerImpl'
 // import {EventTarget} from './abort-controller/EventTarget'
 
-export { AbortControllerImpl } from './abort-controller/AbortControllerImpl'
+export { AbortControllerImpl } from './abort-controller/original/AbortControllerImpl'
 
 // debugger
 // const eventTarget = new EventTarget()
