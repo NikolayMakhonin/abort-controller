@@ -1,7 +1,7 @@
 /* eslint-disable no-self-assign,guard-for-in */
 
 export const processVersion = typeof process !== 'undefined' ? process.version : void 0
-export const isLatestNodeVersion = /v?18\./.test(process.version)
+export const isLatestNodeVersion = /v?18\./.test(processVersion)
 
 const symbolUndefined = Symbol('undefined')
 export function getError(func: () => void) {
@@ -21,12 +21,12 @@ function concatMessages(...messages: string[]) {
   return messages.filter(o => o).join('; ')
 }
 
-const prevObjectsGlobalActual = new WeakSet()
-const prevObjectsGlobalExpected = new WeakSet()
+const prevObjectsGlobalActual = new Set()
+const prevObjectsGlobalExpected = new Set()
 
 type AssertValue = {
   value: any
-  prevObjects: WeakSet<any>
+  prevObjects: Set<any>
 }
 
 type AssertValuePrevCurrent = {
@@ -69,21 +69,21 @@ function createAssertValues(actualPrev, actualCurrent, expectedPrev, expectedCur
     actual: {
       prev: {
         value      : actualPrev,
-        prevObjects: new WeakSet(),
+        prevObjects: new Set(),
       },
       current: {
         value      : actualCurrent,
-        prevObjects: new WeakSet(),
+        prevObjects: new Set(),
       },
     },
     expected: {
       prev: {
         value      : expectedPrev,
-        prevObjects: new WeakSet(),
+        prevObjects: new Set(),
       },
       current: {
         value      : expectedCurrent,
-        prevObjects: new WeakSet(),
+        prevObjects: new Set(),
       },
     },
   }
@@ -271,10 +271,23 @@ function assertEqualsProperty(values: AssertValues, key, message: string) {
   assertEqualsValues(clone, messageSet)
 }
 
-function filterKey(key: string) {
-  return key !== 'isTrusted'
-    && key !== 'timeStamp'
-    && !/_ERR$/.test(key)
+function filterKey(object, key: string) {
+  if (object instanceof Event) {
+    return key !== 'isTrusted'
+      && key !== 'timeStamp'
+  }
+  if (object instanceof Error) {
+    return key !== 'stack'
+      && !/_ERR$/.test(key)
+  }
+
+  if (typeof Node !== 'undefined' && object instanceof Node) {
+    return key === 'aborted'
+      || key === 'reason'
+      || key === 'onabort'
+  }
+
+  return true
 }
 
 function getAdditionalKeys(value): string[] {
@@ -317,9 +330,10 @@ function assertEqualsProperties(values: AssertValues, message: string) {
   for (const key in values.actual.current.value) {
     keys.add(key)
   }
-  Array.from(keys).filter(filterKey).forEach(key => {
-    assertEqualsProperty(values, key, message)
-  })
+  Array.from(keys).filter(key => filterKey(values.expected.current.value, key))
+    .forEach(key => {
+      assertEqualsProperty(values, key, message)
+    })
 
   const clone = assertValuesClone(values)
   clone.actual.prev.value = clone.actual.prev.value && Object.keys(clone.actual.prev.value)

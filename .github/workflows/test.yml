@@ -16,16 +16,44 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - name: Run tests
-        shell: bash
+
+      - name: Install chromium dependencies
+        if: ${{ matrix.node-version == '18.x' }}
+        run: |
+          sudo apt install libudev-dev libgtk2.0-0
+          sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0
+
+      - name: Install chromium
+        if: ${{ matrix.node-version == '18.x' }}
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
+
+      - name: Install node modules and build
         run: |
           yarn install --frozen-lockfile
-          yarn run ci:test
+          yarn run build
+
+      - name: Karma tests
+        if: ${{ matrix.node-version == '18.x' }}
+        uses: GabrielBB/xvfb-action@v1
+        env:
+          CHROMIUM_BIN: /opt/hostedtoolcache/chromium/297097/x64/chrome
+        with:
+          run: |
+            yarn run test:karma
+
+      - name: Mocha tests
+        shell: bash
+        run: |
+          yarn run test:mocha:ci
+
       - name: Coveralls
         if: ${{ matrix.node-version == '18.x' }}
         env:

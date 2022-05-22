@@ -6,7 +6,7 @@ export { AbortControllerImpl } from './abort-controller/AbortControllerImpl'
 // debugger
 // const eventTarget = new EventTarget()
 // eventTarget.addEventListener('abort', () => {})
-// const abortController = new AbortControllerImpl()
+// const abortController: any = new AbortControllerImpl()
 // abortController.signal.addEventListener('abort', function (...args) {
 //   console.log('event1', [this], this.aborted, this.reason, ...args)
 // })
