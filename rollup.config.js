@@ -188,9 +188,9 @@ const browserTestsConfig = {
         target: 'es5',
       },
     }),
-    // istanbul({
-    //   ...nycrc,
-    // }),
+    istanbul({
+      ...nycrc,
+    }),
     babel({
       extensions  : ['.ts', '.js', '.cjs', '.mjs'],
       babelHelpers: 'runtime',

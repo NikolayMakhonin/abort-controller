@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var abortController_DOMExceptionImpl = require('./DOMExceptionImpl.cjs');
+var abortController_original_DOMExceptionImpl = require('./DOMExceptionImpl.cjs');
 
 const _DOMException = (() => {
     try {
@@ -12,7 +12,7 @@ const _DOMException = (() => {
         }
     }
     catch (_a) { }
-    return abortController_DOMExceptionImpl.DOMExceptionImpl;
+    return abortController_original_DOMExceptionImpl.DOMExceptionImpl;
 })();
 
 exports.DOMException = _DOMException;

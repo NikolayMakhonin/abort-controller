@@ -1,4 +1,4 @@
-import { IAbortSignal } from './contracts';
+import { IAbortSignal } from '../contracts';
 interface _AbortSignal extends IAbortSignal {
 }
 declare const _AbortSignal: {

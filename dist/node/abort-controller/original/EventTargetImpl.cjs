@@ -2,12 +2,12 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var abortController_helpers = require('./helpers.cjs');
+var abortController_original_helpers = require('./helpers.cjs');
 
 exports.EventTargetImpl = void 0;
 if (typeof window !== 'undefined') {
     exports.EventTargetImpl = function EventTarget() {
         return document.createDocumentFragment();
     };
-    abortController_helpers.initClass(exports.EventTargetImpl, DocumentFragment);
+    abortController_original_helpers.initClass(exports.EventTargetImpl, DocumentFragment);
 }
