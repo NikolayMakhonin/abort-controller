@@ -1,5 +1,7 @@
+/// <reference lib="dom" />
 /* eslint-disable no-self-assign,no-new,new-cap */
 import {getError, isLatestNodeVersion, processVersion, test} from './helpers'
+import {AbortControllerClass, AbortSignalClass} from '../contracts'
 
 export function createAbortControllerEqualsTest({
   _this,
@@ -15,10 +17,10 @@ export function createAbortControllerEqualsTest({
   behavior: boolean,
   equalsConstructors: boolean,
   equalsInstances: boolean,
-  AbortSignal1: typeof AbortSignal,
-  AbortController1: typeof AbortController,
-  AbortSignal2: typeof AbortSignal,
-  AbortController2: typeof AbortController,
+  AbortSignal1: typeof AbortSignalClass,
+  AbortController1: typeof AbortControllerClass,
+  AbortSignal2: typeof AbortSignalClass,
+  AbortController2: typeof AbortControllerClass,
 }) {
   _this.timeout(60000)
 
@@ -26,27 +28,33 @@ export function createAbortControllerEqualsTest({
     console.log('process.version = ' + processVersion)
     console.log('isLatestNodeVersion = ' + isLatestNodeVersion)
 
-    test({
-      repeat  : 2,
-      message : 'AbortController',
-      actual  : AbortController1,
-      expected: AbortController1,
-      func    : (o) => new o(),
-    })
-    test({
-      repeat  : 2,
-      message : 'AbortController',
-      actual  : AbortController2,
-      expected: AbortController2,
-      func    : (o) => new o(),
-    })
+    if (AbortController1) {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController1,
+        expected: AbortController1,
+        func    : (o) => new o(),
+      })
+    }
+    if (AbortController2) {
+      test({
+        repeat  : 2,
+        message : 'AbortController',
+        actual  : AbortController2,
+        expected: AbortController2,
+        func    : (o) => new o(),
+      })
+    }
   })
 
   if (behavior) {
     describe('behavior', function () {
       it('base', function () {
         const abortController = new AbortController1()
-        // TODO
+        assert.ok(abortController.signal)
+        assert.strictEqual(abortController.signal.aborted, false)
+        assert.strictEqual(abortController.signal.reason, void 0)
       })
     })
   }

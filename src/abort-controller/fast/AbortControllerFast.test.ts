@@ -33,7 +33,7 @@ describe('abort-controller > AbortControllerFast > toAbortController', function 
       return abortController
     }) as any,
     AbortSignal2    : null,
-    AbortController2: AbortController,
+    AbortController2: AbortControllerClass,
   })
 })
 
@@ -52,6 +52,21 @@ describe('abort-controller > AbortControllerFast > toAbortControllerFast', funct
       return abortController
     }) as any,
     AbortSignal2    : null,
-    AbortController2: AbortController,
+    AbortController2: AbortControllerClass,
+  })
+})
+
+describe('abort-controller > AbortControllerFast > behavior', function () {
+  createAbortControllerEqualsTest({
+    _this             : this,
+    behavior          : true,
+    equalsConstructors: false,
+    equalsInstances   : false,
+    AbortSignal1      : null,
+    AbortController1  : (function AbortController() {
+      return new AbortControllerFast()
+    }) as any,
+    AbortSignal2    : null,
+    AbortController2: null,
   })
 })
