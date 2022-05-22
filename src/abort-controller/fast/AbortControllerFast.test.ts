@@ -2,13 +2,13 @@
 import {createAbortControllerEqualsTest} from '../test/createAbortControllerEqualsTest'
 import {AbortControllerFast} from './AbortControllerFast'
 import {toAbortController, toAbortControllerFast} from './wrappers'
-import {AbortControllerClass} from '../test/contracts'
 import {getError} from '../test/helpers'
+import {AbortControllerImpl} from '../original'
 
 const kSource = Symbol('kFast')
 const kAborting = Symbol('kAborting')
-const abortOrig = AbortControllerClass.prototype.abort
-Object.defineProperty(AbortControllerClass.prototype, 'abort', {
+const abortOrig = AbortControllerImpl.prototype.abort
+Object.defineProperty(AbortControllerImpl.prototype, 'abort', {
   value: function abort(reason: any) {
     if (!this[kAborting] && this[kSource]) {
       this[kAborting] = !this[kSource].aborted
@@ -34,7 +34,7 @@ describe('abort-controller > AbortControllerFast > toAbortController', function 
       return abortController
     }) as any,
     AbortSignal2    : null,
-    AbortController2: AbortControllerClass,
+    AbortController2: AbortControllerImpl,
   })
 })
 
@@ -46,15 +46,15 @@ describe('abort-controller > AbortControllerFast > toAbortControllerFast', funct
     equalsInstances   : true,
     AbortSignal1      : null,
     AbortController1  : (function AbortController() {
-      return new AbortControllerClass()
-      const abortControllerSource = new AbortControllerClass()
+      return new AbortControllerImpl()
+      const abortControllerSource = new AbortControllerImpl()
       const abortControllerFast = toAbortControllerFast(abortControllerSource)
       const abortController: any = toAbortController(abortControllerFast)
       abortController[kSource] = abortControllerSource
       return abortController
     }) as any,
     AbortSignal2    : null,
-    AbortController2: AbortControllerClass,
+    AbortController2: AbortControllerImpl,
   })
 })
 

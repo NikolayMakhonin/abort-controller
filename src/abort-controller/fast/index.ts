@@ -4,12 +4,6 @@ export {
   IAbortControllerFast,
 } from './contracts'
 export {
-  IAbortSignal,
-  IAbortController,
-  AbortSignalClass,
-  AbortControllerClass,
-} from '../contracts'
-export {
   toAbortSignal,
   toAbortSignalFast,
   toAbortController,

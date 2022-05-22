@@ -94,75 +94,21 @@ const nodeConfig = {
     .concat(require('module').builtinModules || Object.keys(process.binding('natives'))),
 }
 
-const browserAbortControllerConfig = {
+const browserConfig = {
   cache: true,
   input: [
-    'src/abort-controller/original/index.ts'
+    'src/index.ts'
   ],
   output: {
     dir: 'dist/browser',
     format: 'iife',
     exports: 'named',
-    entryFileNames: 'original.js',
-    chunkFileNames: 'original.js',
+    entryFileNames: 'browser.js',
+    chunkFileNames: 'browser.js',
     sourcemap: dev && 'inline',
   },
   plugins: [
-    del({ targets: 'dist/browser/original.js' }),
-    alias(aliasOptions),
-    json(),
-    replace({
-      preventAssignment: true,
-    }),
-    resolve({
-      browser: true,
-    }),
-    commonjs({
-      transformMixedEsModules: true,
-    }),
-    typescript({
-      sourceMap: dev,
-      compilerOptions: {
-        target: 'es5',
-      },
-    }),
-    // babel({
-    //   extensions  : ['.ts', '.js', '.cjs', '.mjs'],
-    //   babelHelpers: 'runtime',
-    //   exclude     : [
-    //     'node_modules/rollup*/**',
-    //     'node_modules/tslib/**',
-    //     'node_modules/@babel/**',
-    //     'node_modules/core-js*/**',
-    //   ],
-    // }),
-    terser({
-      mangle: true,
-      module: false,
-      ecma  : 5,
-      output: {
-        max_line_len: 50,
-      },
-    }),
-  ],
-  onwarn: onwarnRollup,
-}
-
-const browserAbortControllerFastConfig = {
-  cache: true,
-  input: [
-    'src/abort-controller/fast/index.ts'
-  ],
-  output: {
-    dir: 'dist/browser',
-    format: 'iife',
-    exports: 'named',
-    entryFileNames: 'fast.js',
-    chunkFileNames: 'fast.js',
-    sourcemap: dev && 'inline',
-  },
-  plugins: [
-    del({ targets: 'dist/browser/fast.js' }),
+    del({ targets: 'dist/browser/browser.js' }),
     alias(aliasOptions),
     json(),
     replace({
@@ -216,9 +162,9 @@ const browserTestsConfig = {
     sourcemap: 'inline',
   },
   plugins: [
-    del({ targets: 'dist/browser/all.test.js' }),
+    del({ targets: 'dist/browser/browser.test.js' }),
     multiEntry({
-      entryFileName: 'all.test.js',
+      entryFileName: 'browser.test.js',
     }),
     alias(aliasOptions),
     json(),
@@ -242,9 +188,9 @@ const browserTestsConfig = {
         target: 'es5',
       },
     }),
-    istanbul({
-      ...nycrc,
-    }),
+    // istanbul({
+    //   ...nycrc,
+    // }),
     babel({
       extensions  : ['.ts', '.js', '.cjs', '.mjs'],
       babelHelpers: 'runtime',
@@ -261,7 +207,6 @@ const browserTestsConfig = {
 
 export default [
   nodeConfig,
-  browserAbortControllerConfig,
-  browserAbortControllerFastConfig,
+  browserConfig,
   browserTestsConfig,
 ]

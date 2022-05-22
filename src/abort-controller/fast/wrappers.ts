@@ -4,10 +4,11 @@ import {
 } from './contracts'
 import {AbortControllerFast} from './AbortControllerFast'
 import {AbortError} from './AbortError'
-import {AbortControllerClass, IAbortController, IAbortSignal} from '../contracts'
+import {IAbortController, IAbortSignal} from '../contracts'
+import {AbortControllerImpl} from '../original'
 
 export function toAbortSignal(abortSignalFast: IAbortSignalFast): IAbortSignal {
-  const abortController = new AbortControllerClass()
+  const abortController = new AbortControllerImpl()
   abortSignalFast.subscribe((reason) => {
     abortController.abort(reason)
   })
@@ -24,7 +25,7 @@ export function toAbortSignalFast(abortSignal: IAbortSignal): IAbortSignalFast {
 }
 
 export function toAbortController(abortControllerFast: IAbortControllerFast): IAbortController {
-  const abortController = new AbortControllerClass()
+  const abortController = new AbortControllerImpl()
   abortControllerFast.signal.subscribe((reason) => {
     if (reason instanceof AbortError) {
       reason = reason.reason
