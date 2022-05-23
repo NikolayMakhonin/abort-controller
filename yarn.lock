@@ -965,6 +965,13 @@
     lodash "^4.17.21"
     tslib "^2.3.1"
 
+"@flemist/test-variants@0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@flemist/test-variants/-/test-variants-0.0.0.tgz#0f7aaa9aa56b2c7974f2f4414f2815d6ec546bf8"
+  integrity sha512-1E1uBd7mhnjGHeYmiQpzmgBzVnhqhJqRXlVFDO4HU0WANMe2HiVdGGq4lbPlMlxT/L+xyr4qazhzihE/c+iMAg==
+  dependencies:
+    tslib "^2.3.1"
+
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.5"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.9.5.tgz#2cbaf9a89460da24b5ca6531b8bbfc23e1df50c7"
