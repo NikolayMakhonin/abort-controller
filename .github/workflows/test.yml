@@ -23,6 +23,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
+      - name: Mocha tests
+        shell: bash
+        run: |
+          yarn run test:mocha:ci
+
       - name: Install chromium dependencies
         if: ${{ matrix.node-version == '18.x' }}
         run: |
@@ -48,11 +53,6 @@ jobs:
         with:
           run: |
             yarn run test:karma
-
-      - name: Mocha tests
-        shell: bash
-        run: |
-          yarn run test:mocha:ci
 
       - name: Coveralls
         if: ${{ matrix.node-version == '18.x' }}
