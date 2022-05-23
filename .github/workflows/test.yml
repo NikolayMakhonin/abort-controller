@@ -23,6 +23,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
+      - name: Install node modules and build
+        run: |
+          yarn install --frozen-lockfile
+          yarn run build
+
       - name: Mocha tests
         shell: bash
         run: |
@@ -39,11 +44,6 @@ jobs:
         uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
-
-      - name: Install node modules and build
-        run: |
-          yarn install --frozen-lockfile
-          yarn run build
 
       - name: Karma tests
         if: ${{ matrix.node-version == '18.x' }}
