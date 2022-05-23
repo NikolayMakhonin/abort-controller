@@ -4,6 +4,9 @@ import {AbortControllerFast} from './AbortControllerFast'
 import {toAbortController, toAbortControllerFast} from './wrappers'
 import {getError} from '../test/helpers'
 import {AbortControllerImpl} from '../original'
+import {createTestVariantsSync} from '@flemist/test-variants'
+import {AbortError} from './AbortError'
+import {IUnsubscribe} from './contracts'
 
 const kSource = Symbol('kFast')
 const kAborting = Symbol('kAborting')
@@ -59,111 +62,98 @@ describe('abort-controller > AbortControllerFast > toAbortControllerFast', funct
 })
 
 describe('behavior', function () {
-  const onAbortArgs = []
-  function onAbort(...args) {
-    onAbortArgs.push([this, ...args])
-  }
+  const testVariants = createTestVariantsSync(({
+    unsubscribe,
+    subscribe,
+    reason,
+  }: {
+    unsubscribe: boolean,
+    subscribe: boolean,
+    reason: any,
+  }) => {
+    const onAbortArgs = []
+    function onAbort(...args) {
+      onAbortArgs.push([this, ...args])
+    }
 
-  it('abort undefined', function () {
-    onAbortArgs.length = 0
     const abortController = new AbortControllerFast()
-    assert.ok(abortController.signal)
-    assert.strictEqual(abortController.signal.aborted, false)
-    assert.strictEqual(abortController.signal.reason, void 0)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), void 0)
-    abortController.abort()
-    assert.strictEqual(abortController.signal.aborted, true)
-    assert.ok(abortController.signal.reason instanceof Error)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
-    abortController.signal.subscribe(onAbort)
+
+    function checkBeforeAbort() {
+      assert.ok(abortController.signal)
+      assert.strictEqual(abortController.signal.aborted, false)
+      assert.strictEqual(abortController.signal.reason, void 0)
+      assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), void 0)
+    }
+
+    function checkAfterAbort() {
+      assert.strictEqual(abortController.signal.aborted, true)
+      if (reason instanceof Error) {
+        assert.strictEqual(abortController.signal.reason, reason)
+      } else {
+        assert.ok(abortController.signal.reason instanceof AbortError)
+        assert.strictEqual(abortController.signal.reason.reason, reason)
+      }
+      assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
+    }
+
+    checkBeforeAbort()
+    let unsubscribeFunc: IUnsubscribe
+    if (unsubscribe) {
+      unsubscribeFunc = abortController.signal.subscribe(onAbort)
+      assert.ok(typeof unsubscribeFunc === 'function')
+      unsubscribeFunc()
+    }
+    if (subscribe) {
+      unsubscribeFunc = abortController.signal.subscribe(onAbort)
+      assert.ok(typeof unsubscribeFunc === 'function')
+    }
+
+    if (typeof reason === 'undefined') {
+      abortController.abort()
+    } else {
+      abortController.abort(reason)
+    }
+    checkAfterAbort()
+
+    if (subscribe) {
+      assert.deepStrictEqual(onAbortArgs, [[abortController.signal, abortController.signal.reason]])
+      onAbortArgs.length = 0
+    } else {
+      assert.deepStrictEqual(onAbortArgs, [])
+    }
+
+    unsubscribeFunc = abortController.signal.subscribe(onAbort)
+    assert.ok(typeof unsubscribeFunc === 'function')
+    checkAfterAbort()
     assert.deepStrictEqual(onAbortArgs, [[abortController.signal, abortController.signal.reason]])
     onAbortArgs.length = 0
-    abortController.abort()
-    assert.deepStrictEqual(onAbortArgs, [])
-    abortController.abort('abort')
-    assert.deepStrictEqual(onAbortArgs, [])
-    assert.strictEqual(abortController.signal.aborted, true)
-    assert.ok(abortController.signal.reason instanceof Error)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
-  })
 
-  it('abort reason', function () {
-    const reason = Math.random()
-    onAbortArgs.length = 0
-    const abortController = new AbortControllerFast()
-    assert.ok(abortController.signal)
-    assert.strictEqual(abortController.signal.aborted, false)
-    assert.strictEqual(abortController.signal.reason, void 0)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), void 0)
-    abortController.abort(reason)
-    assert.strictEqual(abortController.signal.aborted, true)
-    assert.ok(abortController.signal.reason instanceof Error)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
-    abortController.signal.subscribe(onAbort)
+    unsubscribeFunc = abortController.signal.subscribe(onAbort)
+    assert.ok(typeof unsubscribeFunc === 'function')
+    checkAfterAbort()
     assert.deepStrictEqual(onAbortArgs, [[abortController.signal, abortController.signal.reason]])
     onAbortArgs.length = 0
+
+    unsubscribeFunc()
+    assert.ok(typeof unsubscribeFunc === 'function')
+    checkAfterAbort()
+    assert.deepStrictEqual(onAbortArgs, [])
+
     abortController.abort()
+    checkAfterAbort()
     assert.deepStrictEqual(onAbortArgs, [])
+
     abortController.abort('abort')
+    checkAfterAbort()
     assert.deepStrictEqual(onAbortArgs, [])
-    assert.strictEqual(abortController.signal.aborted, true)
-    assert.ok(abortController.signal.reason instanceof Error)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
   })
 
-  it('abort unsubscribe', function () {
-    const reason = new Error(Math.random() + '')
-    onAbortArgs.length = 0
-    const abortController = new AbortControllerFast()
-    assert.ok(abortController.signal)
-    assert.strictEqual(abortController.signal.aborted, false)
-    assert.strictEqual(abortController.signal.reason, void 0)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), void 0)
-    abortController.signal.subscribe(onAbort)()
-    abortController.abort(reason)
-    assert.strictEqual(abortController.signal.aborted, true)
-    assert.strictEqual(abortController.signal.reason, reason)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), reason)
-    abortController.signal.subscribe(onAbort)
-    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, reason]])
-    onAbortArgs.length = 0
-    abortController.abort()
-    assert.deepStrictEqual(onAbortArgs, [])
-    abortController.abort('abort')
-    assert.deepStrictEqual(onAbortArgs, [])
-    assert.strictEqual(abortController.signal.aborted, true)
-    assert.strictEqual(abortController.signal.reason, reason)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), reason)
-  })
-
-  it('abort subscribe', function () {
-    const reason = new Error(Math.random() + '')
-    onAbortArgs.length = 0
-    const abortController = new AbortControllerFast()
-    assert.ok(abortController.signal)
-    assert.strictEqual(abortController.signal.aborted, false)
-    assert.strictEqual(abortController.signal.reason, void 0)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), void 0)
-    abortController.signal.subscribe(onAbort)
-    assert.ok(getError(() => abortController.signal.subscribe(onAbort)) instanceof Error)
-    abortController.abort(reason)
-    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, reason]])
-    onAbortArgs.length = 0
-    assert.strictEqual(abortController.signal.aborted, true)
-    assert.strictEqual(abortController.signal.reason, reason)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), reason)
-    abortController.signal.subscribe(function() { onAbort.apply(this, arguments) })
-    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, reason]])
-    onAbortArgs.length = 0
-    abortController.signal.subscribe(onAbort)
-    assert.deepStrictEqual(onAbortArgs, [[abortController.signal, reason]])
-    onAbortArgs.length = 0
-    abortController.abort()
-    assert.deepStrictEqual(onAbortArgs, [])
-    abortController.abort('abort')
-    assert.deepStrictEqual(onAbortArgs, [])
-    assert.strictEqual(abortController.signal.aborted, true)
-    assert.strictEqual(abortController.signal.reason, reason)
-    assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), reason)
+  it('variants', function () {
+    const count = testVariants({
+      unsubscribe: [false, true],
+      subscribe  : [false, true],
+      reason     : [void 0, null, false, '', 'str', new Error(), new AbortError(), Symbol('')],
+    })
+    console.log('variants: ' + count)
   })
 })
