@@ -4,9 +4,9 @@ console.log('ENV_VARS', process.env)
 
 module.exports = function(config) {
   config.set({
-    browserNoActivityTimeout: 300000,
-    browserDisconnectTimeout: 300000,
-    browserSocketTimeout    : 300000,
+    browserNoActivityTimeout: 10 * 60 * 1000,
+    browserDisconnectTimeout: 10 * 60 * 1000,
+    browserSocketTimeout    : 10 * 60 * 1000,
     // captureTimeout: 900000,
     // processKillTimeout: 2000,
 

@@ -199,35 +199,42 @@ function assertEqualsTypeOf(values: AssertValues, message: string) {
   assertEqualsValues(clone, message)
 }
 
+function keyIn(object, key) {
+  if (!object || typeof object !== 'object') {
+    return false
+  }
+  return key in object
+}
+
 function assertEqualsProperty(values: AssertValues, key, message: string) {
   message = concatMessages(message, 'key=' + key)
 
   const messageIn = concatMessages(message, 'in')
   let clone = assertValuesClone(values)
-  clone.actual.prev.value = clone.actual.prev.value && key in clone.actual.prev.value
-  clone.actual.current.value = clone.actual.current.value && key in clone.actual.current.value
-  clone.expected.prev.value = clone.expected.prev.value && key in clone.expected.prev.value
-  clone.expected.current.value = clone.expected.current.value && key in clone.expected.current.value
+  clone.actual.prev.value = keyIn(clone.actual.prev.value, key)
+  clone.actual.current.value = keyIn(clone.actual.current.value, key)
+  clone.expected.prev.value = keyIn(clone.expected.prev.value, key)
+  clone.expected.current.value = keyIn(clone.expected.current.value, key)
   assertEqualsValues(clone, messageIn)
 
   const messageGetError = concatMessages(message, 'get error')
   clone = assertValuesClone(values)
-  clone.actual.prev.value = clone.actual.prev.value && key in clone.actual.prev.value
+  clone.actual.prev.value = keyIn(clone.actual.prev.value, key)
     ? getError(() => {
       return clone.actual.prev.value[key]
     })
     : void 0
-  clone.actual.current.value = clone.actual.current.value && key in clone.actual.current.value
+  clone.actual.current.value = keyIn(clone.actual.current.value, key)
     ? getError(() => {
       return clone.actual.current.value[key]
     })
     : void 0
-  clone.expected.prev.value = clone.expected.prev.value && key in clone.expected.prev.value
+  clone.expected.prev.value = keyIn(clone.expected.prev.value, key)
     ? getError(() => {
       return clone.expected.prev.value[key]
     })
     : void 0
-  clone.expected.current.value = clone.expected.current.value && key in clone.expected.current.value
+  clone.expected.current.value = keyIn(clone.expected.current.value, key)
     ? getError(() => {
       return clone.expected.current.value[key]
     })
@@ -248,22 +255,22 @@ function assertEqualsProperty(values: AssertValues, key, message: string) {
 
   const messageSet = concatMessages(message, 'set error')
   clone = assertValuesClone(values)
-  clone.actual.prev.value = clone.actual.prev.value && key in clone.actual.prev.value
+  clone.actual.prev.value = keyIn(clone.actual.prev.value, key)
     ? getError(() => {
       clone.actual.prev.value[key] = clone.actual.prev.value[key]
     })
     : void 0
-  clone.actual.current.value = clone.actual.current.value && key in clone.actual.current.value
+  clone.actual.current.value = keyIn(clone.actual.current.value, key)
     ? getError(() => {
       clone.actual.current.value[key] = clone.actual.current.value[key]
     })
     : void 0
-  clone.expected.prev.value = clone.expected.prev.value && key in clone.expected.prev.value
+  clone.expected.prev.value = keyIn(clone.expected.prev.value, key)
     ? getError(() => {
       clone.expected.prev.value[key] = clone.expected.prev.value[key]
     })
     : void 0
-  clone.expected.current.value = clone.expected.current.value && key in clone.expected.current.value
+  clone.expected.current.value = keyIn(clone.expected.current.value, key)
     ? getError(() => {
       clone.expected.current.value[key] = clone.expected.current.value[key]
     })

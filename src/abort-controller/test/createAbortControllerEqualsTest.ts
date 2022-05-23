@@ -1,9 +1,8 @@
-/// <reference lib="dom" />
+// / <reference lib="dom" />
 /* eslint-disable no-self-assign,no-new,new-cap */
 import {ERROR_UNDEFINED, getError, isLatestNodeVersion, processVersion, test} from './helpers'
 import {AbortControllerClass, AbortSignalClass} from '../test/contracts'
 import {createTestVariantsSync} from '@flemist/test-variants'
-import {IUnsubscribe} from '../fast'
 import {AbortError} from '../fast/AbortError'
 
 export function createAbortControllerEqualsTest({
@@ -25,7 +24,7 @@ export function createAbortControllerEqualsTest({
   AbortSignal2: typeof AbortSignalClass,
   AbortController2: typeof AbortControllerClass,
 }) {
-  _this.timeout(60000)
+  _this.timeout(300000)
 
   before(() => {
     console.log('process.version = ' + processVersion)
@@ -199,6 +198,95 @@ export function createAbortControllerEqualsTest({
         })
       })
 
+      const testVariants = createTestVariantsSync(({
+        subscribe1,
+        unsubscribe1,
+        abort1,
+        throwIfAborted1,
+        subscribe2,
+        unsubscribe2,
+        abort2,
+        throwIfAborted2,
+        reason,
+      }: {
+        subscribe1: boolean,
+        unsubscribe1: boolean,
+        abort1: boolean,
+        throwIfAborted1: boolean,
+        subscribe2: boolean,
+        unsubscribe2: boolean,
+        abort2: boolean,
+        throwIfAborted2: boolean,
+        reason: any,
+      }) => {
+        test({
+          repeat  : 2,
+          message : 'AbortController',
+          actual  : AbortController1,
+          expected: AbortController2,
+          func    : (o) => {
+            const onAbortArgs = []
+            const errors = []
+            function onAbort(...args) {
+              onAbortArgs.push([this, ...args])
+            }
+
+            const abortController = new o()
+
+            function subscribe() {
+              abortController.signal.addEventListener('abort', onAbort)
+            }
+
+            function unsubscribe() {
+              abortController.signal.removeEventListener('abort', onAbort)
+            }
+
+            function abort() {
+              if (typeof reason === 'undefined') {
+                abortController.abort()
+              } else {
+                abortController.abort(reason)
+              }
+            }
+
+            function throwIfAborted() {
+              errors.push(getError(() => (abortController.signal as any).throwIfAborted()))
+            }
+            
+            if (subscribe1) { subscribe() }
+            if (unsubscribe1) { unsubscribe() }
+            if (abort1) { abort() }
+            if (throwIfAborted1) { throwIfAborted() }
+
+            if (subscribe2) { subscribe() }
+            if (unsubscribe2) { unsubscribe() }
+            if (abort2) { abort() }
+            if (throwIfAborted2) { throwIfAborted() }
+
+            return {
+              abortController,
+              onAbortArgs,
+              errors,
+            }
+          },
+        })
+      })
+
+      it('variants', function () {
+        const count = testVariants({
+          subscribe1     : [false, true],
+          unsubscribe1   : [false, true],
+          abort1         : [false, true],
+          throwIfAborted1: [false, true],
+          subscribe2     : [false, true],
+          unsubscribe2   : [false, true],
+          abort2         : [false, true],
+          throwIfAborted2: [false, true],
+          reason         : [void 0, null, false, '', 'str', new Error(), new AbortError(), Symbol('')],
+        })
+        console.log('variants: ' + count)
+      })
+      
       it('AbortSignal subscribe', function () {
         test({
           repeat  : 2,
