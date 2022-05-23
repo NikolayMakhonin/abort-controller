@@ -31,7 +31,7 @@ module.exports = function(config) {
       'karma-edge-launcher',
       'karma-mocha',
       'karma-coverage',
-      require('./modules/karma-custom-launcher'),
+      '@flemist/karma-custom-launcher',
     ],
     coverageReporter: {
       // Prevent to disable coverage by IntelliJ
