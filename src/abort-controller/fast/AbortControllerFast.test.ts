@@ -32,7 +32,7 @@ describe('abort-controller > AbortControllerFast > toAbortController', function 
     AbortSignal1      : null,
     AbortController1  : (function AbortController() {
       const abortControllerFast = new AbortControllerFast()
-      const abortController: any = toAbortController(abortControllerFast)
+      const abortController: any = toAbortController(abortControllerFast, new AbortControllerImpl())
       abortController[kSource] = abortControllerFast
       return abortController
     }) as any,
@@ -51,8 +51,8 @@ describe('abort-controller > AbortControllerFast > toAbortControllerFast', funct
     AbortController1  : (function AbortController() {
       return new AbortControllerImpl()
       const abortControllerSource = new AbortControllerImpl()
-      const abortControllerFast = toAbortControllerFast(abortControllerSource)
-      const abortController: any = toAbortController(abortControllerFast)
+      const abortControllerFast = toAbortControllerFast(abortControllerSource, new AbortControllerFast())
+      const abortController: any = toAbortController(abortControllerFast, new AbortControllerImpl())
       abortController[kSource] = abortControllerSource
       return abortController
     }) as any,
