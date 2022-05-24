@@ -3,7 +3,7 @@
 [![Build Status][github-image]][github-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
-Custom very fast AbortController implementation and interface with the possibility of converting/connecting with a standard AbortController (version of NodeJS 18).
+Custom very fast AbortController implementation and interface with the possibility of converting/connecting with the standard AbortController (version of NodeJS 18).
 This is about 100 times faster than built-ins implementations.
 
 # Interface
@@ -57,7 +57,7 @@ abortControllerFast.abort('some reason')
 abortControllerFast.signal.throwIfAborted()
 ```
 
-# Convert / Connecting with a standard AbortController
+# Convert / Connecting with the standard AbortController
 
 ```ts
 import {

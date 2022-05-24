@@ -14,7 +14,7 @@ const abortController: AbortController = new AbortControllerImpl()
 ```
 
 # Keywords
-polyfill, polyfill, cross-platform, cross-browser
+polyfill, ponyfill, cross-platform, cross-browser
 
 [npm-image]: https://img.shields.io/npm/v/@flemist/abort-controller.svg
 [npm-url]: https://npmjs.org/package/@flemist/abort-controller
