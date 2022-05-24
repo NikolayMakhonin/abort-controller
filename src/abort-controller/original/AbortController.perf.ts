@@ -1,20 +1,20 @@
 import { calcPerformance } from 'rdtsc'
-import {AbortControllerImpl} from './AbortControllerImpl'
-import {isLatestNodeVersion} from '../test/helpers'
-import {AbortControllerClass} from '../test/contracts'
-import {IAbortController} from './contracts'
+// import {AbortControllerImpl} from './AbortControllerImpl'
+// import {isLatestNodeVersion} from '../test/helpers'
+// import {AbortControllerClass} from '../test/contracts'
+// import {IAbortController} from './contracts'
 
 describe('abort-controller > AbortController', function () {
   this.timeout(600000)
 
-  const AbortController1 = AbortControllerImpl
-  const AbortController2 = isLatestNodeVersion ? AbortControllerClass : AbortControllerImpl
+  // const AbortController1 = AbortControllerImpl
+  // const AbortController2 = isLatestNodeVersion ? AbortControllerClass : AbortControllerImpl
 
   const onAbort1 = o => o
   const onAbort2 = o => o
   const onAbort3 = o => o
-  let abortController1: IAbortController
-  let abortController2: IAbortController
+  // let abortController1: IAbortController
+  // let abortController2: IAbortController
   let set: Set<(o: any) => any>
 
   it('constructor', function () {

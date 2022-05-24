@@ -28,13 +28,6 @@ describe('abort-controller > EventTarget', function () {
     })
   })
 
-  describe('base', function () {
-    it('base', function () {
-      const eventTarget = new EventTarget1()
-      // TODO
-    })
-  })
-
   describe('constructors', function () {
     it('EventTarget', function () {
       test({

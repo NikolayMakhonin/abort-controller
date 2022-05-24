@@ -7,11 +7,14 @@ var abortController_original_DOMExceptionImpl = require('./DOMExceptionImpl.cjs'
 const _DOMException = (() => {
     try {
         if (typeof DOMException !== 'undefined') {
+            // eslint-disable-next-line no-new
             new DOMException();
             return DOMException;
         }
     }
-    catch (_a) { }
+    catch (_a) {
+        // empty
+    }
     return abortController_original_DOMExceptionImpl.DOMExceptionImpl;
 })();
 

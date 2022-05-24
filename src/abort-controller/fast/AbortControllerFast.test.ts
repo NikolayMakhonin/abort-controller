@@ -49,7 +49,6 @@ describe('abort-controller > AbortControllerFast > toAbortControllerFast', funct
     equalsInstances   : true,
     AbortSignal1      : null,
     AbortController1  : (function AbortController() {
-      return new AbortControllerImpl()
       const abortControllerSource = new AbortControllerImpl()
       const abortControllerFast = toAbortControllerFast(abortControllerSource, new AbortControllerFast())
       const abortController: any = toAbortController(abortControllerFast, new AbortControllerImpl())

@@ -27,7 +27,7 @@ function toAbortController(abortControllerFast, abortController) {
     return abortController;
 }
 function toAbortControllerFast(abortController, abortControllerFast) {
-    function onAbort(event) {
+    function onAbort() {
         abortControllerFast.abort(this.reason);
     }
     abortController.signal.addEventListener('abort', onAbort);

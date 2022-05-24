@@ -1,6 +1,6 @@
 // / <reference lib="dom" />
 /* eslint-disable no-self-assign,no-new,new-cap */
-import {ERROR_UNDEFINED, getError, isLatestNodeVersion, processVersion, test} from './helpers'
+import {getError, isLatestNodeVersion, processVersion, test} from './helpers'
 import {AbortControllerClass, AbortSignalClass} from '../test/contracts'
 import {createTestVariantsSync} from '@flemist/test-variants'
 import {AbortError} from '../fast/AbortError'

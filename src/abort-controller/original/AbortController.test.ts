@@ -6,9 +6,6 @@ import {createAbortControllerEqualsTest} from '../test/createAbortControllerEqua
 import {AbortControllerClass, AbortSignalClass} from '../test/contracts'
 
 describe('abort-controller > AbortController', function () {
-  describe('wer', function() {
-
-  })
   createAbortControllerEqualsTest({
     _this             : this,
     behavior          : true,

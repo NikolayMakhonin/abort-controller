@@ -299,7 +299,7 @@ function filterKey(object, key: string) {
 }
 
 function getAdditionalKeys(value): string[] {
-  const keys: string[] = ['constructor'] //, 'prototype']
+  const keys: string[] = ['constructor'] // , 'prototype']
   if (typeof value === 'function') {
     keys.push('name')
   }

@@ -42,7 +42,7 @@ export function toAbortControllerFast<TAbortControllerFast extends IAbortControl
   abortController: AbortController,
   abortControllerFast: TAbortControllerFast,
 ): TAbortControllerFast {
-  function onAbort(this: AbortSignal, event: Event) {
+  function onAbort(this: AbortSignal) {
     abortControllerFast.abort((this as any).reason)
   }
   abortController.signal.addEventListener('abort', onAbort)

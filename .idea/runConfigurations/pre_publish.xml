@@ -5,7 +5,8 @@
     <scripts>
       <script value="pre-publish" />
     </scripts>
-    <node-interpreter value="project" />
+    <node-interpreter value="E:/Program Files/nodejs/18.2.0/node" />
+    <package-manager value="npm" />
     <envs />
     <method v="2" />
   </configuration>

@@ -36,7 +36,7 @@ return t.signal.subscribe((function(t){
 t instanceof r&&t._internal&&(t=t.reason),
 o.abort(t)})),o
 },t.toAbortControllerFast=function(t,o){
-return t.signal.addEventListener("abort",(function(t){
+return t.signal.addEventListener("abort",(function(){
 o.abort(this.reason)})),o
 },t.toAbortSignal=function(t,o){
 return t.subscribe((function(t){o.abort(t)
