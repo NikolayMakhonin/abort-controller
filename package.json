@@ -18,7 +18,7 @@
   "homepage": "https://github.com/NikolayMakhonin/abort-controller#readme",
   "scripts": {
     "install:yarn": "yarn install",
-    "pre-publish": "yarn build && yarn run test:mocha:ci && yarn run test:karma",
+    "pre-publish": "yarn run lint && yarn build && yarn run test:mocha:ci && yarn run test:karma",
     "publish:original": "npm publish --cwd packages/abort-controller",
     "publish:fast": "npm publish --cwd packages/abort-controller-fast",
     "publish": "yarn run pre-publish && npm run publish:original && npm run publish:fast",
