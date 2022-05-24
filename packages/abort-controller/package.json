@@ -26,9 +26,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "prepublishOnly": "yarn build && yarn run test:mocha:ci && yarn run test:karma"
-  },
   "dependencies": {
     "tslib": "^2.3.1"
   }

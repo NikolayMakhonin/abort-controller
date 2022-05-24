@@ -59,7 +59,7 @@ const aliasOptions = {
   ],
 }
 
-const nodeConfig = ({input, outputDir}) => ({
+const nodeConfig = ({input, outputDir, relative}) => ({
   cache: true,
   input,
   output: {
@@ -72,7 +72,7 @@ const nodeConfig = ({input, outputDir}) => ({
   },
   plugins: [
     del({ targets: outputDir }),
-    multiInput(),
+    multiInput({relative}),
     alias(aliasOptions),
     json(),
     replace({
@@ -206,22 +206,15 @@ export default [
   nodeConfig({
     input: ['src/**/*.ts'],
     outputDir: 'dist/node',
-  }),
-  nodeConfig({
-    input: ['src/abort-controller/fast/*.ts', '!**/test/**', '!**/*.test.*'],
-    outputDir: 'packages/abort-controller-fast/dist/node',
-  }),
-  nodeConfig({
-    input: ['src/abort-controller/original/*.ts', '!**/test/**', '!**/*.test.*'],
-    outputDir: 'packages/abort-controller/dist/node',
+    relative: 'src',
   }),
   browserConfig({
-    input: ['src/index.ts'],
+    input: ['src/abort-controller/fast/index.ts'],
     outputDir: 'packages/abort-controller-fast/dist/browser',
     outputFile: 'browser.js',
   }),
   browserConfig({
-    input: ['src/index.ts'],
+    input: ['src/abort-controller/original/index.ts'],
     outputDir: 'packages/abort-controller/dist/browser',
     outputFile: 'browser.js',
   }),
