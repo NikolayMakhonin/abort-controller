@@ -23,6 +23,16 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
+      - name: Install node modules and build
+        run: |
+          yarn install --frozen-lockfile
+          yarn run build
+
+      - name: Mocha tests
+        shell: bash
+        run: |
+          yarn run test:mocha:ci
+
       - name: Install chromium dependencies
         if: ${{ matrix.node-version == '18.x' }}
         run: |
@@ -35,11 +45,6 @@ jobs:
         with:
           chrome-version: 297097 # Chromium 39.0.2171.99 (Android - 5.1.0)
 
-      - name: Install node modules and build
-        run: |
-          yarn install --frozen-lockfile
-          yarn run build
-
       - name: Karma tests
         if: ${{ matrix.node-version == '18.x' }}
         uses: GabrielBB/xvfb-action@v1
@@ -48,11 +53,6 @@ jobs:
         with:
           run: |
             yarn run test:karma
-
-      - name: Mocha tests
-        shell: bash
-        run: |
-          yarn run test:mocha:ci
 
       - name: Coveralls
         if: ${{ matrix.node-version == '18.x' }}

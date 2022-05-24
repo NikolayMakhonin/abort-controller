@@ -27,7 +27,7 @@ export function toAbortSignalFast(abortSignal: IAbortSignal): IAbortSignalFast {
 export function toAbortController(abortControllerFast: IAbortControllerFast): IAbortController {
   const abortController = new AbortControllerImpl()
   abortControllerFast.signal.subscribe((reason) => {
-    if (reason instanceof AbortError) {
+    if (reason instanceof AbortError && (reason as any)._internal) {
       reason = reason.reason
     }
     abortController.abort(reason)

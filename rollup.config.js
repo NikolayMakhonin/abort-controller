@@ -192,6 +192,7 @@ const browserTestsConfig = {
       ...nycrc,
     }),
     babel({
+      configFile: path.resolve(__dirname, '.babelrc.cjs'),
       extensions  : ['.ts', '.js', '.cjs', '.mjs'],
       babelHelpers: 'runtime',
       exclude     : [

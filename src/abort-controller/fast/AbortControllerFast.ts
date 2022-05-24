@@ -18,6 +18,7 @@ export class AbortControllerFast implements IAbortControllerFast {
         'Aborted' + (typeof reason === 'undefined' ? '' : ' with reason: ' + reason?.toString()),
         reason,
       )
+      reason._internal = true
     }
     (this.signal as IAbortSignalFastImpl).abort(reason)
   }

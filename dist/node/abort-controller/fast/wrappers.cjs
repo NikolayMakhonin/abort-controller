@@ -31,7 +31,7 @@ function toAbortSignalFast(abortSignal) {
 function toAbortController(abortControllerFast) {
     const abortController = new abortController_original_AbortControllerImpl.AbortControllerImpl();
     abortControllerFast.signal.subscribe((reason) => {
-        if (reason instanceof abortController_fast_AbortError.AbortError) {
+        if (reason instanceof abortController_fast_AbortError.AbortError && reason._internal) {
             reason = reason.reason;
         }
         abortController.abort(reason);

@@ -9,6 +9,7 @@ class AbortError extends Error {
         Object.setPrototypeOf(this, AbortError.prototype);
         this.reason = reason;
         this.name = 'AbortError';
+        this._internal = false;
     }
 }
 

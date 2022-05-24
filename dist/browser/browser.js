@@ -75,17 +75,18 @@ if(this.aborted)throw this.reason},t
 }(),w=function(t){function o(r,n){
 var e=t.call(this,r)||this
 ;return Object.setPrototypeOf(e,o.prototype),e.reason=n,
-e.name="AbortError",e}return a(o,t),o
-}(Error),E=function(){function t(){
+e.name="AbortError",e._internal=!1,e}
+return a(o,t),o}(Error),E=function(){function t(){
 this.signal=new g}
 return t.prototype.abort=function(t){
-this.signal.aborted||(t instanceof Error||(t=new w("Aborted"+(void 0===t?"":" with reason: "+(null==t?void 0:t.toString())),t)),
+this.signal.aborted||(t instanceof Error||((t=new w("Aborted"+(void 0===t?"":" with reason: "+(null==t?void 0:t.toString())),t))._internal=!0),
 this.signal.abort(t))},t}()
 ;t.AbortControllerClass=r,t.AbortControllerFast=E,t.AbortControllerImpl=y,
 t.AbortSignalClass=o,
 t.toAbortController=function(t){var o=new y
 ;return t.signal.subscribe((function(t){
-t instanceof w&&(t=t.reason),o.abort(t)})),o
+t instanceof w&&t._internal&&(t=t.reason),
+o.abort(t)})),o
 },t.toAbortControllerFast=function(t){var o=new E
 ;return t.signal.addEventListener("abort",(function(t){
 o.abort(this.reason)})),o
