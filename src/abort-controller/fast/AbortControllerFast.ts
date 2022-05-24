@@ -1,4 +1,4 @@
-import {IAbortControllerFast, IAbortSignalFast, IAbortSignalFastImpl} from './contracts'
+import {IAbortControllerFast, IAbortSignalFast} from './contracts'
 import {AbortSignalFast} from './AbortSignalFast'
 import {AbortError} from './AbortError'
 
@@ -13,13 +13,13 @@ export class AbortControllerFast implements IAbortControllerFast {
     if (this.signal.aborted) {
       return
     }
-    if (!(reason instanceof Error)) {
+    if (typeof reason === 'undefined') {
       reason = new AbortError(
-        'Aborted' + (typeof reason === 'undefined' ? '' : ' with reason: ' + reason?.toString()),
+        'Aborted with no reason',
         reason,
       )
       reason._internal = true
     }
-    (this.signal as IAbortSignalFastImpl).abort(reason)
+    (this.signal as AbortSignalFast).abort(reason)
   }
 }

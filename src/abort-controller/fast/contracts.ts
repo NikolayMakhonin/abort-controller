@@ -1,28 +1,28 @@
 export type IUnsubscribe = () => void
 
-export interface IEventTargetFast<TThis, TEvent> {
-  subscribe(callback: (this: TThis, event: TEvent) => void): IUnsubscribe
-}
-
-export interface IEventEmitterFast<TEvent> {
-  emit(event: TEvent): void
-}
-
 export type TAbortReason = any
 
 export interface IAbortSignalFast
-  extends IEventTargetFast<IAbortSignalFast, TAbortReason>
 {
   readonly aborted: boolean
   readonly reason: TAbortReason
+
+  /**
+   * just throws reason if aborted.
+   */
   throwIfAborted()
+
+  /**
+   * It will immediately run the callback if it was aborted.
+   * It will prevent re-subscribing if it has not been aborted.
+   */
+  subscribe(callback: (this: this, reason: TAbortReason) => void): IUnsubscribe
 }
 
-export interface IAbortControllerFast {
-  readonly signal: IAbortSignalFast
-  abort(reason: TAbortReason): void
-}
-
-export interface IAbortSignalFastImpl extends IAbortSignalFast {
+export interface IAbortControllerFast<TSignal extends IAbortSignalFast = IAbortSignalFast> {
+  readonly signal: TSignal
+  /**
+   * It will be converted to AbortError if the reason is not Error.
+   */
   abort(reason: TAbortReason): void
 }

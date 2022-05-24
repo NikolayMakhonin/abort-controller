@@ -1,5 +1,5 @@
 import { AbortSignalImpl } from './AbortSignalImpl';
-import { IAbortController } from '../contracts';
+import { IAbortController } from './contracts';
 declare const kSignal: unique symbol;
 declare class AbortController implements IAbortController {
     constructor();

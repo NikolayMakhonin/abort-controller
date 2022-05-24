@@ -2,7 +2,7 @@
 import {assertThis, initClass} from './helpers'
 import {DOMException} from './DOMException'
 import {EventTarget} from './EventTarget'
-import {IAbortSignal} from '../contracts'
+import {IAbortSignal} from './contracts'
 
 const kAborted = Symbol('kAborted')
 const kReason = Symbol('kReason')

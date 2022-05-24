@@ -1,3 +1,5 @@
+export declare type IEventTarget = EventTarget;
+export declare type IDOMException = DOMException;
 /** A controller object that allows you to abort one or more DOM requests as and when desired. */
 interface AbortController {
     /** Returns the AbortSignal object associated with this object. */

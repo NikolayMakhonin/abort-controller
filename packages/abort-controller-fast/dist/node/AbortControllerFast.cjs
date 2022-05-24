@@ -13,8 +13,8 @@ class AbortControllerFast {
         if (this.signal.aborted) {
             return;
         }
-        if (!(reason instanceof Error)) {
-            reason = new abortController_fast_AbortError.AbortError('Aborted' + (typeof reason === 'undefined' ? '' : ' with reason: ' + (reason === null || reason === void 0 ? void 0 : reason.toString())), reason);
+        if (typeof reason === 'undefined') {
+            reason = new abortController_fast_AbortError.AbortError('Aborted with no reason', reason);
             reason._internal = true;
         }
         this.signal.abort(reason);

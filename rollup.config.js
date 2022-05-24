@@ -59,13 +59,11 @@ const aliasOptions = {
   ],
 }
 
-const nodeConfig = {
+const nodeConfig = ({input, outputDir, relative}) => ({
   cache: true,
-  input: [
-    'src/**/*.ts'
-  ],
+  input,
   output: {
-    dir: 'dist/node',
+    dir: outputDir,
     format: 'cjs',
     exports: 'named',
     entryFileNames: `[name].cjs`,
@@ -73,8 +71,8 @@ const nodeConfig = {
     sourcemap: dev,
   },
   plugins: [
-    del({ targets: 'dist/node/*' }),
-    multiInput(),
+    del({ targets: outputDir }),
+    multiInput({relative}),
     alias(aliasOptions),
     json(),
     replace({
@@ -92,23 +90,21 @@ const nodeConfig = {
   external: Object.keys(pkg.dependencies)
     .concat(Object.keys(pkg.devDependencies))
     .concat(require('module').builtinModules || Object.keys(process.binding('natives'))),
-}
+})
 
-const browserConfig = {
+const browserConfig = ({input, outputDir, outputFile}) => ({
   cache: true,
-  input: [
-    'src/index.ts'
-  ],
+  input,
   output: {
-    dir: 'dist/browser',
+    dir: outputDir,
     format: 'iife',
     exports: 'named',
-    entryFileNames: 'browser.js',
-    chunkFileNames: 'browser.js',
+    entryFileNames: outputFile,
+    chunkFileNames: outputFile,
     sourcemap: dev && 'inline',
   },
   plugins: [
-    del({ targets: 'dist/browser/browser.js' }),
+    del({ targets: path.join(outputDir, outputFile) }),
     alias(aliasOptions),
     json(),
     replace({
@@ -146,7 +142,7 @@ const browserConfig = {
     }),
   ],
   onwarn: onwarnRollup,
-}
+})
 
 const browserTestsConfig = {
   cache: true,
@@ -207,7 +203,20 @@ const browserTestsConfig = {
 }
 
 export default [
-  nodeConfig,
-  browserConfig,
+  nodeConfig({
+    input: ['src/**/*.ts'],
+    outputDir: 'dist/node',
+    relative: 'src',
+  }),
+  browserConfig({
+    input: ['src/abort-controller/fast/index.ts'],
+    outputDir: 'packages/abort-controller-fast/dist/browser',
+    outputFile: 'browser.js',
+  }),
+  browserConfig({
+    input: ['src/abort-controller/original/index.ts'],
+    outputDir: 'packages/abort-controller/dist/browser',
+    outputFile: 'browser.js',
+  }),
   browserTestsConfig,
 ]

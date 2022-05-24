@@ -10,3 +10,4 @@ export {
   toAbortControllerFast,
 } from './wrappers'
 export { AbortControllerFast } from './AbortControllerFast'
+export { AbortError } from './AbortError'
