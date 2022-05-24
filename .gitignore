@@ -1,5 +1,6 @@
-/dist/**/test/**
-/dist/**/*.test.*
+/dist
+**/dist/**/test/**
+**/dist/**/*.test.*
 /tmp
 /node_modules
 /package-lock.json

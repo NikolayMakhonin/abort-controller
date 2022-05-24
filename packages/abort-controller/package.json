@@ -1,0 +1,35 @@
+{
+  "name": "@flemist/abort-controller",
+  "version": "0.0.0",
+  "description": "Implementation of AbortController interface (version of NodeJS 18)",
+  "main": "dist/node/index.cjs",
+  "types": "dist/node/index.d.ts",
+  "engines": {
+    "node": ">=15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NikolayMakhonin/abort-controller.git"
+  },
+  "keywords": [
+    "AbortController",
+    "AbortSignal",
+    "ponyfill",
+    "polyfill"
+  ],
+  "author": "NikolayMakhonin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NikolayMakhonin/abort-controller/issues"
+  },
+  "homepage": "https://github.com/NikolayMakhonin/abort-controller#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublishOnly": "yarn build && yarn run test:mocha:ci && yarn run test:karma"
+  },
+  "dependencies": {
+    "tslib": "^2.3.1"
+  }
+}
