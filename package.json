@@ -19,6 +19,9 @@
   "scripts": {
     "install:yarn": "yarn install",
     "pre-publish": "yarn build && yarn run test:mocha:ci && yarn run test:karma",
+    "publish:original": "npm publish --cwd packages/abort-controller",
+    "publish:fast": "npm publish --cwd packages/abort-controller-fast",
+    "publish": "yarn run pre-publish && npm run publish:original && npm run publish:fast",
     "prepublishOnly": "!! DON'T PUBLIH IT !!",
     "lint": "eslint \"./src/**/*.{ts,js,cjs,mjs}\"",
     "lint:fix": "eslint --fix \"./src/**/*.{ts,js,cjs,mjs}\"",

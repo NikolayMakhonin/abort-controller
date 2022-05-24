@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="install:yarn" type="js.build_tools.npm" nameIsGenerated="true">
+  <configuration default="false" name="publish" type="js.build_tools.npm" nameIsGenerated="true">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
-      <script value="install:yarn" />
+      <script value="publish" />
     </scripts>
-    <node-interpreter value="E:/Program Files/nodejs/18.2.0/node" />
+    <node-interpreter value="project" />
     <package-manager value="npm" />
     <envs />
     <method v="2" />
