@@ -1,7 +1,11 @@
-import {IAbortSignalFastImpl, IUnsubscribe, TAbortReason} from './contracts'
+import {IAbortSignalFast, IUnsubscribe, TAbortReason} from './contracts'
 
 type Callback<TThis> = (this: TThis, reason: TAbortReason) => void
 const emptyFunc = () => {}
+
+interface IAbortSignalFastImpl extends IAbortSignalFast {
+  abort(reason: TAbortReason): void
+}
 
 export class AbortSignalFast implements IAbortSignalFastImpl {
   aborted: boolean = false

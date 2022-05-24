@@ -87,7 +87,7 @@ describe('behavior', function () {
 
     function checkAfterAbort() {
       assert.strictEqual(abortController.signal.aborted, true)
-      if (reason instanceof Error) {
+      if (typeof reason !== 'undefined') {
         assert.strictEqual(abortController.signal.reason, reason)
       } else {
         assert.ok(abortController.signal.reason instanceof AbortError)

@@ -3,9 +3,18 @@
 [![Build Status][github-image]][github-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
-[abort-controller](./packages/abort-controller/README.md)
+Implementation of AbortController interface. Same as in the NodeJS 18.x
+Completely identical to the implementation of NodeJS 18, but works in the NodeJS >=15 and Chrome >=38
 
-[abort-controller-fast](./packages/abort-controller-fast/README.md)
+# Usage
+```ts
+import { AbortControllerImpl } from '@flemist/abort-controller'
+
+const abortController: AbortController = new AbortControllerImpl()
+```
+
+# Keywords
+polyfill, polyfill, cross-platform, cross-browser
 
 [npm-image]: https://img.shields.io/npm/v/@flemist/abort-controller.svg
 [npm-url]: https://npmjs.org/package/@flemist/abort-controller
