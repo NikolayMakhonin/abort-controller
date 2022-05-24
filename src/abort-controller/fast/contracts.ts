@@ -18,8 +18,8 @@ export interface IAbortSignalFast
   throwIfAborted()
 }
 
-export interface IAbortControllerFast {
-  readonly signal: IAbortSignalFast
+export interface IAbortControllerFast<TSignal extends IAbortSignalFast = IAbortSignalFast> {
+  readonly signal: TSignal
   abort(reason: TAbortReason): void
 }
 
