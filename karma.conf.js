@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 console.log('ENV_VARS', process.env)
 
@@ -13,23 +13,23 @@ module.exports = function(config) {
     browsers: process.env.GITHUB_WORKFLOW
       ? (
         process.platform === 'linux' ? [
-        "ChromiumCI",
-          "ChromeLatest",
-      ]
-        : process.platform === 'darwin' ? [
-          "SafariLatest",
+          'ChromiumCI',
+          'ChromeLatest',
         ]
-        : []
+          : process.platform === 'darwin' ? [
+            'SafariLatest',
+          ]
+            : []
       )
       : [
-        "LocalChromium39",
-        "ChromeLatest",
-        "FirefoxHeadless",
+        'LocalChromium39',
+        'ChromeLatest',
+        'FirefoxHeadless',
       ],
-    files: ["dist/browser/browser.test.js"],
-    frameworks: ["mocha"],
-    reporters: ["progress", 'coverage'],
-    plugins: [
+    files     : ['dist/browser/browser.test.js'],
+    frameworks: ['mocha'],
+    reporters : ['progress', 'coverage'],
+    plugins   : [
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-safari-launcher',

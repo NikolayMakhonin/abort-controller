@@ -5,7 +5,7 @@ module.exports = {
     './src/helpers/test/register.ts',
   ],
   'watch-files': ['./src/**'],
-  "node-option": [
+  'node-option': [
 
   ],
 }
