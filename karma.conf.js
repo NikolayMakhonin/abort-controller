@@ -1,8 +1,8 @@
-"use strict"
+'use strict'
 
 console.log('ENV_VARS', process.env)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     browserNoActivityTimeout: 10 * 60 * 1000,
     browserDisconnectTimeout: 10 * 60 * 1000,
@@ -11,24 +11,28 @@ module.exports = function(config) {
     // processKillTimeout: 2000,
 
     browsers: process.env.GITHUB_WORKFLOW
-      ? [
-        "ChromeLatest",
-        "ChromiumCI",
-      ]
+      ? (
+        process.platform === 'linux' ? [
+          'ChromiumCI',
+          'ChromeLatest',
+        ]
+          : process.platform === 'darwin' ? [
+            'SafariLatest',
+          ]
+            : []
+      )
       : [
-        "ChromeLatest",
-        "Chromium39",
-        "FirefoxHeadless",
-        // "Edge",
+        'LocalChromium39',
+        'ChromeLatest',
+        'FirefoxHeadless',
       ],
-    files: ["dist/browser/browser.test.js"],
-    frameworks: ["mocha"],
-    reporters: ["progress", 'coverage'],
-    plugins: [
+    files     : ['dist/browser/browser.test.js'],
+    frameworks: ['mocha'],
+    reporters : ['progress', 'coverage'],
+    plugins   : [
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-safari-launcher',
-      'karma-edge-launcher',
       'karma-mocha',
       'karma-coverage',
       '@flemist/karma-custom-launcher',
@@ -42,6 +46,24 @@ module.exports = function(config) {
       dir : `tmp/coverage/karma/json`,
     },
     customLaunchers: {
+      ChromeLatest: {
+        base  : 'Custom',
+        parent: 'ChromeHeadless',
+        flags : [
+          '--incognito',
+          '--no-sandbox',
+          '--disable-web-security',
+          '--allow-cross-origin-auth-prompt',
+          '--disable-site-isolation-trials',
+        ],
+      },
+      SafariLatest: {
+        base  : 'Custom',
+        parent: 'SafariHeadless',
+        flags : [
+
+        ],
+      },
       ChromiumCI: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
@@ -62,7 +84,7 @@ module.exports = function(config) {
         },
         ENV_CMD: null,
       },
-      Chromium33: {
+      LocalChromium33: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
         displayName: 'Chromium 33.0.1750.170',
@@ -78,7 +100,7 @@ module.exports = function(config) {
         },
         ENV_CMD: null,
       },
-      Chromium39: {
+      LocalChromium39: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
         displayName: 'Chromium 39.0.2171.99',
@@ -94,7 +116,7 @@ module.exports = function(config) {
         },
         ENV_CMD: null,
       },
-      Chromium44: {
+      LocalChromium44: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
         displayName: 'Chromium 44.0.2403.119',
@@ -123,21 +145,6 @@ module.exports = function(config) {
         DEFAULT_CMD: {
           win32: 'E:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe',
         },
-        ENV_CMD: null,
-      },
-      ChromeLatest: {
-        base  : 'Custom',
-        parent: 'ChromeHeadless',
-        flags : [
-          '--incognito',
-          '--no-sandbox',
-          '--disable-web-security',
-          '--allow-cross-origin-auth-prompt',
-          '--disable-site-isolation-trials',
-        ],
-        // DEFAULT_CMD: {
-        //   win32: 'E:/Program Files (x86)/Google/Chrome Dev/Application/chrome.exe',
-        // },
         ENV_CMD: null,
       },
     },

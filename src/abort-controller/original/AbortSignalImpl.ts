@@ -69,6 +69,7 @@ const kOnAbort = Symbol('kOnAbort')
 // }
 
 interface _AbortSignal extends IAbortSignal { }
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 const _AbortSignal: { new(): IAbortSignal, prototype: IAbortSignal } = function AbortSignal() {
   const error: any = new TypeError('Illegal constructor')
   error.code = 'ERR_ILLEGAL_CONSTRUCTOR'
@@ -78,7 +79,7 @@ const _AbortSignal: { new(): IAbortSignal, prototype: IAbortSignal } = function 
 initClass(_AbortSignal, EventTarget)
 
 Object.defineProperty(_AbortSignal.prototype, 'aborted', {
-  get: function () {
+  get: function get() {
     assertThis(this, _AbortSignal)
     return this[kAborted]
   },
@@ -87,7 +88,7 @@ Object.defineProperty(_AbortSignal.prototype, 'aborted', {
 })
 
 Object.defineProperty(_AbortSignal.prototype, 'reason', {
-  get: function () {
+  get: function get() {
     assertThis(this, _AbortSignal)
     return this[kReason]
   },
@@ -109,10 +110,10 @@ Object.defineProperty(_AbortSignal.prototype, 'throwIfAborted', {
 })
 
 Object.defineProperty(_AbortSignal.prototype, 'onabort', {
-  get: function () {
+  get: function get() {
     return this[kOnAbort] || null
   },
-  set: function (onabort) {
+  set: function set(onabort) {
     // assertThis(this, __AbortSignal)
     if (this[kOnAbort] === onabort) {
       return

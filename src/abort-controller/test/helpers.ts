@@ -8,7 +8,8 @@ export function getError(func: () => void) {
   let error
   try {
     func()
-  } catch (err) {
+  }
+  catch (err) {
     error = err
     if (typeof error === 'undefined') {
       error = ERROR_UNDEFINED
@@ -102,7 +103,8 @@ function normalizeValue(value) {
     if (value.startsWith('Cannot assign to read only property')) {
       return value.match(/Cannot assign to read only property '.*' of function/)?.[0] || value
     }
-  } else if (value instanceof Error) {
+  }
+  else if (value instanceof Error) {
     if (
       value.constructor.prototype === value
       || value.message.startsWith('TypeError: Value of "this" must be of DOMException')
@@ -311,7 +313,8 @@ function getAdditionalKeys(value): string[] {
   if (className === 'AbortController') {
     keys.push('signal')
     keys.push('abort')
-  } else if (className === 'AbortSignal') {
+  }
+  else if (className === 'AbortSignal') {
     keys.push('aborted')
     keys.push('reason')
     keys.push('throwIfAborted')

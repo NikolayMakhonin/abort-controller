@@ -7,7 +7,8 @@ const _DOMException: typeof DOMException = (() => {
       new DOMException()
       return DOMException
     }
-  } catch {
+  }
+  catch {
     // empty
   }
   return DOMExceptionImpl as any

@@ -7,7 +7,8 @@ const _EventTarget: typeof EventTarget = (() => {
       new EventTarget()
       return EventTarget
     }
-  } catch {
+  }
+  catch {
     // empty
   }
   return EventTargetImpl
