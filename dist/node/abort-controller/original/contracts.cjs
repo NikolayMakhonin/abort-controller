@@ -2,8 +2,9 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const AbortSignalClass = typeof AbortSignal !== 'undefined' ? AbortSignal : void 0;
-const AbortControllerClass = typeof AbortController !== 'undefined' ? AbortController : void 0;
+var contracts = require('../../contracts2.cjs');
 
-exports.AbortControllerClass = AbortControllerClass;
-exports.AbortSignalClass = AbortSignalClass;
+
+
+exports.AbortControllerClass = contracts.AbortControllerClass;
+exports.AbortSignalClass = contracts.AbortSignalClass;
