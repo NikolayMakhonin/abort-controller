@@ -11,6 +11,7 @@ interface AbortController {
   abort(reason?: any): void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 declare const AbortController: {
   prototype: AbortController;
   new(): AbortController;
@@ -39,6 +40,7 @@ interface AbortSignal extends EventTarget {
   removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 declare const AbortSignal: {
   prototype: AbortSignal;
   new(): AbortSignal;

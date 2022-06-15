@@ -16,8 +16,6 @@ class AbortController implements IAbortController {
     return this[kSignal]
   }
 
-  abort(): void
-  abort(reason?: any): void
   abort(reason?: any): void {
     assertThis(this, AbortController)
     abortSignalAbort(this.signal, reason)
