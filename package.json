@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/NikolayMakhonin/abort-controller#readme",
   "scripts": {
+    "_install": "yarn install",
     "pre-publish": "pnpm run lint && pnpm run build && pnpm run test:mocha:ci && pnpm run test:karma",
     "publish:original": "npm publish --cwd packages/abort-controller",
     "publish:fast": "npm publish --cwd packages/abort-controller-fast",
@@ -65,7 +66,6 @@
     "cpy-cli": "^3.1.1",
     "eslint": "^8.12.0",
     "eslint-config-pro": "^3.0.10",
-    "eslint-nibble": "^8.0.2",
     "fs-extra": "^10.0.1",
     "globby": "^11.1.0",
     "karma": "^6.3.20",
