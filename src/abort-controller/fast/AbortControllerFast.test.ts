@@ -88,7 +88,8 @@ describe('behavior', function () {
       assert.strictEqual(abortController.signal.aborted, true)
       if (typeof reason !== 'undefined') {
         assert.strictEqual(abortController.signal.reason, reason)
-      } else {
+      }
+      else {
         assert.ok(abortController.signal.reason instanceof AbortError)
         assert.strictEqual(abortController.signal.reason.reason, reason)
       }
@@ -109,7 +110,8 @@ describe('behavior', function () {
 
     if (typeof reason === 'undefined') {
       abortController.abort()
-    } else {
+    }
+    else {
       abortController.abort(reason)
     }
     checkAfterAbort()
@@ -117,7 +119,8 @@ describe('behavior', function () {
     if (subscribe) {
       assert.deepStrictEqual(onAbortArgs, [[abortController.signal, abortController.signal.reason]])
       onAbortArgs.length = 0
-    } else {
+    }
+    else {
       assert.deepStrictEqual(onAbortArgs, [])
     }
 

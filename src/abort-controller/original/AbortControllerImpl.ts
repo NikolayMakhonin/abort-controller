@@ -6,7 +6,7 @@ const kSignal = Symbol('kSignal')
 
 class AbortController implements IAbortController {
   constructor() {
-    // @ts-ignore
+    // @ts-expect-error
     this[kSignal] = createAbortSignal()
   }
 
@@ -20,7 +20,6 @@ class AbortController implements IAbortController {
   abort(reason?: any): void
   abort(reason?: any): void {
     assertThis(this, AbortController)
-    // @ts-ignore
     abortSignalAbort(this.signal, reason)
   }
 }

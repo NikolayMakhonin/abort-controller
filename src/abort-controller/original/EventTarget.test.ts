@@ -42,7 +42,9 @@ describe('abort-controller > EventTarget', function () {
         message : 'EventTarget',
         actual  : EventTarget1,
         expected: EventTarget2,
-        func    : (o) => getError(() => { new o() }),
+        func    : (o) => getError(() => {
+          new o()
+        }),
       })
     })
   })

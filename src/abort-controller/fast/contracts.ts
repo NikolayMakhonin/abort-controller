@@ -2,8 +2,7 @@ export type IUnsubscribe = () => void
 
 export type TAbortReason = any
 
-export interface IAbortSignalFast
-{
+export interface IAbortSignalFast {
   readonly aborted: boolean
   readonly reason: TAbortReason
 

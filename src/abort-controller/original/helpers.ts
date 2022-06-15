@@ -8,10 +8,13 @@ export function assertThis(_this: object, _class: any) {
 
 export function initClass(_class, _super?) {
   Object.setPrototypeOf(_class, _super)
-  function __() { this.constructor = _class }
+  function __() {
+    this.constructor = _class
+  }
   if (_super == null) {
     _class.prototype = Object.create(_super)
-  } else {
+  }
+  else {
     __.prototype = _super.prototype
     _class.prototype = new __()
   }

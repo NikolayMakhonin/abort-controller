@@ -1,7 +1,7 @@
 import {TAbortReason} from './contracts'
 
 export class AbortError extends Error {
-  private _internal: boolean
+  private readonly _internal: boolean
   readonly reason?: TAbortReason
   constructor(message?: string, reason?: TAbortReason) {
     super(message)

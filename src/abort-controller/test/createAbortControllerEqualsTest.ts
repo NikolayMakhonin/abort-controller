@@ -79,7 +79,8 @@ export function createAbortControllerEqualsTest({
           assert.strictEqual(abortController.signal.aborted, true)
           if (typeof reason !== 'undefined') {
             assert.strictEqual(abortController.signal.reason, reason)
-          } else {
+          }
+          else {
             assert.ok(abortController.signal.reason instanceof Error)
           }
           assert.strictEqual(getError(() => abortController.signal.throwIfAborted()), abortController.signal.reason)
@@ -97,7 +98,8 @@ export function createAbortControllerEqualsTest({
 
         if (typeof reason === 'undefined') {
           abortController.abort()
-        } else {
+        }
+        else {
           abortController.abort(reason)
         }
         checkAfterAbort()
@@ -108,7 +110,8 @@ export function createAbortControllerEqualsTest({
           assert.strictEqual(onAbortArgs[0][0], abortController.signal)
           assert.ok(onAbortArgs[0][1] instanceof Event)
           onAbortArgs.length = 0
-        } else {
+        }
+        else {
           assert.deepStrictEqual(onAbortArgs, [])
         }
 
@@ -244,7 +247,8 @@ export function createAbortControllerEqualsTest({
             function abort() {
               if (typeof reason === 'undefined') {
                 abortController.abort()
-              } else {
+              }
+              else {
                 abortController.abort(reason)
               }
             }
@@ -253,15 +257,31 @@ export function createAbortControllerEqualsTest({
               errors.push(getError(() => (abortController.signal as any).throwIfAborted()))
             }
             
-            if (subscribe1) { subscribe() }
-            if (unsubscribe1) { unsubscribe() }
-            if (abort1) { abort() }
-            if (throwIfAborted1) { throwIfAborted() }
+            if (subscribe1) {
+              subscribe()
+            }
+            if (unsubscribe1) {
+              unsubscribe()
+            }
+            if (abort1) {
+              abort()
+            }
+            if (throwIfAborted1) {
+              throwIfAborted()
+            }
 
-            if (subscribe2) { subscribe() }
-            if (unsubscribe2) { unsubscribe() }
-            if (abort2) { abort() }
-            if (throwIfAborted2) { throwIfAborted() }
+            if (subscribe2) {
+              subscribe()
+            }
+            if (unsubscribe2) {
+              unsubscribe()
+            }
+            if (abort2) {
+              abort()
+            }
+            if (throwIfAborted2) {
+              throwIfAborted()
+            }
 
             return {
               abortController,
