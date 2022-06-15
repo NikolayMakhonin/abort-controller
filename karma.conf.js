@@ -2,7 +2,7 @@
 
 console.log('ENV_VARS', process.env)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     browserNoActivityTimeout: 10 * 60 * 1000,
     browserDisconnectTimeout: 10 * 60 * 1000,
@@ -145,21 +145,6 @@ module.exports = function(config) {
         DEFAULT_CMD: {
           win32: 'E:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe',
         },
-        ENV_CMD: null,
-      },
-      ChromeLatest: {
-        base  : 'Custom',
-        parent: 'ChromeHeadless',
-        flags : [
-          '--incognito',
-          '--no-sandbox',
-          '--disable-web-security',
-          '--allow-cross-origin-auth-prompt',
-          '--disable-site-isolation-trials',
-        ],
-        // DEFAULT_CMD: {
-        //   win32: 'E:/Program Files (x86)/Google/Chrome Dev/Application/chrome.exe',
-        // },
         ENV_CMD: null,
       },
     },
