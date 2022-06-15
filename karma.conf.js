@@ -11,15 +11,20 @@ module.exports = function(config) {
     // processKillTimeout: 2000,
 
     browsers: process.env.GITHUB_WORKFLOW
-      ? [
-        "ChromeLatest",
+      ? (
+        process.platform === 'linux' ? [
         "ChromiumCI",
+          "ChromeLatest",
       ]
+        : process.platform === 'darwin' ? [
+          "SafariLatest",
+        ]
+        : []
+      )
       : [
+        "LocalChromium39",
         "ChromeLatest",
-        "Chromium39",
         "FirefoxHeadless",
-        // "Edge",
       ],
     files: ["dist/browser/browser.test.js"],
     frameworks: ["mocha"],
@@ -28,7 +33,6 @@ module.exports = function(config) {
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-safari-launcher',
-      'karma-edge-launcher',
       'karma-mocha',
       'karma-coverage',
       '@flemist/karma-custom-launcher',
@@ -42,6 +46,24 @@ module.exports = function(config) {
       dir : `tmp/coverage/karma/json`,
     },
     customLaunchers: {
+      ChromeLatest: {
+        base  : 'Custom',
+        parent: 'ChromeHeadless',
+        flags : [
+          '--incognito',
+          '--no-sandbox',
+          '--disable-web-security',
+          '--allow-cross-origin-auth-prompt',
+          '--disable-site-isolation-trials',
+        ],
+      },
+      SafariLatest: {
+        base  : 'Custom',
+        parent: 'SafariHeadless',
+        flags : [
+
+        ],
+      },
       ChromiumCI: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
@@ -62,7 +84,7 @@ module.exports = function(config) {
         },
         ENV_CMD: null,
       },
-      Chromium33: {
+      LocalChromium33: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
         displayName: 'Chromium 33.0.1750.170',
@@ -78,7 +100,7 @@ module.exports = function(config) {
         },
         ENV_CMD: null,
       },
-      Chromium39: {
+      LocalChromium39: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
         displayName: 'Chromium 39.0.2171.99',
@@ -94,7 +116,7 @@ module.exports = function(config) {
         },
         ENV_CMD: null,
       },
-      Chromium44: {
+      LocalChromium44: {
         base       : 'Custom',
         parent     : 'ChromiumHeadless',
         displayName: 'Chromium 44.0.2403.119',

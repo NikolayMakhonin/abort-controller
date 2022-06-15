@@ -188,7 +188,7 @@ const browserTestsConfig = {
       ...nycrc,
     }),
     babel({
-      configFile: path.resolve(__dirname, '.babelrc.cjs'),
+      configFile: path.resolve(__dirname, '.babelrc.cjs'), // enable babel for node_modules
       extensions  : ['.ts', '.js', '.cjs', '.mjs'],
       babelHelpers: 'runtime',
       exclude     : [

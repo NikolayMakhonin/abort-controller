@@ -1,6 +1,5 @@
 module.exports = {
-  parser: '@typescript-eslint/parser',
-  extends: [
+  'extends': [
     'pro',
   ],
   rules: {
@@ -32,27 +31,12 @@ module.exports = {
     // '@typescript-eslint/await-thenable': 'off',
     // '@typescript-eslint/no-unsafe-argument': 'off',
     // 'no-constant-condition': 'off',
-    'func-names': 'off',
-    '@typescript-eslint/no-empty-function': 'off',
-    'no-empty-function': 'off',
-    'no-process-exit': 'off',
-    'no-await-in-loop': 'off',
-    'array-element-newline': 'off',
-    'multiline-ternary': 'off',
+    // 'func-names'                          : 'off',
+    // '@typescript-eslint/no-empty-function': 'off',
+    // 'no-empty-function'                   : 'off',
+    // 'no-process-exit'                     : 'off',
+    // 'no-await-in-loop'                    : 'off',
+    // 'array-element-newline'               : 'off',
+    // 'multiline-ternary'                   : 'off',
   },
-  parserOptions: {
-    ecmaVersion: 2020,
-    sourceType: 'module',
-    tsconfigRootDir: process.cwd(),
-    project: ['./tsconfig.json'],
-    extraFileExtensions: ['.svelte']
-  },
-  env: {
-    es6: true
-  },
-  settings: {
-
-  },
-  plugins: ['@typescript-eslint'],
-  ignorePatterns: ['node_modules']
 }
