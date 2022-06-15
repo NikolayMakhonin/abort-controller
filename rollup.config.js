@@ -13,7 +13,7 @@ import babel from '@rollup/plugin-babel'
 import istanbul from 'rollup-plugin-istanbul'
 import nycrc from './nyc.config.mjs'
 import { terser } from 'rollup-plugin-terser'
-import path from "path"
+import path from 'path'
 import pkg from './package.json'
 
 const dev = !!process.env.ROLLUP_WATCH
@@ -44,7 +44,7 @@ const onwarnRollup = (warning, onwarn) => {
     ]
       .map(o => o?.toString()?.trim())
       .filter(o => o)
-      .join('\r\n') + '\r\n'
+      .join('\r\n') + '\r\n',
   )
 
   return false
@@ -53,22 +53,22 @@ const onwarnRollup = (warning, onwarn) => {
 const aliasOptions = {
   entries: [
     {
-      find: 'src',
-      replacement: path.resolve(__dirname, 'src')
+      find       : 'src',
+      replacement: path.resolve(__dirname, 'src'),
     },
   ],
 }
 
 const nodeConfig = ({input, outputDir, relative}) => ({
-  cache: true,
+  cache : true,
   input,
   output: {
-    dir: outputDir,
-    format: 'cjs',
-    exports: 'named',
+    dir           : outputDir,
+    format        : 'cjs',
+    exports       : 'named',
     entryFileNames: `[name].cjs`,
     chunkFileNames: '[name].cjs',
-    sourcemap: dev,
+    sourcemap     : dev,
   },
   plugins: [
     del({ targets: outputDir }),
@@ -86,22 +86,22 @@ const nodeConfig = ({input, outputDir, relative}) => ({
       sourceMap: dev,
     }),
   ],
-  onwarn: onwarnRollup,
+  onwarn  : onwarnRollup,
   external: Object.keys(pkg.dependencies)
     .concat(Object.keys(pkg.devDependencies))
     .concat(require('module').builtinModules || Object.keys(process.binding('natives'))),
 })
 
 const browserConfig = ({input, outputDir, outputFile}) => ({
-  cache: true,
+  cache : true,
   input,
   output: {
-    dir: outputDir,
-    format: 'iife',
-    exports: 'named',
+    dir           : outputDir,
+    format        : 'iife',
+    exports       : 'named',
     entryFileNames: outputFile,
     chunkFileNames: outputFile,
-    sourcemap: dev && 'inline',
+    sourcemap     : dev && 'inline',
   },
   plugins: [
     del({ targets: path.join(outputDir, outputFile) }),
@@ -117,7 +117,7 @@ const browserConfig = ({input, outputDir, outputFile}) => ({
       transformMixedEsModules: true,
     }),
     typescript({
-      sourceMap: dev,
+      sourceMap      : dev,
       compilerOptions: {
         target: 'es5',
       },
@@ -149,12 +149,12 @@ const browserTestsConfig = {
   input: [
     'src/helpers/test/show-useragent.ts',
     'src/helpers/test/register.ts',
-    'src/**/*.test.ts'
+    'src/**/*.test.ts',
   ],
   output: {
-    dir: 'dist/browser',
-    format: 'iife',
-    exports: 'named',
+    dir      : 'dist/browser',
+    format   : 'iife',
+    exports  : 'named',
     sourcemap: 'inline',
   },
   plugins: [
@@ -168,18 +168,18 @@ const browserTestsConfig = {
       preventAssignment: true,
     }),
     resolve({
-      browser: true,
+      browser       : true,
       preferBuiltins: false,
     }),
     commonjs({
       transformMixedEsModules: true,
     }),
     inject({
-      global: require.resolve('rollup-plugin-node-polyfills/polyfills/global.js')
+      global: require.resolve('rollup-plugin-node-polyfills/polyfills/global.js'),
     }),
     polyfills(),
     typescript({
-      sourceMap: true,
+      sourceMap      : true,
       compilerOptions: {
         target: 'es5',
       },
@@ -188,7 +188,7 @@ const browserTestsConfig = {
       ...nycrc,
     }),
     babel({
-      configFile: path.resolve(__dirname, '.babelrc.cjs'), // enable babel for node_modules
+      configFile  : path.resolve(__dirname, '.babelrc.cjs'), // enable babel for node_modules
       extensions  : ['.ts', '.js', '.cjs', '.mjs'],
       babelHelpers: 'runtime',
       exclude     : [
@@ -204,18 +204,18 @@ const browserTestsConfig = {
 
 export default [
   nodeConfig({
-    input: ['src/**/*.ts'],
+    input    : ['src/**/*.ts'],
     outputDir: 'dist/node',
-    relative: 'src',
+    relative : 'src',
   }),
   browserConfig({
-    input: ['src/abort-controller/fast/index.ts'],
-    outputDir: 'packages/abort-controller-fast/dist/browser',
+    input     : ['src/abort-controller/fast/index.ts'],
+    outputDir : 'packages/abort-controller-fast/dist/browser',
     outputFile: 'browser.js',
   }),
   browserConfig({
-    input: ['src/abort-controller/original/index.ts'],
-    outputDir: 'packages/abort-controller/dist/browser',
+    input     : ['src/abort-controller/original/index.ts'],
+    outputDir : 'packages/abort-controller/dist/browser',
     outputFile: 'browser.js',
   }),
   browserTestsConfig,
