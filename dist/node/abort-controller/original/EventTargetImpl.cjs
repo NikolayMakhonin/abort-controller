@@ -2,12 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var EventTargetImpl = require('../../EventTargetImpl.cjs');
-require('../../helpers2.cjs');
+var abortController_original_helpers = require('./helpers.cjs');
 
-
-
-Object.defineProperty(exports, 'EventTargetImpl', {
-	enumerable: true,
-	get: function () { return EventTargetImpl._EventTarget; }
-});
+// eslint-disable-next-line import/no-mutable-exports
+exports.EventTargetImpl = void 0;
+if (typeof window !== 'undefined') {
+    exports.EventTargetImpl = function EventTarget() {
+        return document.createDocumentFragment();
+    };
+    abortController_original_helpers.initClass(exports.EventTargetImpl, DocumentFragment);
+}
