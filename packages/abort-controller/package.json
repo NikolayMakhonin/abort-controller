@@ -1,6 +1,6 @@
 {
   "name": "@flemist/abort-controller",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Implementation of AbortController interface (version of NodeJS 18)",
   "main": "dist/node/index.cjs",
   "types": "dist/node/index.d.ts",
