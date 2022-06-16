@@ -1,6 +1,6 @@
 {
   "name": "",
-  "version": "0.0.0",
+  "version": "",
   "description": "Implementation of AbortController interface",
   "engines": {
     "node": ">=15",

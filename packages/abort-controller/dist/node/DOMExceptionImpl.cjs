@@ -2,11 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-class DOMException extends Error {
-    constructor(message, name) {
-        super(message);
-        this.name = name;
-    }
-}
+var DOMExceptionImpl = require('../../DOMExceptionImpl.cjs');
 
-exports.DOMExceptionImpl = DOMException;
+
+
+exports.DOMExceptionImpl = DOMExceptionImpl.DOMException;
