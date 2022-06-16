@@ -22,7 +22,7 @@
     "publish:original": "npm publish --cwd packages/abort-controller",
     "publish:fast": "npm publish --cwd packages/abort-controller-fast",
     "publish": "pnpm run pre-publish && npm run publish:original && npm run publish:fast",
-    "prepublishOnly": "!! DON'T PUBLIH IT !!",
+    "prepublishOnly": "!! You should publish only packages/** !!",
     "audit": "pnpm audit --prod",
     "lint": "eslint ./**/*.{js,cjs,mjs,ts,tsx}",
     "lint:fix": "eslint --fix ./**/*.{js,cjs,mjs,ts,tsx}",
