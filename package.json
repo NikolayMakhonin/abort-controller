@@ -24,7 +24,7 @@
     "pre-publish": "pnpm run audit && pnpm run lint && pnpm run build && pnpm run test:mocha:ci && pnpm run test:karma",
     "publish:original": "npm publish --cwd packages/abort-controller",
     "publish:fast": "npm publish --cwd packages/abort-controller-fast",
-    "publish": "pnpm run pre-publish && npm run publish:original && npm run publish:fast",
+    "publish": "pnpm run pre-publish && pnpm run publish:original && pnpm run publish:fast",
     "prepublishOnly": "!! You should publish only packages/** !!",
     "audit": "pnpm audit --prod",
     "lint": "eslint ./**/*.{js,cjs,mjs,ts,tsx}",
