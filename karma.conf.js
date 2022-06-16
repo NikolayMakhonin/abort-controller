@@ -132,21 +132,6 @@ module.exports = function (config) {
         },
         ENV_CMD: null,
       },
-      ChromiumLatest: {
-        base  : 'Custom',
-        parent: 'ChromiumHeadless',
-        flags : [
-          '--incognito',
-          '--no-sandbox',
-          '--disable-web-security',
-          '--allow-cross-origin-auth-prompt',
-          '--disable-site-isolation-trials',
-        ],
-        DEFAULT_CMD: {
-          win32: 'E:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe',
-        },
-        ENV_CMD: null,
-      },
     },
   })
 }

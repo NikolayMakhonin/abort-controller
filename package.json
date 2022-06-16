@@ -10,7 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/NikolayMakhonin/abort-controller.git"
   },
-  "author": "NikolayMakhonin",
+  "author": {
+    "name": "Nikolay Makhonin",
+    "url": "https://github.com/NikolayMakhonin/"
+  },
   "license": "Unlimited Free",
   "bugs": {
     "url": "https://github.com/NikolayMakhonin/abort-controller/issues"

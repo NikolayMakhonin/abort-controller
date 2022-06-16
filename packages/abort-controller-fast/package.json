@@ -13,8 +13,11 @@
     "AbortSignal",
     "fast"
   ],
-  "author": "NikolayMakhonin",
-  "license": "ISC",
+  "author": {
+    "name": "Nikolay Makhonin",
+    "url": "https://github.com/NikolayMakhonin/"
+  },
+  "license": "Unlimited Free",
   "bugs": {
     "url": "https://github.com/NikolayMakhonin/abort-controller/issues"
   },
