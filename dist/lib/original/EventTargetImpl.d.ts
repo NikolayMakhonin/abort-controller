@@ -1,4 +1,5 @@
 import { IEventTarget } from './contracts';
+declare type _EventTarget = IEventTarget;
 declare let _EventTarget: {
     new (): IEventTarget;
     prototype: IEventTarget;

@@ -1,10 +1,10 @@
 import { c as createAbortSignal, a as abortSignalAbort } from './AbortSignalImpl.mjs';
 import { a as assertThis } from './helpers2.mjs';
 
+/* eslint-disable @typescript-eslint/no-redeclare */
 const kSignal = Symbol('kSignal');
-class AbortController {
+const _AbortController = class AbortController {
     constructor() {
-        // @ts-expect-error
         this[kSignal] = createAbortSignal();
     }
     get signal() {
@@ -15,6 +15,6 @@ class AbortController {
         assertThis(this, AbortController);
         abortSignalAbort(this.signal, reason);
     }
-}
+};
 
-export { AbortController as A };
+export { _AbortController as _ };

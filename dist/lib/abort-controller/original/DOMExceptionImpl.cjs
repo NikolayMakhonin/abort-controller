@@ -6,4 +6,4 @@ var DOMExceptionImpl = require('../../DOMExceptionImpl.cjs');
 
 
 
-exports.DOMExceptionImpl = DOMExceptionImpl.DOMException;
+exports.DOMExceptionImpl = DOMExceptionImpl._DOMException;

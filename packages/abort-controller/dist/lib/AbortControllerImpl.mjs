@@ -1,4 +1,4 @@
-export { A as AbortControllerImpl } from '../../AbortControllerImpl.mjs';
+export { _ as AbortControllerImpl } from '../../AbortControllerImpl.mjs';
 import '../../AbortSignalImpl.mjs';
 import '../../helpers2.mjs';
 import '../../DOMException.mjs';

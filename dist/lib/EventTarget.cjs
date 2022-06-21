@@ -2,6 +2,7 @@
 
 var EventTargetImpl = require('./EventTargetImpl.cjs');
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 const _EventTarget = (() => {
     try {
         if (typeof EventTarget !== 'undefined') {

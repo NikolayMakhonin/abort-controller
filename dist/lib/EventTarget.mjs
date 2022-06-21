@@ -1,5 +1,6 @@
 import { _ as _EventTarget$1 } from './EventTargetImpl.mjs';
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 const _EventTarget = (() => {
     try {
         if (typeof EventTarget !== 'undefined') {

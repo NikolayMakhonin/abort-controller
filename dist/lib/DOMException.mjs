@@ -1,5 +1,6 @@
-import { D as DOMException$1 } from './DOMExceptionImpl.mjs';
+import { _ as _DOMException$1 } from './DOMExceptionImpl.mjs';
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 const _DOMException = (() => {
     try {
         if (typeof DOMException !== 'undefined') {
@@ -11,7 +12,7 @@ const _DOMException = (() => {
     catch (_a) {
         // empty
     }
-    return DOMException$1;
+    return _DOMException$1;
 })();
 
 export { _DOMException as _ };

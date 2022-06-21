@@ -1,1 +1,1 @@
-export { D as DOMExceptionImpl } from '../../DOMExceptionImpl.mjs';
+export { _ as DOMExceptionImpl } from '../../DOMExceptionImpl.mjs';

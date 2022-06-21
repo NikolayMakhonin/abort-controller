@@ -1,8 +1,9 @@
-class DOMException extends Error {
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+const _DOMException = class DOMException extends Error {
     constructor(message, name) {
         super(message);
         this.name = name;
     }
-}
+};
 
-export { DOMException as D };
+export { _DOMException as _ };

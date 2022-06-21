@@ -1,5 +1,7 @@
 import {EventTargetImpl} from './EventTargetImpl'
 
+type _EventTarget = EventTarget
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 const _EventTarget: typeof EventTarget = (() => {
   try {
     if (typeof EventTarget !== 'undefined') {

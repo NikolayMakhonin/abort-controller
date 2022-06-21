@@ -1,10 +1,7 @@
-import { AbortSignalImpl } from './AbortSignalImpl';
 import { IAbortController } from './contracts';
-declare const kSignal: unique symbol;
-declare class AbortController implements IAbortController {
-    constructor();
-    private readonly [kSignal];
-    get signal(): AbortSignalImpl;
-    abort(reason?: any): void;
-}
-export { AbortController as AbortControllerImpl };
+declare type _AbortController = IAbortController;
+declare const _AbortController: {
+    new (): IAbortController;
+    prototype: IAbortController;
+};
+export { _AbortController as AbortControllerImpl };

@@ -1,7 +1,8 @@
 import {IEventTarget} from './contracts'
 import {initClass} from './helpers'
 
-// eslint-disable-next-line import/no-mutable-exports
+type _EventTarget = IEventTarget
+// eslint-disable-next-line @typescript-eslint/no-redeclare,import/no-mutable-exports
 let _EventTarget: { new(): IEventTarget; prototype: IEventTarget }
 
 if (typeof window !== 'undefined') {

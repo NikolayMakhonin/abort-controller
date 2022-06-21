@@ -12,4 +12,4 @@ require('../../EventTargetImpl.cjs');
 
 
 
-exports.AbortControllerImpl = AbortControllerImpl.AbortController;
+exports.AbortControllerImpl = AbortControllerImpl._AbortController;

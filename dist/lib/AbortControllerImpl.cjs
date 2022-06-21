@@ -3,10 +3,10 @@
 var AbortSignalImpl = require('./AbortSignalImpl.cjs');
 var helpers = require('./helpers2.cjs');
 
+/* eslint-disable @typescript-eslint/no-redeclare */
 const kSignal = Symbol('kSignal');
-class AbortController {
+const _AbortController = class AbortController {
     constructor() {
-        // @ts-expect-error
         this[kSignal] = AbortSignalImpl.createAbortSignal();
     }
     get signal() {
@@ -17,6 +17,6 @@ class AbortController {
         helpers.assertThis(this, AbortController);
         AbortSignalImpl.abortSignalAbort(this.signal, reason);
     }
-}
+};
 
-exports.AbortController = AbortController;
+exports._AbortController = _AbortController;
