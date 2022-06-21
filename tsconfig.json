@@ -5,6 +5,7 @@
     },
   },
   "include": [
+    "@types/**/*",
     "src/**/*"
   ],
   "exclude": [
@@ -21,14 +22,24 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
     "newLine": "LF",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "@types"
     ],
     "lib": [
       "DOM",
       "ESNext"
     ],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "src/*": [
+        "src/*"
+      ],
+      "~/*": [
+        "./*"
+      ]
+    }
   }
 }

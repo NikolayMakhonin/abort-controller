@@ -4,7 +4,7 @@ import {AbortControllerFast} from './AbortControllerFast'
 import {toAbortController, toAbortControllerFast} from './wrappers'
 import {getError} from '../test/helpers'
 import {AbortControllerImpl} from '../original'
-import {createTestVariantsSync} from '@flemist/test-variants'
+import {createTestVariants} from '@flemist/test-variants'
 import {AbortError} from './AbortError'
 import {IUnsubscribe} from './contracts'
 
@@ -61,7 +61,7 @@ describe('abort-controller > AbortControllerFast > toAbortControllerFast', funct
 })
 
 describe('behavior', function () {
-  const testVariants = createTestVariantsSync(({
+  const testVariants = createTestVariants(({
     unsubscribe,
     subscribe,
     reason,
@@ -150,12 +150,11 @@ describe('behavior', function () {
     assert.deepStrictEqual(onAbortArgs, [])
   })
 
-  it('variants', function () {
-    const count = testVariants({
+  it('variants', async function () {
+    await testVariants({
       unsubscribe: [false, true],
       subscribe  : [false, true],
       reason     : [void 0, null, false, '', 'str', new Error(), new AbortError(), Symbol('')],
-    })
-    console.log('variants: ' + count)
+    })()
   })
 })

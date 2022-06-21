@@ -2,7 +2,7 @@
 /* eslint-disable no-self-assign,no-new,new-cap */
 import {getError, isLatestNodeVersion, processVersion, test} from './helpers'
 import {AbortControllerClass, AbortSignalClass} from '../test/contracts'
-import {createTestVariantsSync} from '@flemist/test-variants'
+import {createTestVariants} from '@flemist/test-variants'
 import {AbortError} from '../fast/AbortError'
 
 export function createAbortControllerEqualsTest({
@@ -52,7 +52,7 @@ export function createAbortControllerEqualsTest({
 
   if (behavior) {
     describe('behavior', function () {
-      const testVariants = createTestVariantsSync(({
+      const testVariants = createTestVariants(({
         unsubscribe,
         subscribe,
         reason,
@@ -136,13 +136,12 @@ export function createAbortControllerEqualsTest({
         assert.deepStrictEqual(onAbortArgs, [])
       })
 
-      it('variants', function () {
-        const count = testVariants({
+      it('variants', async function () {
+        await testVariants({
           unsubscribe: [false, true],
           subscribe  : [false, true],
           reason     : [void 0, null, false, '', 'str', new Error(), new AbortError(), Symbol('')],
-        })
-        console.log('variants: ' + count)
+        })()
       })
     })
   }
@@ -201,7 +200,7 @@ export function createAbortControllerEqualsTest({
         })
       })
 
-      const testVariants = createTestVariantsSync(({
+      const testVariants = createTestVariants(({
         subscribe1,
         unsubscribe1,
         abort1,
@@ -292,8 +291,8 @@ export function createAbortControllerEqualsTest({
         })
       })
 
-      it('variants', function () {
-        const count = testVariants({
+      it('variants', async function () {
+        await testVariants({
           subscribe1     : [false, true],
           unsubscribe1   : [false, true],
           abort1         : [false, true],
@@ -303,8 +302,7 @@ export function createAbortControllerEqualsTest({
           abort2         : [false, true],
           throwIfAborted2: [false, true],
           reason         : [void 0, null, false, '', 'str', new Error(), new AbortError(), Symbol('')],
-        })
-        console.log('variants: ' + count)
+        })()
       })
       
       it('AbortSignal subscribe', function () {

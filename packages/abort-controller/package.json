@@ -1,9 +1,9 @@
 {
   "name": "@flemist/abort-controller",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Implementation of AbortController interface (version of NodeJS 18)",
-  "main": "dist/node/index.cjs",
-  "types": "dist/node/index.d.ts",
+  "main": "dist/lib/index.cjs",
+  "types": "dist/lib/index.d.ts",
   "engines": {
     "node": ">=15"
   },
@@ -25,11 +25,11 @@
   "bugs": {
     "url": "https://github.com/NikolayMakhonin/abort-controller/issues"
   },
-  "homepage": "https://github.com/NikolayMakhonin/abort-controller#readme",
+  "homepage": "https://github.com/NikolayMakhonin/abort-controller",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "tslib": "^2.3.1"
+    "tslib": "^2.4.0"
   }
 }
