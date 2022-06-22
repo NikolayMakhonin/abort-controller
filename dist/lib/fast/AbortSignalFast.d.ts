@@ -5,7 +5,7 @@ interface IAbortSignalFastImpl extends IAbortSignalFast {
 }
 export declare class AbortSignalFast implements IAbortSignalFastImpl {
     aborted: boolean;
-    reason: any;
+    reason: TAbortReason;
     private _callbacks;
     constructor();
     subscribe(callback: Callback<this>): IUnsubscribe;
