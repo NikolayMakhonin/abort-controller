@@ -1,7 +1,7 @@
 // / <reference lib="dom" />
 /* eslint-disable no-self-assign,no-new,new-cap */
 import {getError, isLatestNodeVersion, processVersion, test} from './helpers'
-import {AbortControllerClass, AbortSignalClass} from '../test/contracts'
+import {AbortControllerClass, AbortSignalClass} from './contracts'
 import {createTestVariants} from '@flemist/test-variants'
 import {AbortError} from '../fast/AbortError'
 

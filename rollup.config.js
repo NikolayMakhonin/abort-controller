@@ -223,12 +223,12 @@ export default [
     extension: 'cjs',
   }),
   browserConfig({
-    input     : ['src/abort-controller/fast/index.ts'],
+    input     : ['src/fast/index.ts'],
     outputDir : 'packages/abort-controller-fast/dist/bundle',
     outputFile: 'browser.js',
   }),
   browserConfig({
-    input     : ['src/abort-controller/original/index.ts'],
+    input     : ['src/original/index.ts'],
     outputDir : 'packages/abort-controller/dist/bundle',
     outputFile: 'browser.js',
   }),
