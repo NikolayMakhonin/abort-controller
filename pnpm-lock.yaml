@@ -10,10 +10,10 @@ specifiers:
   '@flemist/copy-glob-flat': 0.0.5
   '@flemist/karma-custom-launcher': 0.0.0
   '@flemist/test-utils': 0.0.5
-  '@flemist/test-variants': 0.0.8
+  '@flemist/test-variants': 0.0.9
   '@rollup/plugin-alias': 3.1.9
   '@rollup/plugin-babel': 5.3.1
-  '@rollup/plugin-commonjs': 21.1.0
+  '@rollup/plugin-commonjs': '=21.1.0'
   '@rollup/plugin-inject': 4.0.4
   '@rollup/plugin-json': 4.1.0
   '@rollup/plugin-multi-entry': 4.1.0
@@ -64,7 +64,7 @@ devDependencies:
   '@flemist/copy-glob-flat': 0.0.5
   '@flemist/karma-custom-launcher': 0.0.0
   '@flemist/test-utils': 0.0.5
-  '@flemist/test-variants': 0.0.8
+  '@flemist/test-variants': 0.0.9
   '@rollup/plugin-alias': 3.1.9_rollup@2.75.7
   '@rollup/plugin-babel': 5.3.1_za5spbk65gc2bmrclluhieacz4
   '@rollup/plugin-commonjs': 21.1.0_rollup@2.75.7
@@ -1319,8 +1319,8 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /@flemist/test-variants/0.0.8:
-    resolution: {integrity: sha512-Uc+TiPun3dWafiWq7e2hA2lWxur3aOV5/PAtXRU3GNKyi/gYaEBl29mfYt2003+KRutz1Tf7/xie3JY1QMbzAQ==}
+  /@flemist/test-variants/0.0.9:
+    resolution: {integrity: sha512-dWuLp35BVostWcjdsnKkf2HGixWTHrGFOj/Oyws9JdSVJxuKY9Ga/Lr4kGTuQiUk0HimDumINcqSBQA6yqUJ1w==}
     engines: {node: '>=10.4.0', pnpm: ^7.1.6}
     dependencies:
       tslib: 2.4.0
