@@ -23,5 +23,5 @@ export interface IAbortControllerFast<TSignal extends IAbortSignalFast = IAbortS
   /**
    * It will be converted to AbortError if the reason is not Error.
    */
-  abort(reason: TAbortReason): void
+  abort(reason?: TAbortReason): void
 }

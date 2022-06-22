@@ -1,6 +1,7 @@
 import {
   IAbortControllerFast,
   IAbortSignalFast,
+  TAbortReason,
 } from './contracts'
 import {AbortError} from './AbortError'
 
@@ -18,7 +19,7 @@ export function toAbortSignalFast<TAbortControllerFast extends IAbortControllerF
   abortSignal: AbortSignal,
   abortControllerFast: TAbortControllerFast,
 ): TAbortControllerFast['signal'] {
-  function onAbort(reason: any) {
+  function onAbort(reason: TAbortReason) {
     abortControllerFast.abort(reason)
   }
   abortSignal.addEventListener('abort', onAbort)

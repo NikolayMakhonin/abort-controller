@@ -1,4 +1,4 @@
-import {IAbortControllerFast, IAbortSignalFast} from './contracts'
+import {IAbortControllerFast, IAbortSignalFast, TAbortReason} from './contracts'
 import {AbortSignalFast} from './AbortSignalFast'
 import {AbortError} from './AbortError'
 
@@ -9,7 +9,7 @@ export class AbortControllerFast implements IAbortControllerFast {
     this.signal = new AbortSignalFast()
   }
 
-  abort(reason?: any): void {
+  abort(reason?: TAbortReason): void {
     if (this.signal.aborted) {
       return
     }

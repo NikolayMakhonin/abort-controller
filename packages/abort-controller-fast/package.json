@@ -1,6 +1,6 @@
 {
   "name": "@flemist/abort-controller-fast",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Custom very fast AbortController implementation and interface. With the possibility of converting/connecting with a standard AbortController (version of NodeJS 18)",
   "main": "dist/lib/index.cjs",
   "types": "dist/lib/index.d.ts",
