@@ -6,9 +6,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const _DOMException = class DOMException extends Error {
     constructor(message, name) {
         super(message);
-        if (name) {
-            this.name = name;
-        }
+        this.name = name;
     }
 };
 

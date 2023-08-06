@@ -10,7 +10,7 @@ return r=Object.setPrototypeOf||{__proto__:[]
 }||function(t,e){
 for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o])
 },r(t,e)};var n,i=function(t){function e(e,o){
-var r=t.call(this,e)||this;return o&&(r.name=o),r}
+var r=t.call(this,e)||this;return r.name=o,r}
 return function(t,e){
 if("function"!=typeof e&&null!==e)throw new TypeError("Class extends value "+String(e)+" is not a constructor or null")
 ;function o(){this.constructor=t}
