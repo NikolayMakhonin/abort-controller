@@ -32,12 +32,6 @@ declare const AbortSignal: {
 };
 export declare type IAbortSignal = AbortSignal;
 export declare type IAbortController = AbortController;
-export declare const AbortSignalClass: {
-    new (): AbortSignal;
-    prototype: AbortSignal;
-};
-export declare const AbortControllerClass: {
-    new (): AbortController;
-    prototype: AbortController;
-};
+export declare const AbortSignalClass: typeof AbortSignal;
+export declare const AbortControllerClass: typeof AbortController;
 export {};

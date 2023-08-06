@@ -1,6 +1,9 @@
 import { AbortError } from './AbortError.mjs';
 
 function toAbortSignal(abortSignalFast, abortController) {
+    if (!abortController) {
+        abortController = new AbortController();
+    }
     abortSignalFast.subscribe((reason) => {
         abortController.abort(reason);
     });

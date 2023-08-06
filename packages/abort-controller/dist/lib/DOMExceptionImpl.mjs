@@ -2,7 +2,9 @@
 const _DOMException = class DOMException extends Error {
     constructor(message, name) {
         super(message);
-        this.name = name;
+        if (name) {
+            this.name = name;
+        }
     }
 };
 

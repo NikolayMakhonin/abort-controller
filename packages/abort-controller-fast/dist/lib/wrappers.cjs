@@ -5,6 +5,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var fast_AbortError = require('./AbortError.cjs');
 
 function toAbortSignal(abortSignalFast, abortController) {
+    if (!abortController) {
+        abortController = new AbortController();
+    }
     abortSignalFast.subscribe((reason) => {
         abortController.abort(reason);
     });
