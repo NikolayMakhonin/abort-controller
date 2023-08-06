@@ -3,7 +3,9 @@ type _DOMException = DOMException
 const _DOMException = class DOMException extends Error {
   constructor(message?: string, name?: string) {
     super(message)
-    this.name = name
+    if (name) {
+      this.name = name
+    }
   }
 }
 

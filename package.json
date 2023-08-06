@@ -7,8 +7,7 @@
     "packages/abort-controller-fast"
   ],
   "engines": {
-    "node": ">=15",
-    "pnpm": "^7.1.6"
+    "node": ">=15"
   },
   "repository": {
     "type": "git",

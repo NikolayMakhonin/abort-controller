@@ -68,11 +68,11 @@ describe('abort-controller > EventTarget', function () {
         expected: EventTarget2,
         func    : (o) => {
           const eventTarget = new o()
-          const onEvent1Args = []
+          const onEvent1Args: any[] = []
           function onEvent1(...args) {
             onEvent1Args.push([this, ...args])
           }
-          const onEvent2Args = []
+          const onEvent2Args: any[] = []
           function onEvent2(...args) {
             onEvent2Args.push([this, ...args])
           }

@@ -19,9 +19,9 @@ export function createAbortControllerEqualsTest({
   behavior: boolean,
   equalsConstructors: boolean,
   equalsInstances: boolean,
-  AbortSignal1: typeof AbortSignalClass,
+  AbortSignal1: typeof AbortSignalClass | null,
   AbortController1: typeof AbortControllerClass,
-  AbortSignal2: typeof AbortSignalClass,
+  AbortSignal2: typeof AbortSignalClass | null,
   AbortController2: typeof AbortControllerClass,
 }) {
   _this.timeout(300000)
@@ -61,7 +61,7 @@ export function createAbortControllerEqualsTest({
         subscribe: boolean,
         reason: any,
       }) => {
-        const onAbortArgs = []
+        const onAbortArgs: any[] = []
         function onAbort(...args) {
           onAbortArgs.push([this, ...args])
         }
@@ -162,6 +162,7 @@ export function createAbortControllerEqualsTest({
           actual  : AbortSignal1,
           expected: AbortSignal2,
           func    : (o) => getError(() => {
+            // @ts-expect-error
             new o()
           }),
         })
@@ -227,8 +228,8 @@ export function createAbortControllerEqualsTest({
           actual  : AbortController1,
           expected: AbortController2,
           func    : (o) => {
-            const onAbortArgs = []
-            const errors = []
+            const onAbortArgs: any[] = []
+            const errors: any[] = []
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])
             }
@@ -255,7 +256,7 @@ export function createAbortControllerEqualsTest({
             function throwIfAborted() {
               errors.push(getError(() => (abortController.signal as any).throwIfAborted()))
             }
-            
+
             if (subscribe1) {
               subscribe()
             }
@@ -304,7 +305,7 @@ export function createAbortControllerEqualsTest({
           reason         : [void 0, null, false, '', 'str', new Error(), new AbortError(), Symbol('')],
         })()
       })
-      
+
       it('AbortSignal subscribe', function () {
         test({
           repeat  : 2,
@@ -313,7 +314,7 @@ export function createAbortControllerEqualsTest({
           expected: AbortController2,
           func    : (o) => {
             const abortController = new o()
-            const onAbortArgs = []
+            const onAbortArgs: any[] = []
 
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])
@@ -336,7 +337,7 @@ export function createAbortControllerEqualsTest({
           expected: AbortController2,
           func    : (o) => {
             const abortController = new o()
-            const onAbortArgs = []
+            const onAbortArgs: any[] = []
 
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])
@@ -361,7 +362,7 @@ export function createAbortControllerEqualsTest({
           expected: AbortController2,
           func    : (o) => {
             const abortController = new o()
-            const onAbortArgs = []
+            const onAbortArgs: any[] = []
 
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])
@@ -385,7 +386,7 @@ export function createAbortControllerEqualsTest({
           expected: AbortController2,
           func    : (o) => {
             const abortController = new o()
-            const onAbortArgs = []
+            const onAbortArgs: any[] = []
 
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])
@@ -410,7 +411,7 @@ export function createAbortControllerEqualsTest({
           expected: AbortController2,
           func    : (o) => {
             const abortController = new o()
-            const onAbortArgs = []
+            const onAbortArgs: any[] = []
 
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])
@@ -434,7 +435,7 @@ export function createAbortControllerEqualsTest({
           expected: AbortController2,
           func    : (o) => {
             const abortController = new o()
-            const onAbortArgs = []
+            const onAbortArgs: any[] = []
 
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])
@@ -459,7 +460,7 @@ export function createAbortControllerEqualsTest({
           expected: AbortController2,
           func    : (o) => {
             const abortController = new o()
-            const onAbortArgs = []
+            const onAbortArgs: any[] = []
 
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])
@@ -485,7 +486,7 @@ export function createAbortControllerEqualsTest({
           expected: AbortController2,
           func    : (o) => {
             const abortController = new o()
-            const onAbortArgs = []
+            const onAbortArgs: any[] = []
 
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])
@@ -513,7 +514,7 @@ export function createAbortControllerEqualsTest({
           expected: AbortController2,
           func    : (o) => {
             const abortController = new o()
-            const onAbortArgs = []
+            const onAbortArgs: any[] = []
 
             function onAbort(...args) {
               onAbortArgs.push([this, ...args])

@@ -10,7 +10,7 @@ interface IAbortSignalFastImpl extends IAbortSignalFast {
 export class AbortSignalFast implements IAbortSignalFastImpl {
   aborted: boolean = false
   reason: TAbortReason = void 0
-  private _callbacks: Set<Callback<this>> = void 0
+  private _callbacks: Set<Callback<this>>|undefined|null = void 0
 
   constructor() {
 

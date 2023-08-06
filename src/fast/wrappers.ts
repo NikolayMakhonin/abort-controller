@@ -5,14 +5,25 @@ import {
 } from './contracts'
 import {AbortError} from './AbortError'
 
+export function toAbortSignal(
+  abortSignalFast: IAbortSignalFast,
+  abortController?: AbortController|undefined|null,
+): AbortController['signal']
 export function toAbortSignal<TAbortController extends AbortController>(
   abortSignalFast: IAbortSignalFast,
-  abortController?: TAbortController,
+  abortController: TAbortController,
+): TAbortController['signal']
+export function toAbortSignal<TAbortController extends AbortController>(
+  abortSignalFast: IAbortSignalFast,
+  abortController?: TAbortController|undefined|null,
 ): TAbortController['signal'] {
+  if (!abortController) {
+    abortController = new AbortController() as any
+  }
   abortSignalFast.subscribe((reason) => {
-    abortController.abort(reason)
+    abortController!.abort(reason)
   })
-  return abortController.signal
+  return abortController!.signal
 }
 
 export function toAbortSignalFast<TAbortControllerFast extends IAbortControllerFast>(

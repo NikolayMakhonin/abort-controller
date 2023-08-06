@@ -70,7 +70,7 @@ describe('behavior', function () {
     subscribe: boolean,
     reason: any,
   }) => {
-    const onAbortArgs = []
+    const onAbortArgs: any[] = []
     function onAbort(...args) {
       onAbortArgs.push([this, ...args])
     }
